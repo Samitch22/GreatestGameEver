@@ -7,8 +7,12 @@ package view;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
+import javafx.scene.layout.StackPane;
+import javafx.stage.Screen;
 import javafx.stage.Stage;
 
 /**
@@ -18,13 +22,22 @@ import javafx.stage.Stage;
 public class GreatestGameEver extends Application {
     
     @Override
-    public void start(Stage stage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("StartScene.fxml"));
+    public void start(Stage primaryStage) throws Exception {
         
-        Scene scene = new Scene(root);
+        Parent startLayout = FXMLLoader.load(getClass().getResource("StartScene.fxml"));
+        StackPane startScene = new StackPane(startLayout);
+        Scene scene = new Scene(startScene);
         
-        stage.setScene(scene);
-        stage.show();
+        Rectangle2D visualBounds = Screen.getPrimary().getVisualBounds();
+        primaryStage.setScene(scene);
+        primaryStage.setFullScreen(true);
+        primaryStage.setX(visualBounds.getMinX());
+        primaryStage.setY(visualBounds.getMinY());
+        primaryStage.setWidth(visualBounds.getWidth());
+        primaryStage.setHeight(visualBounds.getHeight());
+        primaryStage.setTitle("The Greatest Game Ever");
+        primaryStage.getIcons().add(new Image("/files/GreatestGame.jpg"));
+        primaryStage.show();
     }
 
     /**

@@ -5,9 +5,14 @@
 package model;
 
 /**
- *
+ * @todo
  * @author Mitchell
  */
-public interface Word {
-    
+public interface Word extends Comparable {
+
+    /**
+     * 
+     * @return
+     */
+    public int getAttempts();
 }
