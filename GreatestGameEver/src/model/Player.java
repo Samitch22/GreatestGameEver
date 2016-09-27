@@ -5,9 +5,12 @@
 package model;
 
 /**
- *
+ * @todo
  * @author Mitchell
  */
 public class Player {
     
+    public void startGame() {
+        // TODO
+    }
 }
