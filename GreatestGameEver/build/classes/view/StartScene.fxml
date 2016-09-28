@@ -8,7 +8,9 @@
 
 <AnchorPane id="AnchorPane" prefHeight="200" prefWidth="320" xmlns:fx="http://javafx.com/fxml/1" fx:controller="view.FXMLDocumentController">
     <children>
-        <Button layoutX="126" layoutY="90" text="Click Me!" onAction="#handleButtonAction" fx:id="button" />
+        <VBox alignment="CENTER" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"  > 
+        <Button layoutX="126" layoutY="90" text="Start Game" onAction="#handleButtonAction" fx:id="button" />
         <Label layoutX="126" layoutY="120" minHeight="16" minWidth="69" fx:id="label" />
+        </VBox>
     </children>
 </AnchorPane>
