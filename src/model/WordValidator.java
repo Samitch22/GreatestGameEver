@@ -17,7 +17,6 @@ public class WordValidator {
      */
     public boolean validateWord(Word guess) {
         Word target = wordbank.gettargetWord();
-        target.addAttempt();
         return target.equals(guess);
     }
     

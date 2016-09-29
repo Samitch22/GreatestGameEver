@@ -16,7 +16,7 @@ public class Score {
     /**
      * @todo
      */
-    public void addPoints() {
+    public void addPoints(int attempts) {
         // TODO
     }
     

@@ -37,6 +37,7 @@ public class WordBank {
      * @return
      */
     public void foundWord() {
+        targetWord.KeepScore();
         int index = wordBank.indexOf(targetWord);
         wordBank.remove(index);
         if(wordBank.isEmpty()){
@@ -61,6 +62,7 @@ public class WordBank {
      */
     public Word getNextWord() {
         Random newTarget = new Random();
+        targetWord.addAttempt();
         targetWord = wordBank.get(newTarget.nextInt(wordBank.size()-1));
         return targetWord;
     }
