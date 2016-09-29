@@ -10,7 +10,7 @@ package model;
  */
 public final class Board {
     
-    private static final int        boardSize =2;
+    private static final int        boardSize = 14;
     private        final int        rSize;
     private        final int        cSize;
     private        final Object[][] board;
