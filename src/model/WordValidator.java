@@ -10,21 +10,25 @@ package model;
  */
 public class WordValidator {
     
-    private WordBank wordbank;
     /**
      * @todo
      * @return
      */
-    public boolean validateWord(Word guess) {
-        Word target = wordbank.gettargetWord();
-        target.addAttempt();
-        return target.equals(guess);
+    public boolean validateWord() {
+        return false;
     }
     
     /**
      * @todo
      */
     public void getNextWord() {
-        wordbank.foundWord();
+        // TODO
+    }
+    
+    /**
+     * @todo
+     */
+    public void wordNotFound() {
+        // TODO
     }
 }
