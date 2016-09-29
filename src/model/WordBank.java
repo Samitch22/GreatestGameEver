@@ -5,6 +5,7 @@
 package model;
 
 import java.util.List;
+import java.util.Random;
 
 /**
  * @todo
@@ -14,30 +15,44 @@ public class WordBank {
     
     private List<Word> wordBank;
     private Word       targetWord;
+
+    public Word gettargetWord(){
+        return targetWord;
+    }
+    
+    public void settargetWord(Word target){
+        targetWord = target;
+    }
     
     /**
      * @todo
      * @return
      */
     public int getRemainingWords() {
-        return -1;
+        return wordBank.size();
     }
     
     /**
      * @todo
      * @return
      */
-    public boolean foundWord() {
-        // TODO
-        return false;
+    public void foundWord() {
+        int index = wordBank.indexOf(targetWord);
+        wordBank.remove(index);
+        if(wordBank.isEmpty()){
+            this.gameOver();
+        }
+        else{
+            this.getNextWord();   
+        }
     }
     
     /**
      * @todo
      * @return
      */
-    public List<Word> createWordBank() {
-        return null;
+    public void createWordBank() {
+        //todo
     }
     
     /**
@@ -45,14 +60,15 @@ public class WordBank {
      * @return
      */
     public Word getNextWord() {
-        // TODO
-        return null;
+        Random newTarget = new Random();
+        targetWord = wordBank.get(newTarget.nextInt(wordBank.size()-1));
+        return targetWord;
     }
     
     /**
      * @todo
      */
     public void gameOver() {
-        // TODO
+        // todo
     }
 }

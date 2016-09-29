@@ -10,10 +10,12 @@ import java.util.Arrays;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -75,7 +77,9 @@ public class FXMLDocumentController implements Initializable {
     @FXML
     private void generateBoard() throws IOException {
         // Load a 2D array to the grid
-        this.gpBoard.add(new Button("T"), 0, 0);
+        //Button temp = new Button("T");
+        //this.getController().gpBoard.add(temp, 0, 0);
+        //this.getController().gpBoard.getChildren().add(temp);
         board = new Board();
         boardGrid = board.getBoard();
         System.out.println(getController().gpBoard.toString());
@@ -88,9 +92,9 @@ public class FXMLDocumentController implements Initializable {
                 System.out.println(boardGrid[r][c].toString());
 //                this.getController().gpBoard.add(new Button(boardGrid[r][c].toString()), c, r);
                 Button temp = new Button("T");
-                test.add(temp, c, r);
+                this.getController().gpBoard.add(temp, c, r);
                 //this.getController().gpBoard.add(new Button("T"), c, r);
-                //this.getController().gpBoard.getChildren().add(root);
+                this.getController().gpBoard.getChildren().add(temp);
             }
         }
         this.getController().gpBoard.autosize();
@@ -127,4 +131,17 @@ public class FXMLDocumentController implements Initializable {
         return controller;
     }
     
+    private Node getGridNode(int row, int col) throws IOException {
+        Node returnNode = null;
+        ObservableList<Node> children = this.getController().gpBoard.getChildren();
+
+        for ( Node node : children ) {
+            if(GridPane.getRowIndex(node) == row && GridPane.getColumnIndex(node) == col) {
+                returnNode = node;
+                break;
+            }
+        }
+
+        return returnNode;
+    }
 }
