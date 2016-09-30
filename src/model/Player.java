@@ -11,14 +11,16 @@ package model;
  */
 public class Player {
     
-    private WordValidator validator;
-    private Board         board;
+    private       WordValidator validator;
+    private       Board         board;
+    private       Score         score;
     
     /**
      *
+     * @param board
      */
     public Player() {
-        
+        score = new Score();
     }
     
     /**
@@ -38,4 +40,18 @@ public class Player {
             validator.getNextWord();
         }
     }
+
+    public void setBoard(Board board) {
+        this.board = board;
+    }
+    
+    public WordValidator getValidator() {
+        return validator;
+    }
+
+    public Score getScore() {
+        return score;
+    }
+    
+    
 }

@@ -17,12 +17,14 @@ public class WordBank {
     
     private List<Word> wordBank;
     private Word       targetWord;
+    private Score      score;
 
     /**
      *
      */
-    public WordBank() {
+    public WordBank(Score s) {
         wordBank = new ArrayList<>();
+        score = s;
     }
     
     /**
@@ -50,12 +52,12 @@ public class WordBank {
     }
     
     /**
-     * @todo
+     * 
      * @return
      */
     public void foundWord() {
-        targetWord.KeepScore();
         int index = wordBank.indexOf(targetWord);
+        
         wordBank.remove(index);
         if(wordBank.isEmpty()){
             this.gameOver();
@@ -66,15 +68,15 @@ public class WordBank {
     }
     
     /**
-     * @todo
+     * Returns the list of target words.
      * @return
      */
     public List<Word> getWordBank() {
-        //todo
-        return null;
+        return wordBank;
     }
     
     /**
+     * Sets a new target word.
      * @todo
      */
     private void setNextTargetWord() {
@@ -84,6 +86,10 @@ public class WordBank {
         this.setTargetWord(targetWord);
     }
     
+    /**
+     * Returns a new target word.
+     * @return
+     */
     public Word getNewTargetWord() {
         setNextTargetWord();
         return getTargetWord();
@@ -93,6 +99,6 @@ public class WordBank {
      * @todo
      */
     public void gameOver() {
-        // todo
+        score.calculatePoints();
     }
 }

@@ -16,7 +16,6 @@ public class Word implements Comparable {
     private final String name;
     private       int    attempts;
     private final int    increment = 1;
-    private Score score;
 
     /**
      *
@@ -25,10 +24,6 @@ public class Word implements Comparable {
     public Word(String name) {
         this.name = name;
         this.attempts = 0;
-    }
-    
-    public void KeepScore() {
-        this.score.addPoints(this.attempts);
     }
     
     /**
