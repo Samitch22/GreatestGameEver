@@ -9,6 +9,7 @@ import java.util.Objects;
 /**
  * @todo
  * @author Mitchell
+ * @author Ryan
  */
 public class Word implements Comparable {
 
