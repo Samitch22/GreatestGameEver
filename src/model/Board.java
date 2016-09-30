@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.Random;
+
 /**
  * @todo
  * @author Mitchell
@@ -103,18 +105,27 @@ public final class Board {
      * Gets a random point in the grid.
      * @todo
      */
-    private int randomPoint() {
-        // TODO
-        return -1;
+    private int[] randomPoint() {
+        Random col = new Random();
+        Random row = new Random();
+        int rrow = row.nextInt(this.rSize);
+        int rcol = col.nextInt(this.cSize);
+        int[] randpoint = new int[1];
+        randpoint[0] = rrow; 
+        randpoint[1] = rcol;
+        return randpoint;        
     }
     
     /**
      * @todo
      * @return 
      */
-    private String randomLetter() {
-        // TODO
-        return "";
+    private char randomLetter() {
+        Random letter = new Random();
+        int letterpos = letter.nextInt(26);
+        String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        char rletter = alpha.charAt(letterpos);
+        return rletter;
     }
     
     /**
@@ -122,14 +133,17 @@ public final class Board {
      * @return 
      */
     private boolean randomBackward() {
-        // TODO
-        return false;
+        Random backwards = new Random();
+        boolean isbackwards = backwards.nextBoolean();
+        return isbackwards;
     }
     
     /**
      * @todo
      */
-    private void randomDirection() {
-        // TODO
+    private int randomDirection() {
+        Random direction = new Random();
+        int rdirection = direction.nextInt(4);
+        return rdirection;
     }
 }

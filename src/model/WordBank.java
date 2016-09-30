@@ -82,7 +82,7 @@ public class WordBank {
     private void setNextTargetWord() {
         Random newTarget = new Random();
         targetWord.addAttempt();
-        targetWord = wordBank.get(newTarget.nextInt(wordBank.size()-1));
+        targetWord = wordBank.get(newTarget.nextInt(wordBank.size()));
         this.setTargetWord(targetWord);
     }
     
