@@ -4,46 +4,50 @@
  */
 package model;
 
-import java.util.TimerTask;
-
 /**
  * @todo
  * @author Mitchell
+ * @author Sam
  */
-public final class Board extends TimerTask{
+public final class Board { // extends timertask
     
     private static final int        boardSize = 14;
     private        final int        rSize;
     private        final int        cSize;
     private        final Object[][] board;
-    private              WordTimer  wordTimer; //New
+    //private        final WordTimer  wordTimer; //New
     
     public Board() {
         this.rSize = Board.getBoardSize();
         this.cSize = Board.getBoardSize();
         board = new Character[getrSize()][getcSize()];
-        wordTimer = new WordTimer(); //New
+        //wordTimer = new WordTimer(); //New
         createBoard();
     }
-    
-    public void run() { //New
-        //Get New Word Function
-        wordTimer.resetTimer();
-    }
+//    
+//    @Override
+//    public void run() { //New
+//        //Get New Word Function
+//        //wordTimer.startTimer();
+//    }
     
     /**
      * @todo
      */
     public void createBoard() {
-        board[0][0] = 'A';
-        board[1][1] = 'B';
-       // board[2][2] = 'C';
-       // board[2][1] = 'D';
-        board[0][1] = 'E';
-        //board[0][2] = 'F';
-        board[1][0] = 'G';
-        //board[1][2] = 'H';
-        //board[2][0] = 'I';
+        for ( int r = 0; r < Board.boardSize; r++ ) {
+            for ( int c = 0; c < Board.boardSize; c++ )
+            {
+                board[r][c] = 'T';
+            }
+        }
+    }
+    
+    /**
+     *
+     */
+    public void startGame() {
+        
     }
     
     /**
@@ -83,26 +87,6 @@ public final class Board extends TimerTask{
      */
     public int getcSize() {
         return cSize;
-    }
-    
-    /**
-     * NOT NECESSESSARILY NEEDED
-     * @todo
-     * @return
-     */
-    private int findRowSize() {
-        // TODO
-        return -1;
-    }
-    
-    /**
-     * NOT NECESSESSARILY NEEDED
-     * @todo
-     * @return 
-     */
-    private int findColSize() {
-        // TODO
-        return -1;
     }
     
     /**

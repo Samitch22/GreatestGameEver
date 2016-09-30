@@ -7,16 +7,18 @@ package model;
 /**
  * @todo
  * @author Mitchell
+ * @author Ryan
  */
 public class WordValidator {
     
     private WordBank wordbank;
+    
     /**
      * @todo
      * @return
      */
     public boolean validateWord(Word guess) {
-        Word target = wordbank.gettargetWord();
+        Word target = wordbank.getTargetWord();
         return target.equals(guess);
     }
     
@@ -25,5 +27,13 @@ public class WordValidator {
      */
     public void getNextWord() {
         wordbank.foundWord();
+    }
+    
+    /**
+     * Possibly not needed
+     * @todo
+     */
+    public void wordNotFound() {
+        // TODO
     }
 }

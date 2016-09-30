@@ -10,29 +10,43 @@ import java.util.TimerTask;
 /**
  * @todo
  * @author Mitchell
+ * @author Sam
  */
 public class WordTimer {
     
-    private Timer timer;
-    private TimerTask task;
-    private final long time = 3000;
+    private final Timer     timer;
+    private       TimerTask task;
+    private final long      time = 3000;
     
     /**
      * 
      */
     public WordTimer() {
         timer = new Timer();
-        task = new Board();
+        task = new GameTask();
     }
     
     /**
+     * Inner class to implement the required TimerTask functionality.
+     */
+    private class GameTask extends TimerTask {
+        @Override
+        public void run() {
+            System.out.println("Time's up!");
+            resetTimer(); //Terminate the timer thread
+            getNewTargetWord();
+            startTimer();
+        }
+    }
+    
+    /**
+     * 
      * @todo
      * @return
      */
-    public long getTimeRemaining() {
+    public Word getNewTargetWord() {
         // TODO
-        // I don't believe this will be possible
-        return -1;
+        return null;
     }
     
     /**
@@ -41,14 +55,12 @@ public class WordTimer {
     protected void resetTimer() {
         timer.cancel();
         timer.purge();
-        startTimer();
     }
     
     /**
      * @todo
      */
-    private void startTimer() {
-        // TODO
+    protected void startTimer() {
         timer.schedule(task, time);
     }
 }

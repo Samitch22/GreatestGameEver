@@ -7,6 +7,7 @@ package model;
 /**
  * @todo
  * @author Mitchell
+ * @author Ryan
  */
 public class Score {
     
@@ -14,6 +15,7 @@ public class Score {
     private int highScore;
 
     /**
+     * // no param
      * @todo
      */
     public void addPoints(int attempts) {

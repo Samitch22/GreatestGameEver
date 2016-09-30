@@ -10,18 +10,27 @@ import java.util.Random;
 /**
  * @todo
  * @author Mitchell
+ * @author Ryan
  */
 public class WordBank {
     
     private List<Word> wordBank;
     private Word       targetWord;
 
-    public Word gettargetWord(){
+    /**
+     *
+     * @return
+     */
+    public Word getTargetWord() {
         return targetWord;
     }
-    
-    public void settargetWord(Word target){
-        targetWord = target;
+
+    /**
+     *
+     * @param targetWord
+     */
+    public void setTargetWord(Word targetWord) {
+        this.targetWord = targetWord;
     }
     
     /**
