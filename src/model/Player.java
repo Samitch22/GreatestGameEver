@@ -12,14 +12,29 @@ package model;
 public class Player {
     
     private WordValidator validator;
+    private Board         board;
     
-    public void startGame() {
-        // TODO
+    /**
+     *
+     */
+    public Player() {
+        
     }
     
+    /**
+     *
+     */
+    public void startGame() {
+        board.startGame();
+    }
+    
+    /**
+     *
+     * @param guess
+     */
     public void GuessWord(Word guess){
         Boolean valid = validator.validateWord(guess);
-        if(valid = true) {
+        if( valid ) {
             validator.getNextWord();
         }
     }

@@ -15,8 +15,9 @@ import java.util.TimerTask;
 public class WordTimer {
     
     private final Timer     timer;
-    private       TimerTask task;
+    private final TimerTask task;
     private final long      time = 3000;
+    private       Board     board;
     
     /**
      * 
