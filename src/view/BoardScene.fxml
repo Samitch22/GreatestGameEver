@@ -65,11 +65,11 @@
                   <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
               </rowConstraints>
                <children>
-                  <Button mnemonicParsing="false" style="-fx-background-color: transparent;" text="X" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+<!--                  <Button mnemonicParsing="false" style="-fx-background-color: transparent;" text="X" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" GridPane.rowIndex="0" GridPane.columnIndex="0" >
                      <font>
                         <Font size="24.0" />
                      </font></Button>
-                  <Button mnemonicParsing="false" style="-fx-background-color: transparent;" text="X" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER">
+                  <Button mnemonicParsing="false" style="-fx-background-color: transparent;" text="X" GridPane.halignment="CENTER" GridPane.hgrow="NEVER" GridPane.rowIndex="1" GridPane.valignment="CENTER" GridPane.vgrow="NEVER" GridPane.rowIndex="1" GridPane.columnIndex="0">
                      <font>
                         <Font size="24.0" />
                      </font></Button>
@@ -1015,8 +1015,8 @@
                   <Button mnemonicParsing="false" style="-fx-background-color: transparent;" text="X" GridPane.columnIndex="13" GridPane.rowIndex="1">
                      <font>
                         <Font size="24.0" />
-                     </font>
-                  </Button>
+                     </font>-->
+                  <!--</Button>-->
                </children>
             </GridPane>
          </children>
