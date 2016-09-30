@@ -4,22 +4,31 @@
  */
 package model;
 
+import java.util.TimerTask;
+
 /**
  * @todo
  * @author Mitchell
  */
-public final class Board {
+public final class Board extends TimerTask{
     
     private static final int        boardSize = 14;
     private        final int        rSize;
     private        final int        cSize;
     private        final Object[][] board;
+    private              WordTimer  wordTimer; //New
     
     public Board() {
         this.rSize = Board.getBoardSize();
         this.cSize = Board.getBoardSize();
         board = new Character[getrSize()][getcSize()];
+        wordTimer = new WordTimer(); //New
         createBoard();
+    }
+    
+    public void run() { //New
+        //Get New Word Function
+        wordTimer.resetTimer();
     }
     
     /**
