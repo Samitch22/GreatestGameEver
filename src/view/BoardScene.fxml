@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.geometry.*?>
 <?import java.lang.*?>
 <?import java.net.*?>
+<?import javafx.geometry.*?>
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
@@ -34,19 +34,19 @@
             <GridPane fx:id="gpBoard" alignment="CENTER" VBox.vgrow="NEVER">
               <columnConstraints>
                 <ColumnConstraints fillWidth="false" hgrow="NEVER" />
-                <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" prefWidth="36.0" />
+                <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
+                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
               </columnConstraints>
               <rowConstraints>
                 <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
