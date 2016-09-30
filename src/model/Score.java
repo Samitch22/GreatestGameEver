@@ -17,14 +17,14 @@ public class Score {
     private int currentScore;
     private int highScore;
     private List<Word> foundWords;
-    private int pointValue = 100;
+    private final int pointValue = 100;
 
     public Score() {
         foundWords = new ArrayList<>();
     }
     
     /**
-     * // no param
+     * 
      * @todo
      */
     public void calculatePoints() {
