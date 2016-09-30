@@ -4,6 +4,9 @@
  */
 package model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * @todo
  * @author Mitchell
@@ -13,13 +16,21 @@ public class Score {
     
     private int currentScore;
     private int highScore;
+    private List<Word> foundWords;
+    private int pointValue = 100;
 
+    public Score() {
+        foundWords = new ArrayList<>();
+    }
+    
     /**
      * // no param
      * @todo
      */
-    public void addPoints(int attempts) {
-        // TODO
+    public void calculatePoints() {
+        for ( Word word : foundWords ) {
+            currentScore += pointValue/word.getAttempts();
+        }
     }
     
     /**
@@ -38,5 +49,7 @@ public class Score {
         return highScore;
     }
     
-    
+    public void addFoundWord(Word w) {
+        foundWords.add(w);
+    }
 }

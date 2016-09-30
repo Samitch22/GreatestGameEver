@@ -34,7 +34,7 @@ public class WordTimer {
         @Override
         public void run() {
             System.out.println("Time's up!");
-            resetTimer(); //Terminate the timer thread
+            resetTimer();
             getNewTargetWord();
             startTimer();
         }
@@ -46,8 +46,7 @@ public class WordTimer {
      * @return
      */
     public Word getNewTargetWord() {
-        // TODO
-        return null;
+        return board.getNextTargetWord();
     }
     
     /**

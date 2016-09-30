@@ -17,16 +17,20 @@ public final class Board {
     private        final Object[][] board;
     private        final WordTimer  timer;
     private        final WordBank   wordBank;
+    private        final Player     player;
     
     /**
      *
+     * @param p
      */
-    public Board() {
+    public Board(Player p) {
         this.rSize = Board.getBoardSize();
         this.cSize = Board.getBoardSize();
         board = new Character[getrSize()][getcSize()];
         timer = new WordTimer();
-        wordBank = new WordBank();
+        player = p;
+        p.setBoard(this);
+        wordBank = new WordBank(p.getScore());
         createBoard();
     }
     
@@ -46,7 +50,7 @@ public final class Board {
      *
      */
     public void startGame() {
-        timer.startTimer();
+        //timer.startTimer();
     }
     
     /**
@@ -65,7 +69,7 @@ public final class Board {
     }
 
     /**
-     *
+     * Gets the size of the board.
      * @return
      */
     public static int getBoardSize() {
@@ -89,7 +93,7 @@ public final class Board {
     }
     
     /**
-     *
+     * Gets the next target word from the word bank.
      * @return
      */
     public Word getNextTargetWord() {
@@ -97,6 +101,7 @@ public final class Board {
     }
     
     /**
+     * Gets a random point in the grid.
      * @todo
      */
     private int randomPoint() {

@@ -34,7 +34,6 @@ public class BoardController implements Initializable {
     
     private Board      board;
     private Player     player;
-    @FXML
     private Object[][] boardGrid;
     private List<Node> selected;
     //private Object[][] selectedGrid;
@@ -62,7 +61,7 @@ public class BoardController implements Initializable {
     private void generateBoard() throws IOException {
         // Load a 2D array to the grid
 
-        board = new Board();
+        board = new Board(player);
         boardGrid = board.getBoard();
         selected = new ArrayList<>();
         selectedWord = "";
