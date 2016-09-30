@@ -5,6 +5,7 @@
 package model;
 
 import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * @todo
@@ -13,15 +14,15 @@ import java.util.Timer;
 public class WordTimer {
     
     private Timer timer;
-    private final long time = 30;
+    private TimerTask task;
+    private final long time = 3000;
     
     /**
-     * @todo
-     * @return
+     * 
      */
-    public Word getNewTargetWord() {
-        // TODO
-        return null;
+    public WordTimer() {
+        timer = new Timer();
+        task = new Board();
     }
     
     /**
@@ -30,14 +31,16 @@ public class WordTimer {
      */
     public long getTimeRemaining() {
         // TODO
+        // I don't believe this will be possible
         return -1;
     }
     
     /**
      * @todo
      */
-    private void resetTimer() {
+    protected void resetTimer() {
         timer.cancel();
+        timer.purge();
         startTimer();
     }
     
@@ -46,6 +49,6 @@ public class WordTimer {
      */
     private void startTimer() {
         // TODO
-        
+        timer.schedule(task, time);
     }
 }
