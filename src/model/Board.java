@@ -9,27 +9,26 @@ package model;
  * @author Mitchell
  * @author Sam
  */
-public final class Board { // extends timertask
+public final class Board { 
     
     private static final int        boardSize = 14;
     private        final int        rSize;
     private        final int        cSize;
     private        final Object[][] board;
-    //private        final WordTimer  wordTimer; //New
+    private        final WordTimer  timer;
+    private        final WordBank   wordBank;
     
+    /**
+     *
+     */
     public Board() {
         this.rSize = Board.getBoardSize();
         this.cSize = Board.getBoardSize();
         board = new Character[getrSize()][getcSize()];
-        //wordTimer = new WordTimer(); //New
+        timer = new WordTimer();
+        wordBank = new WordBank();
         createBoard();
     }
-//    
-//    @Override
-//    public void run() { //New
-//        //Get New Word Function
-//        //wordTimer.startTimer();
-//    }
     
     /**
      * @todo
@@ -47,7 +46,7 @@ public final class Board { // extends timertask
      *
      */
     public void startGame() {
-        
+        timer.startTimer();
     }
     
     /**
@@ -87,6 +86,14 @@ public final class Board { // extends timertask
      */
     public int getcSize() {
         return cSize;
+    }
+    
+    /**
+     *
+     * @return
+     */
+    public Word getNextTargetWord() {
+        return wordBank.getNewTargetWord();
     }
     
     /**

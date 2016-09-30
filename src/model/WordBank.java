@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -17,6 +18,13 @@ public class WordBank {
     private List<Word> wordBank;
     private Word       targetWord;
 
+    /**
+     *
+     */
+    public WordBank() {
+        wordBank = new ArrayList<>();
+    }
+    
     /**
      *
      * @return
@@ -53,7 +61,7 @@ public class WordBank {
             this.gameOver();
         }
         else{
-            this.getNextWord();   
+            this.getNewTargetWord();   
         }
     }
     
@@ -61,19 +69,24 @@ public class WordBank {
      * @todo
      * @return
      */
-    public void createWordBank() {
+    public List<Word> getWordBank() {
         //todo
+        return null;
     }
     
     /**
      * @todo
-     * @return
      */
-    public Word getNextWord() {
+    private void setNextTargetWord() {
         Random newTarget = new Random();
         targetWord.addAttempt();
         targetWord = wordBank.get(newTarget.nextInt(wordBank.size()-1));
-        return targetWord;
+        this.setTargetWord(targetWord);
+    }
+    
+    public Word getNewTargetWord() {
+        setNextTargetWord();
+        return getTargetWord();
     }
     
     /**

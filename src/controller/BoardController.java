@@ -24,6 +24,7 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
 import javafx.scene.text.Font;
 import model.Board;
+import model.Player;
 
 /**
  *
@@ -32,6 +33,7 @@ import model.Board;
 public class BoardController implements Initializable {
     
     private Board      board;
+    private Player     player;
     @FXML
     private Object[][] boardGrid;
     private List<Node> selected;
@@ -85,7 +87,8 @@ public class BoardController implements Initializable {
      */
     @FXML
     private void startGame() {
-            //board.startGame();
+        player = new Player();
+        player.startGame();
     }
     
     /**
