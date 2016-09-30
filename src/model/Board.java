@@ -29,7 +29,6 @@ public final class Board {
         board = new Character[getrSize()][getcSize()];
         timer = new WordTimer();
         player = p;
-        p.setBoard(this);
         wordBank = new WordBank(p.getScore());
         createBoard();
     }

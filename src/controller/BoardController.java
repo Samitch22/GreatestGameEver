@@ -47,6 +47,7 @@ public class BoardController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            player = new Player();
             generateBoard();
             startGame();
         } catch (IOException ex) {
@@ -86,7 +87,8 @@ public class BoardController implements Initializable {
      */
     @FXML
     private void startGame() {
-        player = new Player();
+        
+        player.setBoard(board);
         player.startGame();
     }
     

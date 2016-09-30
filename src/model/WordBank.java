@@ -57,7 +57,7 @@ public class WordBank {
      */
     public void foundWord() {
         int index = wordBank.indexOf(targetWord);
-        
+        score.addFoundWord(targetWord);
         wordBank.remove(index);
         if(wordBank.isEmpty()){
             this.gameOver();
