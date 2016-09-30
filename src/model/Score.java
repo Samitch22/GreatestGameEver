@@ -14,11 +14,14 @@ import java.util.List;
  */
 public class Score {
     
-    private int currentScore;
-    private int highScore;
-    private List<Word> foundWords;
-    private final int pointValue = 100;
+    private       int        currentScore;
+    private       int        highScore;
+    private final List<Word> foundWords;
+    private final int        pointValue = 100;
 
+    /**
+     *
+     */
     public Score() {
         foundWords = new ArrayList<>();
     }
@@ -49,6 +52,10 @@ public class Score {
         return highScore;
     }
     
+    /**
+     *
+     * @param w
+     */
     public void addFoundWord(Word w) {
         foundWords.add(w);
     }

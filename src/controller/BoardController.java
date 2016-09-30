@@ -87,7 +87,6 @@ public class BoardController implements Initializable {
      */
     @FXML
     private void startGame() {
-        
         player.setBoard(board);
         player.startGame();
     }

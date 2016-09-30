@@ -37,8 +37,10 @@ public class Player {
     public void GuessWord(Word guess){
         Boolean valid = validator.validateWord(guess);
         if( valid ) {
-            validator.getNextWord();
+            validator.foundWord();
         }
+        else
+            validator.wordNotFound(guess);
     }
 
     public void setBoard(Board board) {

@@ -26,15 +26,16 @@ public class WordValidator {
     /**
      * @todo
      */
-    public void getNextWord() {
+    public void foundWord() {
         wordbank.foundWord();
     }
     
     /**
      * Possibly not needed
+     * @param guess
      * @todo
      */
-    public void wordNotFound() {
-        // TODO
+    public void wordNotFound(Word guess) {
+        guess.addAttempt();
     }
 }
