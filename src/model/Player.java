@@ -13,18 +13,17 @@ public class Player {
     
     private       WordValidator validator;
     private       Board         board;
-    private       Score         score;
+    private final Score         score;
     
     /**
-     *
-     * @param board
+     * Constructs a player with a score.
      */
     public Player() {
         score = new Score();
     }
     
     /**
-     *
+     * Calls to start the game.
      */
     public void startGame() {
         board.startGame();

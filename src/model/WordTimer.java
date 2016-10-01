@@ -16,7 +16,8 @@ public class WordTimer {
     
     private final Timer     timer;
     private final TimerTask task;
-    private final long      time = 3000;
+    private final long      timeMultiplier = 1000;
+    private final long      time = 30 * timeMultiplier; // In Seconds
     private       Board     board;
     
     /**

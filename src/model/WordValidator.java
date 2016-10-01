@@ -15,7 +15,6 @@ public class WordValidator {
     
     /**
      * @param guess
-     * @todo
      * @return
      */
     public boolean validateWord(Word guess) {
@@ -24,16 +23,15 @@ public class WordValidator {
     }
     
     /**
-     * @todo
+     * 
      */
     public void foundWord() {
         wordbank.foundWord();
     }
     
     /**
-     * Possibly not needed
+     * 
      * @param guess
-     * @todo
      */
     public void wordNotFound(Word guess) {
         guess.addAttempt();
