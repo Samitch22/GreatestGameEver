@@ -38,7 +38,8 @@ public class BoardController implements Initializable {
     private Object[][]   boardGrid;
     private List<Node>   selected;
     private Object[][][] wordKey;
-    private String       selectedWord;
+    private int          btnKey;
+    //private String       selectedWord;
     
     @FXML
     private AnchorPane rootPane;
@@ -68,7 +69,8 @@ public class BoardController implements Initializable {
         board = new Board(player);
         boardGrid = board.getBoard();
         selected = new ArrayList<>();
-        selectedWord = "";
+        //selectedWord = "";
+        wordKey = board.getWordKeys();
         
         // Load the board into the grid pane as buttons
         for ( int r = 0; r < Board.getBoardSize(); r++ ) {
@@ -122,21 +124,27 @@ public class BoardController implements Initializable {
     }
     
     /**
-     * 
+     * This method handles when a letter button is selected.
      */
     @FXML
     private void handleSelected(ActionEvent event) {
         Button selectedButton = (Button)event.getSource();
-        
+        int first = 1;
         if ( this.validateClick(selectedButton) == false ) {
             resetSelection();
         }
-        
-        String text = selectedButton.getText();
-        selectedWord += text;
+
+        if ( selected.size() > first ) {
+            System.out.println("Found word!");
+        }
+        else {
+            resetSelection();
+        }
+        //String text = selectedButton.getText();
+        //selectedWord += text;
         selected.add(selectedButton);
         selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");        
-        System.out.println(selectedWord);
+        //System.out.println(selectedWord);
     }
     
     /**
@@ -145,26 +153,47 @@ public class BoardController implements Initializable {
      * @return 
      */
     private boolean validateClick(Node b) {
+        Button selectedButton = (Button)b;
         int r = getR(b);
         int c = getC(b);
         int nextTo = 1;
         
-        if ( selectedWord.isEmpty() )
-            return true;
-        for ( Node btn : selected ) {
-            if ( (getR(btn) + nextTo) == r || (getR(btn) - nextTo) == r || getR(btn) == r ) { 
-                if ( (getC(btn) + nextTo) == c || (getC(btn) - nextTo) == c || getC(btn) == c )
-                {
-                    return true;
+//        if ( selected.isEmpty() )
+//            return true;
+//        for ( Node btn : selected ) {
+//            if ( (getR(btn) + nextTo) == r || (getR(btn) - nextTo) == r || getR(btn) == r ) { 
+//                if ( (getC(btn) + nextTo) == c || (getC(btn) - nextTo) == c || getC(btn) == c )
+//                {
+//                    //return true;
+//                }
+//            }
+//        }
+        
+        int num;
+        if ( selected.isEmpty() ) {
+            for ( int i = 0; i < board.getNumWords(); i++ ) {
+                if ( selectedButton == this.wordKey[r][c][i] ) {
+                    btnKey = i;
+                    //selected.add(selectedButton);
+                    //selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
+                   return true;
                 }
             }
         }
-        
+        else {
+            for ( int i = 0; i < board.getNumWords(); i++ ) {
+                if ( (Button) b == this.wordKey[r][c][i] ) {
+                    num = i;
+                    //selected.add(b);
+                    return num == this.btnKey;
+                }
+            }
+        }
         return false;
     }
     
     /**
-     * 
+     * Gets the row coordinate of the button.
      * @param button
      * @return 
      */
@@ -173,7 +202,7 @@ public class BoardController implements Initializable {
     }
     
     /**
-     * 
+     * Gets the column coordinate of the button.
      * @param button
      * @return 
      */
@@ -182,7 +211,7 @@ public class BoardController implements Initializable {
     }
     
     /**
-     * 
+     * Displays the target word.
      */
     @FXML
     private void showTargetWord() {
@@ -190,14 +219,14 @@ public class BoardController implements Initializable {
     }
     
     /**
-     * 
+     * Resets the buttons and associated attributes after a selection.
      */
     private void resetSelection() {
         for ( Node b : selected ) {
             b.setStyle("");
         }
         selected.clear();
-        selectedWord = "";
+        //selectedWord = "";
     }
     
     /**
