@@ -8,9 +8,11 @@ import java.io.IOException;
 import java.util.Random;
 
 /**
- * @todo
+ * This class implements the concept of a board. It is an m X m matrix of 
+ * characters,containing the concept of words placed inside.
  * @author Mitchell
  * @author Sam
+ * @author Ryan
  */
 public final class Board { 
     
@@ -21,7 +23,7 @@ public final class Board {
     private        final WordTimer    timer;
     private        final WordBank     wordBank;
     private        final Player       player;
-    private        final Object[][][] words;
+    private        final Object[][][] wordKeys;
     
     /**
      *
@@ -35,7 +37,7 @@ public final class Board {
         this.player   = p;
         this.wordBank = new WordBank(p.getScore());
         this.board    = new Character[getrSize()][getcSize()];
-        this.words    = new Object[getrSize()][getcSize()][wordBank.getNumWords()];
+        this.wordKeys = new Object[getrSize()][getcSize()][wordBank.getNumWords()];
         createBoard();
     }
     
@@ -45,6 +47,7 @@ public final class Board {
      */
     public void createBoard() throws IOException {
         loadWordBank();
+        int num = 0;
         
         // get first word in list
         // getRandomPoint
@@ -59,6 +62,62 @@ public final class Board {
             for ( int c = 0; c < Board.boardSize; c++ )
             {
                 board[r][c] = randomLetter();
+            }
+        }
+        
+        //Iterating through all the points in the list
+        for ( int w = 0; w < this.wordBank.getWordBank().size(); w++ ) {
+            
+            //Grabs next word from the list
+            Word currentWord = this.wordBank.getWordBank().get(w);
+            
+            //Checks if word will be backwords or not
+            boolean isBackward = this.randomBackward();
+            
+            //Picks a starting direction to choose
+            int direction = this.randomDirection();
+            
+            //Determines if a word will fit or not
+            boolean wordFits = false;
+            
+            //Picks a random point on the board
+            int r = this.randomPoint(); 
+            int c = this.randomPoint();
+            
+            while(wordFits){
+                //Picks a direction
+                switch (direction) {
+                    case 0: //Horizontal
+                        if(currentWord.getName().length() + r < rSize){
+                            wordFits = true;
+                        }
+                        else {
+                            direction = (direction + 1) % 4;
+                        }
+                    case 1: //Vertical
+                        if(currentWord.getName().length() + c < cSize){
+                            wordFits = true;
+                        }
+                        else {
+                            direction = (direction + 1) % 4;
+                        }
+                    case 2: //Main Diagonal
+                        if(currentWord.getName().length()/2 + r < rSize && currentWord.getName().length()/2 + c < cSize){
+                            wordFits = true;
+                        }
+                        else {
+                            direction = (direction + 1) % 4;
+                        }
+                    case 3: //Secondary Diagonal
+                        if(currentWord.getName().length()/2 + r < rSize && c - currentWord.getName().length()/2 > 0){
+                            wordFits = true;
+                        }
+                        else {
+                            direction = (direction + 1) % 4;
+                        }
+                    default:
+                        break;
+                }
             }
         }
     }
@@ -76,7 +135,7 @@ public final class Board {
      * Creates the word bank to be used for the game.
      * @throws java.io.IOException
      */
-    public void loadWordBank() throws IOException {
+    private void loadWordBank() throws IOException {
         this.wordBank.createWordBank();
     }
 
@@ -127,20 +186,31 @@ public final class Board {
     public Word getNextTargetWord() {
         return wordBank.getNewTargetWord();
     }
+
+    /**
+     * Returns the number of words in the word bank.
+     * @return
+     */
+    public int getNumWords() {
+        return wordBank.getNumWords();
+    }
+    
+    /**
+     * Gets the words and their keys.
+     * @return
+     */
+    public Object[][][] getWordKeys() {
+        return wordKeys;
+    }
     
     /**
      * Gets a random point in the grid.
      * @todo
      */
-    private int[] randomPoint() {
-        Random col = new Random();
-        Random row = new Random();
-        int rrow = row.nextInt(this.rSize);
-        int rcol = col.nextInt(this.cSize);
-        int[] randpoint = new int[1];
-        randpoint[0] = rrow; 
-        randpoint[1] = rcol;
-        return randpoint;
+    private int randomPoint() {
+        Random rand = new Random();
+        int point = rand.nextInt(this.cSize);
+        return point;
     }
     
     /**
@@ -175,5 +245,52 @@ public final class Board {
         int numDirections = 4;
         int rdirection = direction.nextInt(numDirections);
         return rdirection;
+    }
+    
+    /**
+    * Returns the word in reverse
+    */
+    private String reverseWord(String reverse) { 
+        char[] letters = reverse.toCharArray();
+        int start = 0;
+        int finish = letters.length-1;
+        char tempVar;
+        
+        while(finish > start){
+            tempVar = letters[start];
+            letters[start]=letters[finish];
+            letters[finish] = tempVar;
+            start++;
+            finish--;
+        }
+        
+        return new String(letters);
+    }
+    
+    /**
+     * Places a word onto the board
+     * @param direction 
+     */
+    private void inputWord(String word, int direction, int row, int col) {
+        switch (direction) {
+            case 0: //Horizontal
+                for(int r = 0; r < word.length(); ++r) {
+                    board[row+r][col] = word.charAt(r);
+                }
+            case 1: //Vertical
+                for(int c = 0; c < word.length(); ++c) {
+                    board[row][col+c] = word.charAt(c);
+                }
+            case 2: //Main Diagonal
+                for(int d = 0; d < word.length(); ++d) {
+                    board[row+d][col+d] = word.charAt(d);
+                }
+            case 3: //Secondary Diagonal
+                for(int d = 0; d < word.length(); ++d) {
+                    board[row+d][col-d] = word.charAt(d);
+                }
+            default:
+                break;
+        }
     }
 }
