@@ -45,6 +45,16 @@ public final class Board {
      */
     public void createBoard() throws IOException {
         loadWordBank();
+        
+        // get first word in list
+        // getRandomPoint
+        // need to check that it fits and that there is not another letter in the slot
+        // getRandomBackward
+        // getRandomDirection --> direction still needs to have a switch statement somewhere
+        // add the Word (String) as single CHARACTERS to the grid
+        // when all of the words are added, check the entire matrix
+        // --> if the point is null, add a randomLetter
+        
         for ( int r = 0; r < Board.boardSize; r++ ) {
             for ( int c = 0; c < Board.boardSize; c++ )
             {
