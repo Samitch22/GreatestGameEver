@@ -24,6 +24,7 @@ public class Score {
      */
     public Score() {
         foundWords = new ArrayList<>();
+        currentScore = 0;
     }
     
     /**

@@ -4,6 +4,10 @@
  */
 package model;
 
+import java.io.BufferedReader;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -15,20 +19,32 @@ import java.util.Random;
  */
 public class WordBank {
     
-    private List<Word> wordBank;
-    private Word       targetWord;
-    private Score      score;
+    private final List<Word>     wordBank;
+    private final Score          score;
+    private final int            numWords;
+    private final List<String>   lists;
+    private final WordFactory    factory;
+    private       BufferedReader reader = null;
+    private       Word           targetWord;
+    private       String         wordList;
+    private       boolean        gameover;
 
     /**
-     *
+     * Constructs a word bank that contains a list of words from a word list.
+     * @param s
      */
     public WordBank(Score s) {
         wordBank = new ArrayList<>();
+        lists = new ArrayList<>();
+        factory = new WordFactory();
+        setWordList();
+        numWords = calcWords();
         score = s;
+        gameover = false;
     }
     
     /**
-     *
+     * Gets the target word.
      * @return
      */
     public Word getTargetWord() {
@@ -36,7 +52,7 @@ public class WordBank {
     }
 
     /**
-     *
+     * Sets the target word.
      * @param targetWord
      */
     public void setTargetWord(Word targetWord) {
@@ -44,7 +60,7 @@ public class WordBank {
     }
     
     /**
-     * @todo
+     * Gets the remaining number of words.
      * @return
      */
     public int getRemainingWords() {
@@ -52,8 +68,7 @@ public class WordBank {
     }
     
     /**
-     * 
-     * @return
+     * This method implements the logic for after a word is found.
      */
     public void foundWord() {
         int index = wordBank.indexOf(targetWord);
@@ -65,6 +80,23 @@ public class WordBank {
         else{
             this.getNewTargetWord();   
         }
+    }
+    
+    /**
+     * Adds the words from the list to the word bank.
+     * @throws IOException
+     */
+    public void createWordBank() throws IOException {
+        String line;
+        Word newWord;
+        getReader();
+        
+        while ( (line = reader.readLine()) != null ) {
+            newWord = factory.makeWord(line);
+            if ( newWord != null )
+                wordBank.add(newWord);
+        }
+        this.setTargetWord(this.getRandomWord());
     }
     
     /**
@@ -80,10 +112,8 @@ public class WordBank {
      * @todo
      */
     private void setNextTargetWord() {
-        Random newTarget = new Random();
         targetWord.addAttempt();
-        targetWord = wordBank.get(newTarget.nextInt(wordBank.size()));
-        this.setTargetWord(targetWord);
+        this.setTargetWord(this.getRandomWord());
     }
     
     /**
@@ -99,6 +129,83 @@ public class WordBank {
      * @todo
      */
     public void gameOver() {
+        this.setGameover(true);
         score.calculatePoints();
+    }
+
+    /**
+     * Returns if the game is over or not.
+     * @return
+     */
+    public boolean isGameover() {
+        return gameover;
+    }
+
+    /**
+     * Sets if the game is over.
+     * @param gameover
+     */
+    public void setGameover(boolean gameover) {
+        this.gameover = gameover;
+    }
+
+    /**
+     * Gets a random word from the list.
+     */
+    private Word getRandomWord() {
+        Random newTarget = new Random();
+        Word returnWord = wordBank.get(newTarget.nextInt(wordBank.size()));
+        return returnWord;
+    }
+    
+    /**
+     * Calculates the number of words in the word bank.
+     */
+    private int calcWords() {
+        return wordBank.size();
+    }
+    
+    /**
+     * Gets the number of words in the word bank.
+     * @return
+     */
+    public int getNumWords() {
+        return numWords;
+    }
+
+    /**
+     * Gets the name of the word list file.
+     * @return
+     */
+    public String getWordList() {
+        return wordList;
+    }
+
+    /**
+     * Sets a random word list as the list of words for the word bank.
+     */
+    private void setWordList() {
+        String words;
+        Random index = new Random();
+        // Manually add any list of words
+        lists.add("src/files/wordLists/gg.txt"); 
+        lists.add("src/files/wordLists/pizza.txt");
+        words = lists.get(index.nextInt(lists.size()));
+        this.wordList = words;
+        System.out.println("Got the words!");
+    }
+
+    /**
+     * Gets the buffered reader for file I/O.
+     * @return 
+     */
+    private BufferedReader getReader() {
+        try {
+            reader = new BufferedReader(new FileReader(getWordList())); 
+        } catch (FileNotFoundException e) {
+            System.out.println("Error opening the file.");
+            System.exit(0);
+        }
+        return reader;
     }
 }

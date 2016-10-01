@@ -19,6 +19,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
@@ -32,17 +33,19 @@ import model.Player;
  */
 public class BoardController implements Initializable {
     
-    private Board      board;
-    private Player     player;
-    private Object[][] boardGrid;
-    private List<Node> selected;
-    //private Object[][] selectedGrid;
-    private String     selectedWord;
+    private Board        board;
+    private Player       player;
+    private Object[][]   boardGrid;
+    private List<Node>   selected;
+    private Object[][][] wordKey;
+    private String       selectedWord;
     
     @FXML
     private AnchorPane rootPane;
     @FXML
     private GridPane gpBoard;
+    @FXML
+    private Label    lblTarget;
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -88,7 +91,8 @@ public class BoardController implements Initializable {
     @FXML
     private void startGame() {
         player.setBoard(board);
-        player.startGame();
+        //player.startGame();
+        this.showTargetWord();
     }
     
     /**
@@ -175,6 +179,14 @@ public class BoardController implements Initializable {
      */
     private int getC(Node b) {
         return GridPane.getColumnIndex(b);
+    }
+    
+    /**
+     * 
+     */
+    @FXML
+    private void showTargetWord() {
+        this.lblTarget.setText(board.getTargetWord().toString());
     }
     
     /**

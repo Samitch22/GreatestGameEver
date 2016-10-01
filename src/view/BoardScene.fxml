@@ -16,19 +16,19 @@
          <children>
             <HBox alignment="TOP_CENTER" style="-fx-border-color: black;">
                <children>
-                  <Label alignment="CENTER" text="Target Word: " HBox.hgrow="NEVER">
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="Target Word: " HBox.hgrow="NEVER">
                      <font>
                         <Font size="14.0" />
                      </font>
                      <HBox.margin>
-                        <Insets top="17.0" />
+                        <Insets top="8.0" />
                      </HBox.margin>
                   </Label>
-                  <TextField fx:id="txtTarget" alignment="CENTER" editable="false" prefHeight="35.0" prefWidth="81.0" style="-fx-background-color: transparent;" text="Test">
+                  <Label fx:id="lblTarget" alignment="CENTER" prefHeight="35.0" style="-fx-background-color: transparent;" text="Test">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
-                  </TextField>
+                  </Label>
                </children>
             </HBox>
             <GridPane fx:id="gpBoard" alignment="CENTER" VBox.vgrow="NEVER">

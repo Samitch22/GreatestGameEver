@@ -11,7 +11,7 @@ import java.util.Objects;
  * @author Mitchell
  * @author Ryan
  */
-public class Word implements Comparable {
+public class Word implements Comparable<Word> {
 
     private final String name;
     private       int    attempts;
@@ -82,8 +82,8 @@ public class Word implements Comparable {
     }
     
     @Override
-    public int compareTo(Object o) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    public int compareTo(Word o) {
+        return this.getName().compareTo(o.getName());
     }
     
     @Override

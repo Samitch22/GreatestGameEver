@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.io.IOException;
 import java.util.Random;
 
 /**
@@ -13,52 +14,60 @@ import java.util.Random;
  */
 public final class Board { 
     
-    private static final int        boardSize = 14;
-    private        final int        rSize;
-    private        final int        cSize;
-    private        final Object[][] board;
-    private        final WordTimer  timer;
-    private        final WordBank   wordBank;
-    private        final Player     player;
+    private static final int          boardSize = 14;
+    private        final int          rSize;
+    private        final int          cSize;
+    private        final Object[][]   board;
+    private        final WordTimer    timer;
+    private        final WordBank     wordBank;
+    private        final Player       player;
+    private        final Object[][][] words;
     
     /**
      *
      * @param p
+     * @throws java.io.IOException
      */
-    public Board(Player p) {
-        this.rSize = Board.getBoardSize();
-        this.cSize = Board.getBoardSize();
-        board = new Character[getrSize()][getcSize()];
-        timer = new WordTimer();
-        player = p;
-        wordBank = new WordBank(p.getScore());
+    public Board(Player p) throws IOException {
+        this.rSize    = Board.getBoardSize();
+        this.cSize    = Board.getBoardSize();
+        this.timer    = new WordTimer();
+        this.player   = p;
+        this.wordBank = new WordBank(p.getScore());
+        this.board    = new Character[getrSize()][getcSize()];
+        this.words    = new Object[getrSize()][getcSize()][wordBank.getNumWords()];
         createBoard();
     }
     
     /**
+     * @throws java.io.IOException
      * @todo
      */
-    public void createBoard() {
+    public void createBoard() throws IOException {
+        loadWordBank();
         for ( int r = 0; r < Board.boardSize; r++ ) {
             for ( int c = 0; c < Board.boardSize; c++ )
             {
-                board[r][c] = 'T';
+                board[r][c] = randomLetter();
             }
         }
     }
     
     /**
-     *
+     * Starts the game.
      */
     public void startGame() {
-        //timer.startTimer();
+        //while ( wordBank.isGameover() != true ){
+            //timer.startTimer();
+        //}
     }
     
     /**
-     * @todo
+     * Creates the word bank to be used for the game.
+     * @throws java.io.IOException
      */
-    public void loadWordBank() {
-        // TODO
+    public void loadWordBank() throws IOException {
+        this.wordBank.createWordBank();
     }
 
     /**
@@ -92,6 +101,14 @@ public final class Board {
     public int getcSize() {
         return cSize;
     }
+
+    /**
+     * Gets the current target word.
+     * @return
+     */
+    public Word getTargetWord() {
+        return wordBank.getTargetWord();
+    }
     
     /**
      * Gets the next target word from the word bank.
@@ -113,37 +130,40 @@ public final class Board {
         int[] randpoint = new int[1];
         randpoint[0] = rrow; 
         randpoint[1] = rcol;
-        return randpoint;        
+        return randpoint;
     }
     
     /**
-     * @todo
+     * Returns a randomly selected alphabetic letter.
      * @return 
      */
     private char randomLetter() {
         Random letter = new Random();
-        int letterpos = letter.nextInt(26);
+        int numLetters = 26;
+        int letterpos = letter.nextInt(numLetters);
         String alpha = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         char rletter = alpha.charAt(letterpos);
         return rletter;
     }
     
     /**
-     * @todo
+     * Returns if the word will be stored backward in the grid.
      * @return 
      */
     private boolean randomBackward() {
-        Random backwards = new Random();
-        boolean isbackwards = backwards.nextBoolean();
-        return isbackwards;
+        Random backward = new Random();
+        boolean isbackward = backward.nextBoolean();
+        return isbackward;
     }
     
     /**
-     * @todo
+     * Returns the direction the word will be stored in the grid.
+     *  *** Use a switch statement for each case in creation
      */
     private int randomDirection() {
         Random direction = new Random();
-        int rdirection = direction.nextInt(4);
+        int numDirections = 4;
+        int rdirection = direction.nextInt(numDirections);
         return rdirection;
     }
 }
