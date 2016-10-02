@@ -16,14 +16,16 @@ import java.util.Random;
  */
 public final class Board { 
     
-    private static final int          boardSize = 14;
-    private        final int          rSize;
-    private        final int          cSize;
-    private        final Object[][]   board;
-    private        final WordTimer    timer;
-    private        final WordBank     wordBank;
-    private        final Player       player;
+    private static final int        boardSize = 14;
+    private        final int        rSize;
+    private        final int        cSize;
+    private        final Object[][] board;
+    private        final WordTimer  timer;
+    private        final WordBank   wordBank;
+    private        final Player     player;
     private        final Object[][][] wordKeys;
+    private        final Object[]   targetKeys;
+    private              int        targetKey;
     
     /**
      *
@@ -31,13 +33,14 @@ public final class Board {
      * @throws java.io.IOException
      */
     public Board(Player p) throws IOException {
-        this.rSize    = Board.getBoardSize();
-        this.cSize    = Board.getBoardSize();
-        this.timer    = new WordTimer();
-        this.player   = p;
-        this.wordBank = new WordBank(p.getScore());
-        this.board    = new Character[getrSize()][getcSize()];
-        this.wordKeys = new Object[getrSize()][getcSize()][wordBank.getNumWords()];
+        this.rSize      = Board.getBoardSize();
+        this.cSize      = Board.getBoardSize();
+        this.timer      = new WordTimer();
+        this.player     = p;
+        this.wordBank   = new WordBank(p.getScore());
+        this.board      = new Character[getrSize()][getcSize()];
+        this.wordKeys   = new Character[getrSize()][getcSize()][wordBank.getNumWords()];
+        this.targetKeys = new Word[wordBank.getNumWords()];
         createBoard();
     }
     
@@ -45,7 +48,7 @@ public final class Board {
      * @throws java.io.IOException
      * @todo
      */
-    public void createBoard() throws IOException {
+    private void createBoard() throws IOException {
         loadWordBank();
         int num = 0;
         
@@ -140,6 +143,15 @@ public final class Board {
     }
 
     /**
+     * 
+     * @param word
+     * @return 
+     */
+    public boolean foundWord(Word word) {
+        return this.wordBank.foundWord(word);
+    }
+    
+    /**
      * Returns the board.
      * @return
      */
@@ -184,9 +196,11 @@ public final class Board {
      * @return
      */
     public Word getNextTargetWord() {
-        return wordBank.getNewTargetWord();
+        Word targetWord = wordBank.getNewTargetWord();
+        
+        return targetWord;
     }
-
+    
     /**
      * Returns the number of words in the word bank.
      * @return
@@ -201,6 +215,43 @@ public final class Board {
      */
     public Object[][][] getWordKeys() {
         return wordKeys;
+    }
+
+    /**
+     * Gets the target word's key.
+     * @return
+     */
+    public int getTargetKey() {
+        return targetKey;
+    }
+
+    /**
+     * Calculates a change in the current target key.
+     * @param targetKey
+     */
+    private void setTargetKey(Word w) {
+        int key = this.targetKey;
+        Word k;
+        
+        Word[] keys = (Word[]) this.getTargetKeys();
+        for ( int i = 0; i < keys.length; i++ ) {
+            k = keys[i];
+            if ( w.equals(k) ) {
+                key = i;
+            }
+        }
+        
+        this.targetKey = key;
+    }
+
+    
+    
+    /**
+     * Gets the array of target keys.
+     * @return
+     */
+    public Object[] getTargetKeys() {
+        return targetKeys;
     }
     
     /**

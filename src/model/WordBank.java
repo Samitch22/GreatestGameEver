@@ -24,6 +24,7 @@ public class WordBank {
     private final int            numWords;
     private final List<String>   lists;
     private final WordFactory    factory;
+    private final WordValidator  validator;
     private       BufferedReader reader = null;
     private       Word           targetWord;
     private       String         wordList;
@@ -37,6 +38,7 @@ public class WordBank {
         wordBank = new ArrayList<>();
         lists = new ArrayList<>();
         factory = new WordFactory();
+        validator = new WordValidator(this);
         setWordList();
         numWords = calcWords();
         score = s;
@@ -69,17 +71,27 @@ public class WordBank {
     
     /**
      * This method implements the logic for after a word is found.
+     * @param w
+     * @return 
      */
-    public void foundWord() {
-        int index = wordBank.indexOf(targetWord);
-        score.addFoundWord(targetWord);
-        wordBank.remove(index);
-        if(wordBank.isEmpty()){
-            this.gameOver();
-        }
-        else{
-            this.getNewTargetWord();   
-        }
+    public boolean foundWord(Word w) {
+//        boolean isFound = false;
+//        if ( this.getTargetWord().equals(w) ) {
+//            int index = wordBank.indexOf(targetWord);
+//            score.addFoundWord(targetWord);
+//            wordBank.remove(index);
+//            if(wordBank.isEmpty()){
+//                this.gameOver();
+//                isFound = true;
+//            }
+//            else{
+//                this.getNewTargetWord();   
+//                isFound = true;
+//            }
+//        }
+//        return isFound;
+        
+        return validator.foundWord(w);
     }
     
     /**
@@ -133,6 +145,10 @@ public class WordBank {
         score.calculatePoints();
     }
 
+    public Score getScore() {
+        return score;
+    }
+
     /**
      * Returns if the game is over or not.
      * @return
@@ -145,7 +161,7 @@ public class WordBank {
      * Sets if the game is over.
      * @param gameover
      */
-    public void setGameover(boolean gameover) {
+    private void setGameover(boolean gameover) {
         this.gameover = gameover;
     }
 

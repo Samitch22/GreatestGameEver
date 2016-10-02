@@ -11,7 +11,11 @@ package model;
  */
 public class WordValidator {
     
-    private WordBank wordbank;
+    private final WordBank wordbank;
+    
+    public WordValidator(WordBank wordBank) {
+        this.wordbank = wordBank;
+    }
     
     /**
      * @param guess
@@ -24,9 +28,25 @@ public class WordValidator {
     
     /**
      * 
+     * @param w
+     * @return 
      */
-    public void foundWord() {
-        wordbank.foundWord();
+    public boolean foundWord(Word w) {
+        boolean isFound = false;
+        if ( this.wordbank.getTargetWord().equals(w) ) {
+            int index = this.wordbank.getWordBank().indexOf(this.wordbank.getTargetWord());
+            this.wordbank.getScore().addFoundWord(this.wordbank.getTargetWord());
+            this.wordbank.getWordBank().remove(index);
+            if( this.wordbank.getWordBank().isEmpty() ) {
+                this.wordbank.gameOver();
+                isFound = true;
+            }
+            else{
+                this.wordbank.getNewTargetWord();   
+                isFound = true;
+            }
+        }
+        return isFound;
     }
     
     /**
