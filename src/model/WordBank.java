@@ -21,13 +21,13 @@ public class WordBank {
     
     private final List<Word>     wordBank;
     private final Score          score;
-    private final int            numWords;
     private final List<String>   lists;
     private final WordFactory    factory;
     private final WordValidator  validator;
     private       BufferedReader reader = null;
     private       Word           targetWord;
     private       String         wordList;
+    private        int           numWords;
     private       boolean        gameover;
 
     /**
@@ -40,7 +40,7 @@ public class WordBank {
         factory = new WordFactory();
         validator = new WordValidator(this);
         setWordList();
-        numWords = calcWords();
+        numWords = 0;
         score = s;
         gameover = false;
     }
@@ -109,6 +109,7 @@ public class WordBank {
                 wordBank.add(newWord);
         }
         this.setTargetWord(this.getRandomWord());
+        this.numWords = this.calcWords();
     }
     
     /**
@@ -121,7 +122,6 @@ public class WordBank {
     
     /**
      * Sets a new target word.
-     * @todo
      */
     private void setNextTargetWord() {
         targetWord.addAttempt();
@@ -138,7 +138,7 @@ public class WordBank {
     }
     
     /**
-     * @todo
+     *
      */
     public void gameOver() {
         this.setGameover(true);

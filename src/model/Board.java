@@ -45,12 +45,12 @@ public final class Board {
     }
     
     /**
+     * I THINK THIS WORKS (Without making them backward) (Clicking still needs to be fixed) (And Timer needs debugging)
      * @throws java.io.IOException
      * @todo
      */
     private void createBoard() throws IOException {
         loadWordBank();
-        int num = 0;
         
         // get first word in list
         // getRandomPoint
@@ -60,17 +60,9 @@ public final class Board {
         // add the Word (String) as single CHARACTERS to the grid
         // when all of the words are added, check the entire matrix
         // --> if the point is null, add a randomLetter
-        
-        // Puts random letters on the board.
-        for ( int r = 0; r < Board.boardSize; r++ ) {
-            for ( int c = 0; c < Board.boardSize; c++ )
-            {
-                board[r][c] = randomLetter();
-            }
-        }
-        
-        //Iterating through all the points in the list
-        for ( int w = 0; w < this.wordBank.getWordBank().size(); w++ ) {
+
+        //Iterating through all the words in the list
+        for ( int w = 0; w < this.getNumWords(); w++ ) {
             
             //Grabs next word from the list
             Word currentWord = this.wordBank.getWordBank().get(w);
@@ -80,47 +72,65 @@ public final class Board {
             
             //Picks a starting direction to choose
             int direction = this.randomDirection();
+            //int direction = 1;
             
             //Determines if a word will fit or not
             boolean wordFits = false;
             
             //Picks a random point on the board
-            int r = this.randomPoint(); 
-            int c = this.randomPoint();
+            int tempRow = this.randomPoint(); 
+            int tempCol = this.randomPoint();
             
-            while(wordFits){
+            while( ! wordFits ){
                 //Picks a direction
                 switch (direction) {
-                    case 0: //Horizontal
-                        if(currentWord.getName().length() + r < rSize){
+                    case 0: // Vertical
+                        if(currentWord.getName().length() + tempRow < rSize && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ){
                             wordFits = true;
+                            break;
                         }
                         else {
-                            direction = (direction + 1) % 4;
+                            direction = this.incrementDirection(direction);
                         }
-                    case 1: //Vertical
-                        if(currentWord.getName().length() + c < cSize){
+                    case 1: // Horizontal
+                        if(currentWord.getName().length() + tempCol < cSize && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ){
                             wordFits = true;
+                            break;
                         }
                         else {
-                            direction = (direction + 1) % 4;
+                            direction = this.incrementDirection(direction);
                         }
                     case 2: //Main Diagonal
-                        if(currentWord.getName().length()/2 + r < rSize && currentWord.getName().length()/2 + c < cSize){
+                        if(currentWord.getName().length() + tempRow < rSize && currentWord.getName().length() + tempCol < cSize && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ) {
                             wordFits = true;
+                            break;
                         }
                         else {
-                            direction = (direction + 1) % 4;
+                            direction = this.incrementDirection(direction);
                         }
                     case 3: //Secondary Diagonal
-                        if(currentWord.getName().length()/2 + r < rSize && c - currentWord.getName().length()/2 > 0){
+                        if(currentWord.getName().length() + tempRow < rSize && tempCol - currentWord.getName().length() > 0 && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ) {
                             wordFits = true;
+                            break;
                         }
                         else {
-                            direction = (direction + 1) % 4;
+                            direction = this.incrementDirection(direction);
                         }
                     default:
+                        tempRow = this.randomPoint(); 
+                        tempCol = this.randomPoint();
                         break;
+                }
+            }
+            this.inputWord(currentWord.getName(), direction, tempRow, tempCol);
+        }
+        
+        // Puts random letters on the board.
+        for ( int r = 0; r < Board.boardSize; r++ ) {
+            for ( int c = 0; c < Board.boardSize; c++ )
+            {
+                if ( board[r][c] == null ) {
+                    board[r][c] = randomLetter();
                 }
             }
         }
@@ -261,7 +271,7 @@ public final class Board {
      */
     private int randomPoint() {
         Random rand = new Random();
-        int point = rand.nextInt(this.cSize);
+        int point = rand.nextInt(Board.getBoardSize());
         return point;
     }
     
@@ -329,20 +339,81 @@ public final class Board {
                 for(int r = 0; r < word.length(); ++r) {
                     board[row+r][col] = word.charAt(r);
                 }
+                break;
             case 1: //Vertical
                 for(int c = 0; c < word.length(); ++c) {
                     board[row][col+c] = word.charAt(c);
                 }
+                break;
             case 2: //Main Diagonal
                 for(int d = 0; d < word.length(); ++d) {
                     board[row+d][col+d] = word.charAt(d);
                 }
+                break;
             case 3: //Secondary Diagonal
                 for(int d = 0; d < word.length(); ++d) {
                     board[row+d][col-d] = word.charAt(d);
                 }
+                break;
             default:
                 break;
         }
+    }
+    
+    /**
+     * 
+     * @param word
+     * @param direction
+     * @param row
+     * @param col
+     * @return 
+     */
+    private boolean checkWordSpace(String word, int direction, int row, int col) {
+        boolean wordSpace = true; 
+        
+        switch (direction) {
+            case 0: // Vertical
+                for(int r = 0; r < word.length(); ++r) {
+                    if( board[row+r][col] != null) {
+                        wordSpace = false;
+                    }
+                }
+                break;
+            case 1: // Horizontal
+                for(int c = 0; c < word.length(); ++c) {
+                    if( board[row][col+c] != null) {
+                        wordSpace = false;
+                    }
+                }
+                break;
+            case 2: //Main Diagonal
+                for(int d = 0; d < word.length(); ++d) {
+                    if( board[row+d][col+d] != null) {
+                        wordSpace = false;
+                    }
+                }
+                break;
+            case 3: //Secondary Diagonal
+                for(int d = 0; d < word.length(); ++d) {
+                    if (board[row+d][col-d] != null) {
+                        wordSpace = false;
+                    }
+                }
+                break;
+            default:
+                break;
+        }
+        
+        return wordSpace;
+    }
+    
+    
+    /**
+     * Increments the direction by one
+     * @param direction
+     * @return 
+     */
+    private int incrementDirection(int direction) {
+        return (direction + 1) % 4;
     }
 }
