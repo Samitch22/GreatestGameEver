@@ -10,6 +10,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -75,6 +77,7 @@ public class BoardController implements Initializable {
         //selectedWord = "";
         wordKey = board.getWordKeys();
         targetKeys = board.getTargetKeys();
+        targetKey = board.getTargetKey();
         
         // Load the board into the grid pane as buttons
         for ( int r = 0; r < Board.getBoardSize(); r++ ) {
@@ -117,8 +120,9 @@ public class BoardController implements Initializable {
             }
             else {
                 //resetSelection();
-                selected.add(selectedButton);
-                selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
+//                selected.add(selectedButton);
+//                selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
+                System.out.println("Got the first letter!");
             }
             
             // Always outline selected button.
@@ -131,11 +135,14 @@ public class BoardController implements Initializable {
                 resetSelection();
             }
 
+            //selected.add(selectedButton);
+            //selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
+            
             if ( selected.size() > first ) {
                 System.out.println("Found word!");
+                selected.clear();
             }
-            selected.add(selectedButton);
-            selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
+            
         }
     }
     
@@ -165,26 +172,41 @@ public class BoardController implements Initializable {
         if ( selected.isEmpty() ) {
             for ( int i = 0; i < board.getNumWords(); i++ ) {
                 Character compare = (Character) this.wordKey[r][c][i];
-                if ( compare != null && selectedButton.toString().equals(compare.toString()) ) {
+                System.out.println("I = " + i);
+                System.out.println("Target: " + targetKey);
+                System.out.println(compare);
+                
+//                if ( compare != null && selectedButton.toString().equals(compare.toString()) ) {
+                if ( compare != null ) {//&& selectedButton.toString() == compare.toString() ) {
                     if ( i == targetKey ) {
                         btnKey = i;
+                        System.out.println("Found first letter");
                         return true;
                     }
-                    else
+                    else {
+                        System.out.println("did not find first letter");
                         return false;
+                    }
                 }
             }
         }
         else {
             for ( int i = 0; i < board.getNumWords(); i++ ) {
                 Character compare = (Character) this.wordKey[r][c][i];
-                if ( compare != null && selectedButton.toString().equals(compare.toString()) ) {
+                System.out.println("I = " + i);
+                System.out.println("Target: " + targetKey);
+                System.out.println(compare);
+                
+                if ( compare != null ) { //&& selectedButton.toString().equals(compare.toString()) ) {
                     num = i;
                     if ( num == this.btnKey ) {
                         if ( num == targetKey ) {
                             selected.add(b);
                             if ( foundWord( (Word)targetKeys[num] ) == true ) {
                                 markWord();
+                                this.getNewTargetWord();
+                                if ( this.board.isGameover() == true )
+                                    this.gameOver();
                                 return true;
                             }
                             else
@@ -253,10 +275,29 @@ public class BoardController implements Initializable {
     }
     
     /**
+     * Gets the next target word.
+     */
+    private void getNewTargetWord() {
+        this.board.getNextTargetWord();
+        this.showTargetWord();
+    }
+    
+    /**
      * Checks if the word is found.
      */
     private boolean foundWord(Word word) {
         return board.foundWord(word);
+    }
+    
+    /**
+     * 
+     */
+    private void gameOver() {
+        try {
+            this.showGameoverScene(null);
+        } catch (IOException ex) {
+            System.out.println("Unexpected Exception: " + ex.getMessage());
+        }
     }
     
     /**
@@ -291,7 +332,8 @@ public class BoardController implements Initializable {
                 for ( int c = firstC + 1; c < secondC; c++ ) {
                     System.out.println("Row: " + r + " Col: " + c);
                     try {
-                        mark(this.getGridNode(r, c));
+                        selected.add(this.getGridNode(r, c));
+                        //mark(this.getGridNode(r, c));
                     } catch (IOException ex) {
                         System.out.println("Unexpected Exeption: " + ex.getMessage());
                     }
@@ -301,7 +343,8 @@ public class BoardController implements Initializable {
                 for ( int c = secondC + 1; c < firstC; c++ ) {
                     System.out.println("Row: " + r + " Col: " + c);
                     try {
-                        mark(this.getGridNode(r, c));
+                        selected.add(this.getGridNode(r, c));
+                        //mark(this.getGridNode(r, c));
                     } catch (IOException ex) {
                         System.out.println("Unexpected Exeption: " + ex.getMessage());
                     }
@@ -315,7 +358,8 @@ public class BoardController implements Initializable {
                     int c = firstC;
                     System.out.println("Row: " + r + " Col: " + c);
                     try {
-                        mark(this.getGridNode(r, c));
+                        selected.add(this.getGridNode(r, c));
+                        //mark(this.getGridNode(r, c));
                     } catch (IOException ex) {
                         System.out.println("Unexpected Exeption: " + ex.getMessage());
                     }
@@ -327,7 +371,8 @@ public class BoardController implements Initializable {
                     for ( int c = firstC + 1; c < secondC; c++ ) {
                         System.out.println("Row: " + r + " Col: " + c);
                         try {
-                        mark(this.getGridNode(r, c));
+                            selected.add(this.getGridNode(r, c));
+                            //mark(this.getGridNode(r, c));
                         } catch (IOException ex) {
                             System.out.println("Unexpected Exeption: " + ex.getMessage());
                         }
@@ -341,7 +386,8 @@ public class BoardController implements Initializable {
                     for ( int c = secondC + 1; c < firstC; c++ ) {
                         System.out.println("Row: " + r + " Col: " + c);
                         try {
-                        mark(this.getGridNode(r, c));
+                            selected.add(this.getGridNode(r, c));
+                            //mark(this.getGridNode(r, c));
                         } catch (IOException ex) {
                             System.out.println("Unexpected Exeption: " + ex.getMessage());
                         }
@@ -357,7 +403,8 @@ public class BoardController implements Initializable {
                     int c = firstC;
                     System.out.println("Row: " + r + " Col: " + c);
                     try {
-                        mark(this.getGridNode(r, c));
+                        selected.add(this.getGridNode(r, c));
+                        //mark(this.getGridNode(r, c));
                     } catch (IOException ex) {
                         System.out.println("Unexpected Exeption: " + ex.getMessage());
                     }
@@ -369,7 +416,8 @@ public class BoardController implements Initializable {
                     for ( int c = firstC + 1; c < secondC; c++ ) {
                         System.out.println("Row: " + r + " Col: " + c);
                         try {
-                        mark(this.getGridNode(r, c));
+                            selected.add(this.getGridNode(r, c));
+                            //mark(this.getGridNode(r, c));
                         } catch (IOException ex) {
                             System.out.println("Unexpected Exeption: " + ex.getMessage());
                         }
@@ -383,7 +431,8 @@ public class BoardController implements Initializable {
                     for ( int c = secondC + 1; c < firstC; c++ ) {
                         System.out.println("Row: " + r + " Col: " + c);
                         try {
-                        mark(this.getGridNode(r, c));
+                            selected.add(this.getGridNode(r, c));
+                            //mark(this.getGridNode(r, c));
                         } catch (IOException ex) {
                             System.out.println("Unexpected Exeption: " + ex.getMessage());
                         }
@@ -396,15 +445,15 @@ public class BoardController implements Initializable {
         
         
         
-        for ( int r = secondR; r != firstR; r += rDiff ) {
-            for ( int c = secondC; c != cDiff; c += cDiff ) {
-                try {
-                    Button b = (Button) this.getGridNode(r, c);
-                } catch (IOException ex) {
-                    System.out.println("Unexpected Exception: " + ex.getMessage());
-                }
-            }
-        }
+//        for ( int r = secondR; r != firstR; r += rDiff ) {
+//            for ( int c = secondC; c != cDiff; c += cDiff ) {
+//                try {
+//                    Button b = (Button) this.getGridNode(r, c);
+//                } catch (IOException ex) {
+//                    System.out.println("Unexpected Exception: " + ex.getMessage());
+//                }
+//            }
+//        }
         
         for ( Node b : selected ) {
             mark(b);

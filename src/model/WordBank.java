@@ -143,6 +143,7 @@ public class WordBank {
     public void gameOver() {
         this.setGameover(true);
         score.calculatePoints();
+        System.out.println("The game is over!");
     }
 
     public Score getScore() {
@@ -169,8 +170,11 @@ public class WordBank {
      * Gets a random word from the list.
      */
     private Word getRandomWord() {
+        Word returnWord = null;
         Random newTarget = new Random();
-        Word returnWord = wordBank.get(newTarget.nextInt(wordBank.size()));
+        if ( ! wordBank.isEmpty() ) {
+            returnWord = wordBank.get(newTarget.nextInt(wordBank.size()));
+        }
         return returnWord;
     }
     
