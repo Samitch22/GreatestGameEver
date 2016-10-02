@@ -18,6 +18,7 @@ public class Score {
     private       int        highScore;
     private final List<Word> foundWords;
     private final int        pointValue = 100;
+    private final String     hsFile;
 
     /**
      *
@@ -25,6 +26,8 @@ public class Score {
     public Score() {
         foundWords = new ArrayList<>();
         currentScore = 0;
+        hsFile = "";
+        highScore = 0; // Read the high score. Save high score
     }
     
     /**
@@ -59,5 +62,12 @@ public class Score {
      */
     public void addFoundWord(Word w) {
         foundWords.add(w);
+    }
+    
+    /**
+     * @todo
+     */
+    private void calcHighScore() {
+        
     }
 }

@@ -11,8 +11,8 @@ package model;
  */
 public class Player {
     
-    private       WordValidator validator;
-    private       Board         board;
+    //private       WordValidator validator;
+    //private       Board         board;
     private final Score         score;
     
     /**
@@ -25,31 +25,35 @@ public class Player {
     /**
      * Calls to start the game.
      */
-    public void startGame() {
-        board.startGame();
-    }
+//    public void startGame() {
+//        board.startGame();
+//    }
     
     /**
      *
-     * @param guess
+     * //@param guess
      */
-    public void GuessWord(Word guess){
-        Boolean valid = validator.validateWord(guess);
-        if( valid ) {
-            validator.foundWord();
-        }
-        else
-            validator.wordNotFound(guess);
-    }
+//    public void GuessWord(Word guess){
+//        Boolean valid = validator.validateWord(guess);
+//        if( valid ) {
+//            validator.foundWord();
+//        }
+//        else
+//            validator.wordNotFound(guess);
+//    }
 
-    public void setBoard(Board board) {
-        this.board = board;
-    }
+//    public void setBoard(Board board) {
+//        this.board = board;
+//    }
     
-    public WordValidator getValidator() {
-        return validator;
-    }
+//    public WordValidator getValidator() {
+//        return validator;
+//    }
 
+    /**
+     * 
+     * @return 
+     */
     public Score getScore() {
         return score;
     }

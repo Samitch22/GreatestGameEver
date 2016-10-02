@@ -7,7 +7,7 @@ package model;
 import java.util.Objects;
 
 /**
- * @todo
+ * 
  * @author Mitchell
  * @author Ryan
  */
