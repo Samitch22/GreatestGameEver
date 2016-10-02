@@ -16,16 +16,17 @@ import java.util.Random;
  */
 public final class Board { 
     
-    private static final int        boardSize = 14;
-    private        final int        rSize;
-    private        final int        cSize;
-    private        final Object[][] board;
-    private        final WordTimer  timer;
-    private        final WordBank   wordBank;
-    private        final Player     player;
+    private static final int          boardSize = 14;
+    private        final int          rSize;
+    private        final int          cSize;
+    private        final Object[][]   board;
+    private        final WordTimer    timer;
+    private        final WordBank     wordBank;
+    private        final Player       player;
     private        final Object[][][] wordKeys;
-    private        final Object[]   targetKeys;
-    private              int        targetKey;
+    private        final Object[]     targetKeys;
+    private              int          targetKey;
+    //private              boolean      isGameover;
     
     /**
      *
@@ -39,8 +40,10 @@ public final class Board {
         this.player     = p;
         this.wordBank   = new WordBank(p.getScore());
         this.board      = new Character[getrSize()][getcSize()];
+        loadWordBank();
         this.wordKeys   = new Character[getrSize()][getcSize()][wordBank.getNumWords()];
         this.targetKeys = new Word[wordBank.getNumWords()];
+        //this.isGameover = false;
         createBoard();
     }
     
@@ -50,7 +53,7 @@ public final class Board {
      * @todo
      */
     private void createBoard() throws IOException {
-        loadWordBank();
+        
         
         // get first word in list
         // getRandomPoint
@@ -80,6 +83,7 @@ public final class Board {
             //Picks a random point on the board
             int tempRow = this.randomPoint(); 
             int tempCol = this.randomPoint();
+            targetKey = w;
             
             while( ! wordFits ){
                 //Picks a direction
@@ -122,7 +126,8 @@ public final class Board {
                         break;
                 }
             }
-            this.inputWord(currentWord.getName(), direction, tempRow, tempCol);
+            this.inputWord(currentWord, direction, tempRow, tempCol);
+            
         }
         
         // Puts random letters on the board.
@@ -134,6 +139,8 @@ public final class Board {
                 }
             }
         }
+        
+        this.getTargetWord();
     }
     
     /**
@@ -199,7 +206,9 @@ public final class Board {
      * @return
      */
     public Word getTargetWord() {
-        return wordBank.getTargetWord();
+        Word targetWord = wordBank.getTargetWord();
+        this.setTargetKey(targetWord);
+        return targetWord;
     }
     
     /**
@@ -207,8 +216,14 @@ public final class Board {
      * @return
      */
     public Word getNextTargetWord() {
-        Word targetWord = wordBank.getNewTargetWord();
-        
+        Word targetWord = null;
+        if ( this.wordBank.getRemainingWords() == 0 ) {
+            this.wordBank.gameOver();
+        }
+        else {
+            targetWord = wordBank.getNewTargetWord();
+            this.setTargetKey(targetWord);
+        }
         return targetWord;
     }
     
@@ -249,20 +264,27 @@ public final class Board {
             k = keys[i];
             if ( w.equals(k) ) {
                 key = i;
+                break;
             }
         }
         
         this.targetKey = key;
     }
 
-    
-    
     /**
      * Gets the array of target keys.
      * @return
      */
     public Object[] getTargetKeys() {
         return targetKeys;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public boolean isGameover() {
+        return this.wordBank.isGameover();
     }
     
     /**
@@ -333,27 +355,59 @@ public final class Board {
      * Places a word onto the board
      * @param direction 
      */
-    private void inputWord(String word, int direction, int row, int col) {
+    private void inputWord(Word w, int direction, int row, int col) {
+        String word = w.toString();
+        int first = 0;
+        int last = word.length()-1;
+        
         switch (direction) {
             case 0: //Horizontal
-                for(int r = 0; r < word.length(); ++r) {
+                for(int r = 0; r < word.length(); r++) {
                     board[row+r][col] = word.charAt(r);
+                    if ( r == first ) {
+                        wordKeys[row+r][col][targetKey] = word.charAt(r);
+                    }
+                    if ( r == last ) {
+                        wordKeys[row+r][col][targetKey] = word.charAt(r);
+                    }
                 }
+                targetKeys[targetKey] = w;
                 break;
             case 1: //Vertical
-                for(int c = 0; c < word.length(); ++c) {
+                for(int c = 0; c < word.length(); c++) {
                     board[row][col+c] = word.charAt(c);
+                    if ( c == first ) {
+                        wordKeys[row][col+c][targetKey] = word.charAt(c);
+                    }
+                    if ( c == last ) {
+                        wordKeys[row][col+c][targetKey] = word.charAt(c);
+                    }
                 }
+                targetKeys[targetKey] = w;
                 break;
             case 2: //Main Diagonal
-                for(int d = 0; d < word.length(); ++d) {
+                for(int d = 0; d < word.length(); d++) {
                     board[row+d][col+d] = word.charAt(d);
+                    if ( d == first ) {
+                        wordKeys[row+d][col+d][targetKey] = word.charAt(d);
+                    }
+                    if ( d == last ) {
+                        wordKeys[row+d][col+d][targetKey] = word.charAt(d);
+                    }
                 }
+                targetKeys[targetKey] = w;
                 break;
             case 3: //Secondary Diagonal
-                for(int d = 0; d < word.length(); ++d) {
+                for(int d = 0; d < word.length(); d++) {
                     board[row+d][col-d] = word.charAt(d);
+                    if ( d == first ) {
+                        wordKeys[row+d][col-d][targetKey] = word.charAt(d);
+                    }
+                    if ( d == last ) {
+                        wordKeys[row+d][col-d][targetKey] = word.charAt(d);
+                    }
                 }
+                targetKeys[targetKey] = w;
                 break;
             default:
                 break;
