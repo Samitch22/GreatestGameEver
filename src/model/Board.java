@@ -61,6 +61,7 @@ public final class Board {
         // when all of the words are added, check the entire matrix
         // --> if the point is null, add a randomLetter
         
+        // Puts random letters on the board.
         for ( int r = 0; r < Board.boardSize; r++ ) {
             for ( int c = 0; c < Board.boardSize; c++ )
             {

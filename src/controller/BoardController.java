@@ -109,21 +109,34 @@ public class BoardController implements Initializable {
     private void handleSelected(ActionEvent event) {
         Button selectedButton = (Button)event.getSource();
         int first = 1;
-        if ( this.validateClick(selectedButton) == false ) {
-            resetSelection();
+        int pos = 0;
+        if( selected.isEmpty() ) {
+            if ( this.validateClick(selectedButton) == false ) {
+                //selected.add(selectedButton);
+                resetSelection();
+            }
+            else {
+                //resetSelection();
+                selected.add(selectedButton);
+                selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
+            }
+            
+            // Always outline selected button.
+            selected.add(selectedButton);
+            selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
         }
+        else if ( selectedButton != selected.get(pos)) {
+            if ( this.validateClick(selectedButton) == false ) {
+                //selected.add(selectedButton);
+                resetSelection();
+            }
 
-        if ( selected.size() > first ) {
-            System.out.println("Found word!");
+            if ( selected.size() > first ) {
+                System.out.println("Found word!");
+            }
+            selected.add(selectedButton);
+            selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
         }
-        else {
-            resetSelection();
-        }
-        //String text = selectedButton.getText();
-        //selectedWord += text;
-        selected.add(selectedButton);
-        selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");        
-        //System.out.println(selectedWord);
     }
     
     /**
@@ -254,7 +267,6 @@ public class BoardController implements Initializable {
             b.setStyle("");
         }
         selected.clear();
-        //selectedWord = "";
     }
     
     /**
@@ -395,9 +407,7 @@ public class BoardController implements Initializable {
         }
         
         for ( Node b : selected ) {
-            Button temp = (Button) b;
-            temp.setDisable(true);
-            temp.setStyle("-fx-background-color: green");
+            mark(b);
         }
     }
     
@@ -417,6 +427,7 @@ public class BoardController implements Initializable {
      */
     @FXML
     private void showGameoverScene(ActionEvent event) throws IOException {
+        System.out.println("The game is over!");
         Parent pane = FXMLLoader.load(getClass().getResource("/view/GameoverScene.fxml"));
         rootPane.getChildren().setAll(pane);
     }

@@ -36,7 +36,6 @@ public class StartController implements Initializable {
     @FXML
     private void handleBtnStartAction(ActionEvent event) throws IOException {
         System.out.println("Starting a new game!");
-        System.out.println(getClass().getResource("/view/BoardScene.fxml"));
         Parent pane = FXMLLoader.load(getClass().getResource("/view/BoardScene.fxml"));
         rootPane.getChildren().setAll(pane);
     }
