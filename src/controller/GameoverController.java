@@ -9,6 +9,8 @@ import java.net.URL;
 import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 
 /**
@@ -18,6 +20,14 @@ import javafx.scene.layout.AnchorPane;
 public class GameoverController implements Initializable {
     @FXML
     private AnchorPane parent;
+    @FXML
+    private Label      lblScore;
+    @FXML
+    private Label      lblHighscore;
+    @FXML
+    private Button     btnStart;
+    @FXML
+    private Button     btnQuit;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
