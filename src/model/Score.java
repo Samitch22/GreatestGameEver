@@ -8,48 +8,49 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * @todo
+ * This class represents a player's score.
  * @author Mitchell
  * @author Ryan
  */
 public class Score {
     
     private       int        currentScore;
-    private       int        highScore;
+    private final int        highScore;
     private final List<Word> foundWords;
     private final int        pointValue = 100;
     private final String     hsFile;
 
     /**
-     *
+     * Constructs a score holding current score and highscore.
      */
     public Score() {
         foundWords = new ArrayList<>();
         currentScore = 0;
         hsFile = "";
-        highScore = 0; // Read the high score. Save high score
+        highScore = this.calcHighscore(); // Read the high score. Save high score
     }
     
     /**
-     * 
-     * @todo
+     * Calculates the points
      */
-    public void calculatePoints() {
+    private void calculatePoints() {
+        currentScore = 0;
         for ( Word word : foundWords ) {
             currentScore += pointValue/word.getAttempts();
         }
     }
     
     /**
-     *
+     * Gets the current score achieved.
      * @return
      */
     public int getCurrentScore() {
+        this.calculatePoints();
         return currentScore;
     }
 
     /**
-     *
+     * Gets the current highscore.
      * @return
      */
     public int getHighScore() {
@@ -57,7 +58,7 @@ public class Score {
     }
     
     /**
-     *
+     * Adds a word to the found word list.
      * @param w
      */
     public void addFoundWord(Word w) {
@@ -65,9 +66,10 @@ public class Score {
     }
     
     /**
+     * Calculates the highscore.
      * @todo
      */
-    private void calcHighScore() {
-        
+    private int calcHighscore() {
+        return 0;
     }
 }

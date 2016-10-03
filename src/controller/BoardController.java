@@ -10,8 +10,8 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import java.util.TimerTask;
+import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -31,10 +31,10 @@ import model.Player;
 import model.Word;
 
 /**
- *
+ * This class controls the UI functionality of the board.
  * @author Mitchell
  */
-public class BoardController implements Initializable {
+public class BoardController extends TimerTask implements Initializable {
     
     private Board        board;
     private Player       player;
@@ -44,7 +44,7 @@ public class BoardController implements Initializable {
     private Object[]     targetKeys;
     private int          btnKey;
     private int          targetKey;
-    //private String       selectedWord;
+    private static BoardController bc;
     
     @FXML
     private AnchorPane rootPane;
@@ -54,8 +54,16 @@ public class BoardController implements Initializable {
     private Label    lblTarget;
     
     @Override
+    public void run() {
+        System.out.println("Time's up!");
+        Platform.runLater(bc::getNewTargetWord);
+        System.out.println("The new target word is: " + bc.board.getWordBank().getTargetWord());
+    }
+    
+    @Override
     public void initialize(URL location, ResourceBundle resources) {
         try {
+            bc = this;
             player = new Player();
             generateBoard();
             startGame();
@@ -74,7 +82,6 @@ public class BoardController implements Initializable {
         board = new Board(player);
         boardGrid = board.getBoard();
         selected = new ArrayList<>();
-        //selectedWord = "";
         wordKey = board.getWordKeys();
         targetKeys = board.getTargetKeys();
         targetKey = board.getTargetKey();
@@ -99,9 +106,7 @@ public class BoardController implements Initializable {
      */
     @FXML
     private void startGame() {
-        //board.startGame();
-        //player.setBoard(board); // These player methods prob not needed
-        //player.startGame();
+        board.startGame();
         this.showTargetWord();
     }
     
@@ -115,13 +120,10 @@ public class BoardController implements Initializable {
         int pos = 0;
         if( selected.isEmpty() ) {
             if ( this.validateClick(selectedButton) == false ) {
-                //selected.add(selectedButton);
+                addAttempt();
                 resetSelection();
             }
             else {
-                //resetSelection();
-//                selected.add(selectedButton);
-//                selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
                 System.out.println("Got the first letter!");
             }
             
@@ -131,12 +133,9 @@ public class BoardController implements Initializable {
         }
         else if ( selectedButton != selected.get(pos)) {
             if ( this.validateClick(selectedButton) == false ) {
-                //selected.add(selectedButton);
+                addAttempt();
                 resetSelection();
             }
-
-            //selected.add(selectedButton);
-            //selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
             
             if ( selected.size() > first ) {
                 System.out.println("Found word!");
@@ -147,44 +146,27 @@ public class BoardController implements Initializable {
     }
     
     /**
-     * 
+     * This method implements the logic for selecting a word from the board.
      * @param button
      * @return 
      */
     private boolean validateClick(Node b) {
-        Button selectedButton = (Button)b;
+
         int r = getR(b);
         int c = getC(b);
-        //int nextTo = 1;
-        
-//        if ( selected.isEmpty() )
-//            return true;
-//        for ( Node btn : selected ) {
-//            if ( (getR(btn) + nextTo) == r || (getR(btn) - nextTo) == r || getR(btn) == r ) { 
-//                if ( (getC(btn) + nextTo) == c || (getC(btn) - nextTo) == c || getC(btn) == c )
-//                {
-//                    //return true;
-//                }
-//            }
-//        }
         
         int num;
         if ( selected.isEmpty() ) {
             for ( int i = 0; i < board.getNumWords(); i++ ) {
                 Character compare = (Character) this.wordKey[r][c][i];
-                System.out.println("I = " + i);
-                System.out.println("Target: " + targetKey);
-                System.out.println(compare);
                 
-//                if ( compare != null && selectedButton.toString().equals(compare.toString()) ) {
-                if ( compare != null ) {//&& selectedButton.toString() == compare.toString() ) {
+                if ( compare != null ) {
                     if ( i == targetKey ) {
                         btnKey = i;
-                        System.out.println("Found first letter");
                         return true;
                     }
                     else {
-                        System.out.println("did not find first letter");
+                        System.out.println("Did not find first letter...");
                         return false;
                     }
                 }
@@ -193,18 +175,17 @@ public class BoardController implements Initializable {
         else {
             for ( int i = 0; i < board.getNumWords(); i++ ) {
                 Character compare = (Character) this.wordKey[r][c][i];
-                System.out.println("I = " + i);
-                System.out.println("Target: " + targetKey);
-                System.out.println(compare);
                 
-                if ( compare != null ) { //&& selectedButton.toString().equals(compare.toString()) ) {
+                if ( compare != null ) {
                     num = i;
                     if ( num == this.btnKey ) {
                         if ( num == targetKey ) {
                             selected.add(b);
                             if ( foundWord( (Word)targetKeys[num] ) == true ) {
                                 markWord();
-                                this.getNewTargetWord();
+                                selected.clear();
+                                getNewTargetWord();
+                                //resetTimer();
                                 if ( this.board.isGameover() == true )
                                     this.gameOver();
                                 return true;
@@ -264,6 +245,14 @@ public class BoardController implements Initializable {
     private int getC(Node b) {
         return GridPane.getColumnIndex(b);
     }
+
+    /**
+     * Gets the board.
+     * @return
+     */
+    public Board getBoard() {
+        return board;
+    }
     
     /**
      * Displays the target word.
@@ -283,6 +272,13 @@ public class BoardController implements Initializable {
     }
     
     /**
+     * Adds an attempt to the current target word.
+     */
+    private void addAttempt() {
+        this.board.getWordBank().getTargetWord().addAttempt();
+    }
+    
+    /**
      * Checks if the word is found.
      */
     private boolean foundWord(Word word) {
@@ -290,10 +286,11 @@ public class BoardController implements Initializable {
     }
     
     /**
-     * 
+     * Logic executed when the game is over.
      */
     private void gameOver() {
         try {
+            this.board.getTimer().cancelTimer();
             this.showGameoverScene(null);
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());
@@ -311,6 +308,14 @@ public class BoardController implements Initializable {
     }
     
     /**
+     * Resets the timer.
+     */
+    private void resetTimer() {
+        this.board.getTimer().cancelTimer();
+        this.board.getTimer().startTimer();
+    }
+    
+    /**
      * Marks found words.
      * @return 
      */
@@ -321,7 +326,6 @@ public class BoardController implements Initializable {
         int firstC = getC(selected.get(first));
         int secondR = getR(selected.get(second));
         int secondC = getC(selected.get(second));
-        int rDiff = secondR - firstR;
         int cDiff = secondC - firstC;
         
         // Get all the buttons between the two and add to list
@@ -330,10 +334,8 @@ public class BoardController implements Initializable {
             int r = firstR;
             if ( cDiff > 0 ) {
                 for ( int c = firstC + 1; c < secondC; c++ ) {
-                    System.out.println("Row: " + r + " Col: " + c);
                     try {
                         selected.add(this.getGridNode(r, c));
-                        //mark(this.getGridNode(r, c));
                     } catch (IOException ex) {
                         System.out.println("Unexpected Exeption: " + ex.getMessage());
                     }
@@ -341,10 +343,8 @@ public class BoardController implements Initializable {
             }
             else {
                 for ( int c = secondC + 1; c < firstC; c++ ) {
-                    System.out.println("Row: " + r + " Col: " + c);
                     try {
                         selected.add(this.getGridNode(r, c));
-                        //mark(this.getGridNode(r, c));
                     } catch (IOException ex) {
                         System.out.println("Unexpected Exeption: " + ex.getMessage());
                     }
@@ -356,10 +356,8 @@ public class BoardController implements Initializable {
             if ( cDiff == 0 ) {
                 for ( int r = firstR + 1; r < secondR; r++ ) {
                     int c = firstC;
-                    System.out.println("Row: " + r + " Col: " + c);
                     try {
                         selected.add(this.getGridNode(r, c));
-                        //mark(this.getGridNode(r, c));
                     } catch (IOException ex) {
                         System.out.println("Unexpected Exeption: " + ex.getMessage());
                     }
@@ -369,10 +367,8 @@ public class BoardController implements Initializable {
                 int r = firstR + 1;
                 while ( r < secondR ) {
                     for ( int c = firstC + 1; c < secondC; c++ ) {
-                        System.out.println("Row: " + r + " Col: " + c);
                         try {
                             selected.add(this.getGridNode(r, c));
-                            //mark(this.getGridNode(r, c));
                         } catch (IOException ex) {
                             System.out.println("Unexpected Exeption: " + ex.getMessage());
                         }
@@ -383,11 +379,9 @@ public class BoardController implements Initializable {
             else {
                 int r = firstR + 1;
                 while ( r < secondR ) {
-                    for ( int c = secondC + 1; c < firstC; c++ ) {
-                        System.out.println("Row: " + r + " Col: " + c);
+                    for ( int c = firstC - 1; c > secondC; c-- ) {
                         try {
                             selected.add(this.getGridNode(r, c));
-                            //mark(this.getGridNode(r, c));
                         } catch (IOException ex) {
                             System.out.println("Unexpected Exeption: " + ex.getMessage());
                         }
@@ -396,65 +390,47 @@ public class BoardController implements Initializable {
                 }
             }
         }
-        // First row is greater than second row
+        // First row is greater than second row 
         else {
             if ( cDiff == 0 ) {
                 for ( int r = secondR + 1; r < firstR; r++ ) {
                     int c = firstC;
-                    System.out.println("Row: " + r + " Col: " + c);
                     try {
                         selected.add(this.getGridNode(r, c));
-                        //mark(this.getGridNode(r, c));
                     } catch (IOException ex) {
                         System.out.println("Unexpected Exeption: " + ex.getMessage());
                     }
                 }
             }
             else if ( cDiff > 0 ) {
-                int r = secondR + 1;
-                while ( r < firstR ) {
+                int r = firstR - 1;
+                while ( r > secondR ) {
                     for ( int c = firstC + 1; c < secondC; c++ ) {
-                        System.out.println("Row: " + r + " Col: " + c);
                         try {
                             selected.add(this.getGridNode(r, c));
-                            //mark(this.getGridNode(r, c));
                         } catch (IOException ex) {
                             System.out.println("Unexpected Exeption: " + ex.getMessage());
                         }
-                        r++;
+                        r--;
                     }
                 }
             }
             else {
-                int r = secondR + 1;
-                while ( r < firstR ) {
-                    for ( int c = secondC + 1; c < firstC; c++ ) {
-                        System.out.println("Row: " + r + " Col: " + c);
+                int r = firstR - 1;
+                while ( r > secondR ) {
+                    for ( int c = firstC - 1; c > secondC; c-- ) {
                         try {
                             selected.add(this.getGridNode(r, c));
-                            //mark(this.getGridNode(r, c));
                         } catch (IOException ex) {
                             System.out.println("Unexpected Exeption: " + ex.getMessage());
                         }
-                        r++;
+                        r--;
                     }
                 }
             }
         }
         
-        
-        
-        
-//        for ( int r = secondR; r != firstR; r += rDiff ) {
-//            for ( int c = secondC; c != cDiff; c += cDiff ) {
-//                try {
-//                    Button b = (Button) this.getGridNode(r, c);
-//                } catch (IOException ex) {
-//                    System.out.println("Unexpected Exception: " + ex.getMessage());
-//                }
-//            }
-//        }
-        
+        // Mark all of the buttons from the found word
         for ( Node b : selected ) {
             mark(b);
         }
@@ -475,10 +451,9 @@ public class BoardController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void showGameoverScene(ActionEvent event) throws IOException {
-        System.out.println("The game is over!");
+    private void showGameoverScene(ActionEvent event) throws IOException { 
         Parent pane = FXMLLoader.load(getClass().getResource("/view/GameoverScene.fxml"));
         rootPane.getChildren().setAll(pane);
     }
-  
+
 }

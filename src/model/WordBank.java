@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Random;
 
 /**
- * @todo
+ * This class implements the concept of a word bank for the word search.
  * @author Mitchell
  * @author Ryan
  */
@@ -75,21 +75,6 @@ public class WordBank {
      * @return 
      */
     public boolean foundWord(Word w) {
-//        boolean isFound = false;
-//        if ( this.getTargetWord().equals(w) ) {
-//            int index = wordBank.indexOf(targetWord);
-//            score.addFoundWord(targetWord);
-//            wordBank.remove(index);
-//            if(wordBank.isEmpty()){
-//                this.gameOver();
-//                isFound = true;
-//            }
-//            else{
-//                this.getNewTargetWord();   
-//                isFound = true;
-//            }
-//        }
-//        return isFound;
         
         return validator.foundWord(w);
     }
@@ -142,8 +127,7 @@ public class WordBank {
      */
     public void gameOver() {
         this.setGameover(true);
-        score.calculatePoints();
-        System.out.println("The game is over!");
+        score.getCurrentScore();
     }
 
     public Score getScore() {

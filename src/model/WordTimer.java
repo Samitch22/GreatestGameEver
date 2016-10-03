@@ -4,11 +4,12 @@
  */
 package model;
 
+import controller.BoardController;
 import java.util.Timer;
 import java.util.TimerTask;
 
 /**
- * @todo
+ * A timer used to get a new target word for the word search.
  * @author Mitchell
  * @author Sam
  */
@@ -17,33 +18,22 @@ public class WordTimer {
     private final Timer     timer;
     private final TimerTask task;
     private final long      timeMultiplier = 1000;
-    private final long      time = 30 * timeMultiplier; // In Seconds
-    private       Board     board;
+    private final long      time = 20 * timeMultiplier; // In seconds
+    private final Board     board;
     
     /**
-     * 
+     * This class implements a timer to be used by the word search board.
+     * @param board
      */
-    public WordTimer() {
+    public WordTimer(Board board) {
+        this.board = board;
         timer = new Timer();
-        task = new GameTask();
+        task = new BoardController();
     }
     
     /**
-     * Inner class to implement the required TimerTask functionality.
-     */
-    private class GameTask extends TimerTask {
-        @Override
-        public void run() {
-            System.out.println("Time's up!");
-            resetTimer();
-            getNewTargetWord();
-            startTimer();
-        }
-    }
-    
-    /**
-     * 
-     * @todo
+     * Gets a new target word. Implements the task to be completed when the 
+     * timer is up.
      * @return
      */
     public Word getNewTargetWord() {
@@ -51,17 +41,16 @@ public class WordTimer {
     }
     
     /**
-     * @todo
+     * Cancels the timer.
      */
-    protected void resetTimer() {
+    public void cancelTimer() {
         timer.cancel();
-        timer.purge();
     }
     
     /**
-     * @todo
+     * Schedules a task to be completed at the given time.
      */
-    protected void startTimer() {
-        timer.schedule(task, time);
+    public void startTimer() {
+        timer.scheduleAtFixedRate(task, time, time);
     }
 }
