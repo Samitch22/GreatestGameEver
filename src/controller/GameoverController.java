@@ -13,29 +13,55 @@ import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import model.Board;
+import model.Player;
 
 /**
  *
  * @author Mitchell
  */
 public class GameoverController implements Initializable {
+    private Player player;
+    
     @FXML
     private AnchorPane rootPane;
     @FXML
     private Label      lblScore;
     @FXML
     private Label      lblHighscore;
-    @FXML
-    private Button     btnStart;
-    @FXML
-    private Button     btnQuit;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        // TODO
+        player = Board.getPlayer();
+        getScore();
+        //getHighscore();
+    }
+
+    /**
+     * Displays the player's score.
+     */
+    @FXML
+    private void getScore() {
+        Integer score = player.getScore().getCurrentScore();
+        lblScore.setText(score.toString());
+    }
+    
+    /**
+     * Displays the current highscore.
+     */
+    @FXML
+    private void getHighscore() {
+        Integer highscore = player.getScore().getHighScore();
+        lblHighscore.setText(highscore.toString());
+    }
+    
+    /**
+     * Saves the highscore.
+     */
+    private void saveHighscore() {
+        
     }
     
     /**
@@ -58,6 +84,7 @@ public class GameoverController implements Initializable {
     @FXML
     private void handleQuit(ActionEvent event) throws IOException {
         System.out.println("Quitting");
+        // SAVE Highscore
         System.exit(0);
     }
 }

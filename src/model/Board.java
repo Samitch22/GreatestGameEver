@@ -22,47 +22,34 @@ public final class Board {
     private        final Object[][]   board;
     private        final WordTimer    timer;
     private        final WordBank     wordBank;
-    private        final Player       player;
+    private static       Player       player;
     private        final Object[][][] wordKeys;
     private        final Object[]     targetKeys;
     private              int          targetKey;
-    //private              boolean      isGameover;
     
     /**
-     *
+     * This class implements the board that holds a word search puzzle.
      * @param p
      * @throws java.io.IOException
      */
     public Board(Player p) throws IOException {
         this.rSize      = Board.getBoardSize();
         this.cSize      = Board.getBoardSize();
-        this.timer      = new WordTimer();
-        this.player     = p;
+        this.timer      = new WordTimer(this);
+        Board.player    = p;
         this.wordBank   = new WordBank(p.getScore());
         this.board      = new Character[getrSize()][getcSize()];
         loadWordBank();
         this.wordKeys   = new Character[getrSize()][getcSize()][wordBank.getNumWords()];
         this.targetKeys = new Word[wordBank.getNumWords()];
-        //this.isGameover = false;
         createBoard();
     }
     
     /**
-     * I THINK THIS WORKS (Without making them backward) (Clicking still needs to be fixed) (And Timer needs debugging)
+     * This method creates the board with words hidden in the puzzle.
      * @throws java.io.IOException
-     * @todo
      */
     private void createBoard() throws IOException {
-        
-        
-        // get first word in list
-        // getRandomPoint
-        // need to check that it fits and that there is not another letter in the slot
-        // getRandomBackward
-        // getRandomDirection --> direction still needs to have a switch statement somewhere
-        // add the Word (String) as single CHARACTERS to the grid
-        // when all of the words are added, check the entire matrix
-        // --> if the point is null, add a randomLetter
 
         //Iterating through all the words in the list
         for ( int w = 0; w < this.getNumWords(); w++ ) {
@@ -75,7 +62,6 @@ public final class Board {
             
             //Picks a starting direction to choose
             int direction = this.randomDirection();
-            //int direction = 1;
             
             //Determines if a word will fit or not
             boolean wordFits = false;
@@ -123,11 +109,11 @@ public final class Board {
                     default:
                         tempRow = this.randomPoint(); 
                         tempCol = this.randomPoint();
+                        direction = this.randomDirection();
                         break;
                 }
             }
-            this.inputWord(currentWord, direction, tempRow, tempCol);
-            
+            this.inputWord(currentWord, direction, isBackward, tempRow, tempCol);
         }
         
         // Puts random letters on the board.
@@ -147,9 +133,7 @@ public final class Board {
      * Starts the game.
      */
     public void startGame() {
-        //while ( wordBank.isGameover() != true ){
-            //timer.startTimer();
-        //}
+        timer.startTimer();
     }
     
     /**
@@ -161,7 +145,7 @@ public final class Board {
     }
 
     /**
-     * 
+     * Checks if a word was found.
      * @param word
      * @return 
      */
@@ -177,6 +161,10 @@ public final class Board {
         return board;
     }
 
+    public Board getBoardObject() {
+        return this;
+    }
+    
     /**
      * Gets the size of the board.
      * @return
@@ -226,6 +214,14 @@ public final class Board {
         }
         return targetWord;
     }
+
+    /**
+     * Gets the word timer.
+     * @return
+     */
+    public WordTimer getTimer() {
+        return timer;
+    }
     
     /**
      * Returns the number of words in the word bank.
@@ -233,6 +229,14 @@ public final class Board {
      */
     public int getNumWords() {
         return wordBank.getNumWords();
+    }
+
+    /**
+     * Gets the player.
+     * @return
+     */
+    public static Player getPlayer() {
+        return player;
     }
     
     /**
@@ -280,11 +284,19 @@ public final class Board {
     }
 
     /**
-     *
+     * Returns if the game is over.
      * @return
      */
     public boolean isGameover() {
         return this.wordBank.isGameover();
+    }
+
+    /**
+     * Gets the word bank object.
+     * @return
+     */
+    public WordBank getWordBank() {
+        return wordBank;
     }
     
     /**
@@ -322,7 +334,6 @@ public final class Board {
     
     /**
      * Returns the direction the word will be stored in the grid.
-     *  *** Use a switch statement for each case in creation
      */
     private int randomDirection() {
         Random direction = new Random();
@@ -344,8 +355,8 @@ public final class Board {
             tempVar = letters[start];
             letters[start]=letters[finish];
             letters[finish] = tempVar;
-            start++;
             finish--;
+            start++;
         }
         
         return new String(letters);
@@ -355,10 +366,14 @@ public final class Board {
      * Places a word onto the board
      * @param direction 
      */
-    private void inputWord(Word w, int direction, int row, int col) {
+    private void inputWord(Word w, int direction, boolean isBackward, int row, int col) {
         String word = w.toString();
         int first = 0;
         int last = word.length()-1;
+        
+        if ( isBackward == true ) {
+            word = this.reverseWord(word);
+        }
         
         switch (direction) {
             case 0: //Horizontal
@@ -415,7 +430,7 @@ public final class Board {
     }
     
     /**
-     * 
+     * Checks that there is enough room on the board to fit the word.
      * @param word
      * @param direction
      * @param row
@@ -463,7 +478,7 @@ public final class Board {
     
     
     /**
-     * Increments the direction by one
+     * Increments the direction of the word.
      * @param direction
      * @return 
      */

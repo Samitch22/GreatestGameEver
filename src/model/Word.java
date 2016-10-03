@@ -7,7 +7,7 @@ package model;
 import java.util.Objects;
 
 /**
- * 
+ * This class implements a word that is found in a word search.
  * @author Mitchell
  * @author Ryan
  */

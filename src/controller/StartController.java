@@ -29,7 +29,7 @@ public class StartController implements Initializable {
     }    
     
     /**
-     * 
+     * Starts the game.
      * @param event
      * @throws IOException 
      */
@@ -39,39 +39,5 @@ public class StartController implements Initializable {
         Parent pane = FXMLLoader.load(getClass().getResource("/view/BoardScene.fxml"));
         rootPane.getChildren().setAll(pane);
     }
-    
-    
-    
-    
-    
-//    /**
-//     * Displays the Board Scene.
-//     */
-//    private void showBoardScene() throws IOException {
-//        Scene scene = btnStart.getScene();
-//        getController();
-//        StackPane boardScene = new StackPane(this.root);
-//        //generateBoard();
-//        //boardScene.getChildren().add(this.getController().vbContent);
-//        scene.setRoot(boardScene);
-//    }
-//    
-//    private void showGameoverScene() throws IOException {
-//        Scene scene = txtTarget.getScene();
-//        this.gameoverLayout = FXMLLoader.load(getClass().getResource("GameoverScene.fxml"));
-//        StackPane gameoverScene = new StackPane(this.boardLayout);
-//        scene.setRoot(gameoverScene);
-//    }
-//
-//    public StartController getController() throws IOException {
-//        
-//        FXMLLoader loader = new FXMLLoader(getClass().getResource("BoardScene.fxml"));
-//        loader.setController(this);
-//        root = (Parent) loader.load();
-//        controller = loader.getController();
-//        
-//        return controller;
-//    }
-    
     
 }

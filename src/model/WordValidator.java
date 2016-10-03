@@ -5,7 +5,7 @@
 package model;
 
 /**
- * @todo
+ * This class implements word validation.
  * @author Mitchell
  * @author Ryan
  */
@@ -13,11 +13,16 @@ public class WordValidator {
     
     private final WordBank wordbank;
     
+    /**
+     * A class for validating words found by the player.
+     * @param wordBank
+     */
     public WordValidator(WordBank wordBank) {
         this.wordbank = wordBank;
     }
     
     /**
+     * This method checks if the guessed word is the current target word.
      * @param guess
      * @return
      */
@@ -27,7 +32,7 @@ public class WordValidator {
     }
     
     /**
-     * 
+     * Logic for checking if a word is found.
      * @param w
      * @return 
      */
@@ -50,7 +55,7 @@ public class WordValidator {
     }
     
     /**
-     * 
+     * Logic for when a guess is incorrect.
      * @param guess
      */
     public void wordNotFound(Word guess) {
