@@ -5,6 +5,7 @@
  */
 package controller;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,6 +26,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import model.Board;
 import model.Player;
@@ -45,6 +48,8 @@ public class BoardController extends TimerTask implements Initializable {
     private int          btnKey;
     private int          targetKey;
     private static BoardController bc;
+    private final Media buzzer  = new Media(new File("Buzzer.wav").toURI().toString());
+    private final Media correct = new Media(new File("Correct.wav").toURI().toString());
     
     @FXML
     private AnchorPane rootPane;
@@ -57,6 +62,9 @@ public class BoardController extends TimerTask implements Initializable {
     public void run() {
         System.out.println("Time's up!");
         Platform.runLater(bc::getNewTargetWord);
+        Platform.runLater(() -> {
+            playSound(this.buzzer);
+        });
         System.out.println("The new target word is: " + bc.board.getWordBank().getTargetWord());
     }
     
@@ -120,7 +128,6 @@ public class BoardController extends TimerTask implements Initializable {
         int pos = 0;
         if( selected.isEmpty() ) {
             if ( this.validateClick(selectedButton) == false ) {
-                addAttempt();
                 resetSelection();
             }
             else {
@@ -135,6 +142,7 @@ public class BoardController extends TimerTask implements Initializable {
             if ( this.validateClick(selectedButton) == false ) {
                 addAttempt();
                 resetSelection();
+                playSound(this.buzzer);
             }
             
             if ( selected.size() > first ) {
@@ -183,9 +191,10 @@ public class BoardController extends TimerTask implements Initializable {
                             selected.add(b);
                             if ( foundWord( (Word)targetKeys[num] ) == true ) {
                                 markWord();
+                                playSound(correct);
                                 selected.clear();
                                 getNewTargetWord();
-                                //resetTimer();
+                                resetTimer();
                                 if ( this.board.isGameover() == true )
                                     this.gameOver();
                                 return true;
@@ -298,6 +307,15 @@ public class BoardController extends TimerTask implements Initializable {
     }
     
     /**
+     * Plays a sound from the given file.
+     * @param file 
+     */
+    private void playSound(Media sound) {
+        MediaPlayer mediaPlayer = new MediaPlayer(sound);
+        mediaPlayer.play();
+    }
+    
+    /**
      * Resets the buttons and associated attributes after a selection.
      */
     private void resetSelection() {
@@ -320,13 +338,13 @@ public class BoardController extends TimerTask implements Initializable {
      * @return 
      */
     private void markWord() {
-        int first = 0;
-        int second = 1;
-        int firstR = getR(selected.get(first));
-        int firstC = getC(selected.get(first));
+        int first   = 0;
+        int second  = 1;
+        int firstR  = getR(selected.get(first));
+        int firstC  = getC(selected.get(first));
         int secondR = getR(selected.get(second));
         int secondC = getC(selected.get(second));
-        int cDiff = secondC - firstC;
+        int cDiff   = secondC - firstC;
         
         // Get all the buttons between the two and add to list
         // Same row

@@ -23,6 +23,7 @@ import model.Player;
  * @author Mitchell
  */
 public class GameoverController implements Initializable {
+    
     private Player player;
     
     @FXML
@@ -58,13 +59,6 @@ public class GameoverController implements Initializable {
     }
     
     /**
-     * Saves the highscore.
-     */
-    private void saveHighscore() {
-        
-    }
-    
-    /**
      * Shows the Game Over Scene.
      * @param event
      * @throws IOException 
@@ -84,7 +78,7 @@ public class GameoverController implements Initializable {
     @FXML
     private void handleQuit(ActionEvent event) throws IOException {
         System.out.println("Quitting");
-        // SAVE Highscore
+        player.getScore().saveHighscore();
         System.exit(0);
     }
 }

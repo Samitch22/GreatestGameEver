@@ -1,11 +1,12 @@
 /*
  * The Greatest Game Ever
  * The Other Guys
- * Version 0.1
+ * Version 0.9
  */
 package view;
 
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Rectangle2D;
 import javafx.scene.Parent;
@@ -14,9 +15,13 @@ import javafx.scene.image.Image;
 import javafx.scene.layout.StackPane;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
+import javafx.stage.WindowEvent;
 
 /**
- *
+ * This is a stand-alone application for playing a revolutionary word search 
+ * game, the Greatest Game Ever. It plays like the traditional paper and pen
+ * game with added pressure of time and only having the ability to find one 
+ * target word at a time.
  * @author Mitchell
  */
 public class GreatestGameEver extends Application {
@@ -37,6 +42,13 @@ public class GreatestGameEver extends Application {
         primaryStage.setHeight(visualBounds.getHeight());
         primaryStage.setTitle("The Greatest Game Ever");
         primaryStage.getIcons().add(new Image("/files/GreatestGame.jpg"));
+        
+        // Exit the application and kill all threads if the window is closed.
+        primaryStage.setOnCloseRequest((WindowEvent t) -> {
+            Platform.exit();
+            System.exit(0);
+        });
+        
         primaryStage.show();
     }
 
