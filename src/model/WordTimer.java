@@ -15,8 +15,8 @@ import java.util.TimerTask;
  */
 public class WordTimer {
     
-    private final Timer     timer;
-    private final TimerTask task;
+    private       Timer     timer;
+    private       TimerTask task;
     private final long      timeMultiplier = 1000;
     private final long      time = 20 * timeMultiplier; // In seconds
     private final Board     board;
@@ -27,8 +27,6 @@ public class WordTimer {
      */
     public WordTimer(Board board) {
         this.board = board;
-        timer = new Timer();
-        task = new BoardController();
     }
     
     /**
@@ -51,6 +49,8 @@ public class WordTimer {
      * Schedules a task to be completed at the given time.
      */
     public void startTimer() {
+        timer = new Timer();
+        task = new BoardController();
         timer.scheduleAtFixedRate(task, time, time);
     }
 }

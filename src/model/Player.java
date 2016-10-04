@@ -5,7 +5,7 @@
 package model;
 
 /**
- * @todo
+ * This class represents a player with a score.
  * @author Mitchell
  * @author Ryan
  */
@@ -27,6 +27,5 @@ public class Player {
     public Score getScore() {
         return score;
     }
-    
     
 }
