@@ -5,9 +5,8 @@
 package model;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -83,7 +82,7 @@ public class WordBank {
      * Adds the words from the list to the word bank.
      * @throws IOException
      */
-    public void createWordBank() throws IOException {
+    public void createWordBank() throws IOException  {
         String line;
         Word newWord;
         getReader();
@@ -191,9 +190,10 @@ public class WordBank {
     private void setWordList() {
         String words;
         Random index = new Random();
-        // Manually add any list of words
-        lists.add("src/files/wordLists/gg.txt"); 
-        lists.add("src/files/wordLists/pizza.txt");
+        // Manually add any list of words 
+        lists.add("/files/wordLists/gg.txt"); 
+        lists.add("/files/wordLists/pizza.txt");
+        lists.add("/files/wordLists/PeriodicTable.txt");
         words = lists.get(index.nextInt(lists.size()));
         this.wordList = words;
         System.out.println("Got the words!");
@@ -204,12 +204,9 @@ public class WordBank {
      * @return 
      */
     private BufferedReader getReader() {
-        try {
-            reader = new BufferedReader(new FileReader(getWordList())); 
-        } catch (FileNotFoundException e) {
-            System.out.println("Error opening the file.");
-            System.exit(0);
-        }
+
+        reader = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(wordList) ));
+
         return reader;
     }
 }

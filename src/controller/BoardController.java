@@ -5,7 +5,6 @@
  */
 package controller;
 
-import java.io.File;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
@@ -48,8 +47,8 @@ public class BoardController extends TimerTask implements Initializable {
     private int          btnKey;
     private int          targetKey;
     private static BoardController bc;
-    private final Media buzzer  = new Media(new File("Buzzer.wav").toURI().toString());
-    private final Media correct = new Media(new File("Correct.wav").toURI().toString());
+    private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
+    private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
     
     @FXML
     private AnchorPane rootPane;
@@ -61,8 +60,10 @@ public class BoardController extends TimerTask implements Initializable {
     @Override
     public void run() {
         System.out.println("Time's up!");
-        Platform.runLater(bc::getNewTargetWord);
         Platform.runLater(() -> {
+            bc.addAttempt();
+            bc.getNewTargetWord();
+            bc.resetSelection();
             playSound(this.buzzer);
         });
         System.out.println("The new target word is: " + bc.board.getWordBank().getTargetWord());
@@ -149,7 +150,6 @@ public class BoardController extends TimerTask implements Initializable {
                 System.out.println("Found word!");
                 selected.clear();
             }
-            
         }
     }
     
