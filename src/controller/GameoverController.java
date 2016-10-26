@@ -37,7 +37,7 @@ public class GameoverController implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         player = Board.getPlayer();
         getScore();
-        //getHighscore();
+        getHighscore();
     }
 
     /**
