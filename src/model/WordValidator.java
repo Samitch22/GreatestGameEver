@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.util.List;
+
 /**
  * This class implements word validation.
  * @author Mitchell
@@ -27,8 +29,9 @@ public class WordValidator {
      * @return
      */
     public boolean validateWord(Word guess) {
-        Word target = wordbank.getTargetWord();
-        return target.equals(guess);
+        List<Word> wBank = wordbank.getWordBank();
+        //Word target = wordbank.getTargetWord();
+        return wBank.contains(guess);
     }
     
     /**
@@ -57,8 +60,9 @@ public class WordValidator {
     /**
      * Logic for when a guess is incorrect.
      * @param guess
-     */
+     
     public void wordNotFound(Word guess) {
         guess.addAttempt();
     }
+    */
 }

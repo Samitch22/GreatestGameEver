@@ -33,7 +33,7 @@ public class WordTimer {
      * Gets a new target word. Implements the task to be completed when the 
      * timer is up.
      * @return
-     */
+     
     public Word getNewTargetWord() {
         return board.getNextTargetWord();
     }

@@ -26,7 +26,7 @@ public class WordBank {
     private       BufferedReader reader = null;
     private       Word           targetWord;
     private       String         wordList;
-    private        int           numWords;
+    private       int           numWords;
     private       boolean        gameover;
 
     /**
@@ -47,7 +47,7 @@ public class WordBank {
     /**
      * Gets the target word.
      * @return
-     */
+     
     public Word getTargetWord() {
         return targetWord;
     }
@@ -55,7 +55,7 @@ public class WordBank {
     /**
      * Sets the target word.
      * @param targetWord
-     */
+     
     public void setTargetWord(Word targetWord) {
         this.targetWord = targetWord;
     }
@@ -92,7 +92,7 @@ public class WordBank {
             if ( newWord != null )
                 wordBank.add(newWord);
         }
-        this.setTargetWord(this.getRandomWord());
+        //this.setTargetWord(this.getRandomWord());
         this.numWords = this.calcWords();
     }
     
@@ -106,16 +106,16 @@ public class WordBank {
     
     /**
      * Sets a new target word.
-     */
+     
     private void setNextTargetWord() {
-        targetWord.addAttempt();
+        //targetWord.addAttempt();
         this.setTargetWord(this.getRandomWord());
     }
     
     /**
      * Returns a new target word.
      * @return
-     */
+     
     public Word getNewTargetWord() {
         setNextTargetWord();
         return getTargetWord();
@@ -151,7 +151,7 @@ public class WordBank {
 
     /**
      * Gets a random word from the list.
-     */
+     
     private Word getRandomWord() {
         Word returnWord = null;
         Random newTarget = new Random();

@@ -126,7 +126,7 @@ public final class Board {
             }
         }
         
-        this.getTargetWord();
+        //this.getTargetWord();
     }
     
     /**
@@ -192,7 +192,7 @@ public final class Board {
     /**
      * Gets the current target word.
      * @return
-     */
+     
     public Word getTargetWord() {
         Word targetWord = wordBank.getTargetWord();
         this.setTargetKey(targetWord);
@@ -202,7 +202,7 @@ public final class Board {
     /**
      * Gets the next target word from the word bank.
      * @return
-     */
+     
     public Word getNextTargetWord() {
         Word targetWord = null;
         if ( this.wordBank.getRemainingWords() == 0 ) {
