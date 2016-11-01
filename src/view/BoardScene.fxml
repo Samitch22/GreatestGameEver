@@ -12,65 +12,70 @@
         <URL value="@boardscene.css" />
     </stylesheets>
    <children>
-      <VBox fx:id="vbContent" alignment="CENTER" layoutX="311.0" layoutY="8.0">
+      <VBox fx:id="vbContent" alignment="CENTER" layoutX="155.0" prefHeight="785.0" prefWidth="970.0">
          <children>
             <HBox alignment="TOP_CENTER" style="-fx-border-color: black;">
                <children>
-                  <Label alignment="CENTER" contentDisplay="CENTER" text="Target Word: " HBox.hgrow="NEVER">
-                     <font>
-                        <Font size="14.0" />
-                     </font>
-                     <HBox.margin>
-                        <Insets top="8.0" />
-                     </HBox.margin>
-                  </Label>
-                  <Label fx:id="lblTarget" alignment="CENTER" prefHeight="35.0" style="-fx-background-color: transparent;" text="Test">
+                  <Label alignment="CENTER" contentDisplay="CENTER" text="The Greatest Game Ever" HBox.hgrow="NEVER">
                      <font>
                         <Font name="System Bold" size="24.0" />
                      </font>
+                     <HBox.margin>
+                        <Insets />
+                     </HBox.margin>
                   </Label>
                </children>
             </HBox>
-            <GridPane fx:id="gpBoard" alignment="CENTER" VBox.vgrow="NEVER">
-              <columnConstraints>
-                <ColumnConstraints fillWidth="false" hgrow="NEVER" />
-                <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-                  <ColumnConstraints fillWidth="false" halignment="CENTER" hgrow="NEVER" />
-              </columnConstraints>
-              <rowConstraints>
-                <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-                  <RowConstraints fillHeight="false" valignment="CENTER" vgrow="NEVER" />
-              </rowConstraints>
+            <HBox prefHeight="700.0" prefWidth="970.0">
                <children>
+                  <GridPane fx:id="gpBoard">
+                    <rowConstraints>
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                      <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                        <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
+                    </rowConstraints>
+                     <columnConstraints>
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                     </columnConstraints>
+                  </GridPane>
+                  <TextArea editable="false" focusTraversable="false" pickOnBounds="false" prefWidth="200.0" text="        Word Bank">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </TextArea>
                </children>
-            </GridPane>
-            <Label alignment="CENTER" text="How to play: Click the first and last letters of the target word.">
+            </HBox>
+            <Label prefHeight="27.0" prefWidth="635.0" text="How to play: Click the first and last letters of the word.">
                <font>
                   <Font size="18.0" />
                </font>
+               <VBox.margin>
+                  <Insets top="10.0" />
+               </VBox.margin>
             </Label>
          </children>
       </VBox>
