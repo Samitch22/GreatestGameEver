@@ -21,10 +21,11 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.TextArea;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
+import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
@@ -54,7 +55,7 @@ public class BoardController extends TimerTask implements Initializable {
     @FXML
     private GridPane gpBoard;
     @FXML
-    private TextArea taWordBank;
+    private VBox     vbWordBank;
     
     @Override
     public void run() {
@@ -105,7 +106,9 @@ public class BoardController extends TimerTask implements Initializable {
         }      
         
         for ( Word w : this.board.getWordBank().getWordBank() ) {
-            taWordBank.setText( taWordBank.getText() + w.toString() + "\n\n");
+            Label wLbl = new Label(w.toString());
+            wLbl.setStyle("-fx-font-size: 20");
+            vbWordBank.getChildren().add(wLbl);
         }
     }
     
@@ -419,10 +422,10 @@ public class BoardController extends TimerTask implements Initializable {
             mark(b);
         }
         
-        // Iterate through the text area to find the word to mark found
-        for ( String line : taWordBank.getText().split("\\n")) {
-            // TODO
-        }
+        // Iterate through the VBox labels to find the word to mark found
+//        for ( String line : vbWordBank.getChildren().contains(bc)) { //toarray
+//            // TODO
+//        }
     }
     
     /**
