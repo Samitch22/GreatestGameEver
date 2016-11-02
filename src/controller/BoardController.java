@@ -21,6 +21,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
@@ -52,6 +53,8 @@ public class BoardController extends TimerTask implements Initializable {
     private AnchorPane rootPane;
     @FXML
     private GridPane gpBoard;
+    @FXML
+    private TextArea taWordBank;
     
     @Override
     public void run() {
@@ -100,6 +103,10 @@ public class BoardController extends TimerTask implements Initializable {
                 temp.setOnAction( this::handleSelected );
             }
         }      
+        
+        for ( Word w : this.board.getWordBank().getWordBank() ) {
+            taWordBank.setText( taWordBank.getText() + w.toString() + "\n\n");
+        }
     }
     
     /**
@@ -405,9 +412,16 @@ public class BoardController extends TimerTask implements Initializable {
             }
         }
         
+        String word = "";
+        
         // Mark all of the buttons from the found word
         for ( Node b : selected ) {
             mark(b);
+        }
+        
+        // Iterate through the text area to find the word to mark found
+        for ( String line : taWordBank.getText().split("\\n")) {
+            // TODO
         }
     }
     

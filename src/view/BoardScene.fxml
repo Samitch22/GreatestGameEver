@@ -12,9 +12,9 @@
         <URL value="@boardscene.css" />
     </stylesheets>
    <children>
-      <VBox fx:id="vbContent" alignment="CENTER" layoutX="155.0" prefHeight="785.0" prefWidth="970.0">
+      <VBox fx:id="vbContent" alignment="CENTER" layoutX="145.0" prefHeight="800.0" prefWidth="990.0">
          <children>
-            <HBox alignment="TOP_CENTER" style="-fx-border-color: black;">
+            <HBox alignment="TOP_CENTER" style="-fx-border-color: black; -fx-background-color: #00ff00;">
                <children>
                   <Label alignment="CENTER" contentDisplay="CENTER" text="The Greatest Game Ever" HBox.hgrow="NEVER">
                      <font>
@@ -26,9 +26,17 @@
                   </Label>
                </children>
             </HBox>
-            <HBox prefHeight="700.0" prefWidth="970.0">
+            <Label focusTraversable="false" layoutX="250.0" text="Word Bank">
+               <padding>
+                  <Insets left="810.0" />
+               </padding>
+               <font>
+                  <Font name="System Bold" size="18.0" />
+               </font>
+            </Label>
+            <HBox prefHeight="685.0" prefWidth="970.0">
                <children>
-                  <GridPane fx:id="gpBoard">
+                  <GridPane fx:id="gpBoard" prefHeight="685.0" prefWidth="800.0">
                     <rowConstraints>
                         <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
                         <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
@@ -46,25 +54,25 @@
                         <RowConstraints minHeight="10.0" percentHeight="0.0" vgrow="NEVER" />
                     </rowConstraints>
                      <columnConstraints>
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
-                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" prefWidth="55.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
+                        <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
                      </columnConstraints>
                   </GridPane>
-                  <TextArea editable="false" focusTraversable="false" pickOnBounds="false" prefWidth="200.0" text="        Word Bank">
+                  <TextArea fx:id="taWordBank" editable="false" focusTraversable="false" pickOnBounds="false" prefHeight="685.0" prefWidth="190.0" HBox.hgrow="NEVER">
                      <font>
-                        <Font name="System Bold" size="18.0" />
+                        <Font size="16.0" />
                      </font>
                   </TextArea>
                </children>
@@ -74,7 +82,7 @@
                   <Font size="18.0" />
                </font>
                <VBox.margin>
-                  <Insets top="10.0" />
+                  <Insets top="25.0" />
                </VBox.margin>
             </Label>
          </children>
