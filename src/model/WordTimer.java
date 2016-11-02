@@ -25,17 +25,8 @@ public class WordTimer {
      * This class implements a timer to be used by the word search board.
      * @param board
      */
-    public WordTimer(Board board) {
+    public WordTimer(Board board) { // IF multiple timers are needed, use task as parameter instead of board.
         this.board = board;
-    }
-    
-    /**
-     * Gets a new target word. Implements the task to be completed when the 
-     * timer is up.
-     * @return
-     
-    public Word getNewTargetWord() {
-        return board.getNextTargetWord();
     }
     
     /**

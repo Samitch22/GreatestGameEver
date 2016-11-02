@@ -52,7 +52,6 @@ public class Score {
         currentScore = 0;
         for ( Word word : foundWords ) {
             currentScore += pointValue*(baseMulti-(word.toString().length()));
-            //currentScore += pointValue/word.getAttempts();
         }
         if ( currentScore > highScore ) {
             //setHighScore(currentScore);

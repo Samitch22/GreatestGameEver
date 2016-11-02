@@ -21,7 +21,6 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
-import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
@@ -45,7 +44,6 @@ public class BoardController extends TimerTask implements Initializable {
     private Object[][][] wordKey;
     private Object[]     targetKeys;
     private int          btnKey;
-    private int          targetKey;
     private static BoardController bc;
     private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
     private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
@@ -54,19 +52,14 @@ public class BoardController extends TimerTask implements Initializable {
     private AnchorPane rootPane;
     @FXML
     private GridPane gpBoard;
-    @FXML
-    private Label    lblTarget;
     
     @Override
     public void run() {
         System.out.println("Time's up!");
         Platform.runLater(() -> {
-            bc.addAttempt();
-            bc.getNewTargetWord();
             bc.resetSelection();
             playSound(this.buzzer);
         });
-        System.out.println("The new target word is: " + bc.board.getWordBank().getTargetWord());
     }
     
     @Override
@@ -93,7 +86,6 @@ public class BoardController extends TimerTask implements Initializable {
         selected = new ArrayList<>();
         wordKey = board.getWordKeys();
         targetKeys = board.getTargetKeys();
-        targetKey = board.getTargetKey();
         
         // Load the board into the grid pane as buttons
         for ( int r = 0; r < Board.getBoardSize(); r++ ) {
@@ -116,7 +108,6 @@ public class BoardController extends TimerTask implements Initializable {
     @FXML
     private void startGame() {
         board.startGame();
-        this.showTargetWord();
     }
     
     /**
@@ -137,11 +128,10 @@ public class BoardController extends TimerTask implements Initializable {
             
             // Always outline selected button.
             selected.add(selectedButton);
-            selectedButton.setStyle("-fx-border: 12px solid; -fx-border-color: green;");
+            selectedButton.setStyle("-fx-border-color: green;");
         }
         else if ( selectedButton != selected.get(pos)) {
             if ( this.validateClick(selectedButton) == false ) {
-                addAttempt();
                 resetSelection();
                 playSound(this.buzzer);
             }
@@ -164,21 +154,17 @@ public class BoardController extends TimerTask implements Initializable {
         int c = getC(b);
         
         int num;
+        boolean returnValue = false;
         if ( selected.isEmpty() ) {
             for ( int i = 0; i < board.getNumWords(); i++ ) {
                 Character compare = (Character) this.wordKey[r][c][i];
                 
                 if ( compare != null ) {
-                    if ( i == targetKey ) {
-                        btnKey = i;
-                        return true;
-                    }
-                    else {
-                        System.out.println("Did not find first letter...");
-                        return false;
-                    }
+                    btnKey = i;
+                    returnValue = true;
                 }
             }
+            return returnValue;
         }
         else {
             for ( int i = 0; i < board.getNumWords(); i++ ) {
@@ -187,20 +173,15 @@ public class BoardController extends TimerTask implements Initializable {
                 if ( compare != null ) {
                     num = i;
                     if ( num == this.btnKey ) {
-                        if ( num == targetKey ) {
-                            selected.add(b);
-                            if ( foundWord( (Word)targetKeys[num] ) == true ) {
-                                markWord();
-                                playSound(correct);
-                                selected.clear();
-                                getNewTargetWord();
-                                resetTimer();
-                                if ( this.board.isGameover() == true )
-                                    this.gameOver();
-                                return true;
-                            }
-                            else
-                                return false;
+                        selected.add(b);
+                        if ( foundWord( (Word)targetKeys[num] ) == true ) {
+                            markWord();
+                            playSound(correct);
+                            selected.clear();
+                            resetTimer();
+                            if ( this.board.isGameover() == true )
+                                this.gameOver();
+                            return true;
                         }
                         else
                             return false;
@@ -261,30 +242,6 @@ public class BoardController extends TimerTask implements Initializable {
      */
     public Board getBoard() {
         return board;
-    }
-    
-    /**
-     * Displays the target word.
-     */
-    @FXML
-    private void showTargetWord() {
-        this.targetKey = board.getTargetKey();
-        this.lblTarget.setText(board.getTargetWord().toString());
-    }
-    
-    /**
-     * Gets the next target word.
-     */
-    private void getNewTargetWord() {
-        this.board.getNextTargetWord();
-        this.showTargetWord();
-    }
-    
-    /**
-     * Adds an attempt to the current target word.
-     */
-    private void addAttempt() {
-        this.board.getWordBank().getTargetWord().addAttempt();
     }
     
     /**

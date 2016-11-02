@@ -14,8 +14,6 @@ import java.util.Objects;
 public class Word implements Comparable<Word> {
 
     private final String name;
-    //private       int    attempts;
-    private final int    increment = 1;
 
     /**
      *
@@ -23,16 +21,6 @@ public class Word implements Comparable<Word> {
      */
     public Word(String name) {
         this.name = name;
-        //this.attempts = 0;
-    }
-    
-    /**
-     * Increments the number of attempts made to solve This word.
-     */
-    /**public void addAttempt() {
-        int currentAttempts = this.getAttempts();
-        currentAttempts += increment;
-        this.setAttempts(currentAttempts);
     }
     
     /**
@@ -42,23 +30,7 @@ public class Word implements Comparable<Word> {
     public String getName() {
         return name;
     }
-    
-    /**
-     * Returns the number of attempts made to solve This word.
-     * @return
-     */
-    /**public int getAttempts() {
-        return attempts;
-    }
 
-    /**
-     * Sets the number of attempts made to solve This word.
-     * @param attempts
-     */
-    /**private void setAttempts(int attempts) {
-        this.attempts = attempts;
-    }
-    */
     @Override
     public int hashCode() {
         int hash = 5;
