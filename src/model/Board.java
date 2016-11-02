@@ -190,32 +190,6 @@ public final class Board {
     }
 
     /**
-     * Gets the current target word.
-     * @return
-     
-    public Word getTargetWord() {
-        Word targetWord = wordBank.getTargetWord();
-        this.setTargetKey(targetWord);
-        return targetWord;
-    }
-    
-    /**
-     * Gets the next target word from the word bank.
-     * @return
-     
-    public Word getNextTargetWord() {
-        Word targetWord = null;
-        if ( this.wordBank.getRemainingWords() == 0 ) {
-            this.wordBank.gameOver();
-        }
-        else {
-            targetWord = wordBank.getNewTargetWord();
-            this.setTargetKey(targetWord);
-        }
-        return targetWord;
-    }
-
-    /**
      * Gets the word timer.
      * @return
      */
@@ -245,34 +219,6 @@ public final class Board {
      */
     public Object[][][] getWordKeys() {
         return wordKeys;
-    }
-
-    /**
-     * Gets the target word's key.
-     * @return
-     */
-    public int getTargetKey() {
-        return targetKey;
-    }
-
-    /**
-     * Calculates a change in the current target key.
-     * @param targetKey
-     */
-    private void setTargetKey(Word w) {
-        int key = this.targetKey;
-        Word k;
-        
-        Word[] keys = (Word[]) this.getTargetKeys();
-        for ( int i = 0; i < keys.length; i++ ) {
-            k = keys[i];
-            if ( w.equals(k) ) {
-                key = i;
-                break;
-            }
-        }
-        
-        this.targetKey = key;
     }
 
     /**

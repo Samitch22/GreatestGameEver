@@ -30,7 +30,6 @@ public class WordValidator {
      */
     public boolean validateWord(Word guess) {
         List<Word> wBank = wordbank.getWordBank();
-        //Word target = wordbank.getTargetWord();
         return wBank.contains(guess);
     }
     
@@ -41,16 +40,14 @@ public class WordValidator {
      */
     public boolean foundWord(Word w) {
         boolean isFound = false;
-        if ( this.wordbank.getTargetWord().equals(w) ) {
-            int index = this.wordbank.getWordBank().indexOf(this.wordbank.getTargetWord());
-            this.wordbank.getScore().addFoundWord(this.wordbank.getTargetWord());
-            this.wordbank.getWordBank().remove(index);
+        if ( this.wordbank.getWordBank().contains(w) ) {
+            this.wordbank.getScore().addFoundWord(w);
+            this.wordbank.getWordBank().remove(w);
             if( this.wordbank.getWordBank().isEmpty() ) {
                 this.wordbank.gameOver();
                 isFound = true;
             }
             else{
-                this.wordbank.getNewTargetWord();   
                 isFound = true;
             }
         }
