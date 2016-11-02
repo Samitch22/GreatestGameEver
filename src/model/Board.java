@@ -125,8 +125,6 @@ public final class Board {
                 }
             }
         }
-        
-        //this.getTargetWord();
     }
     
     /**
