@@ -46,6 +46,7 @@ public class BoardController extends TimerTask implements Initializable {
     private Object[][][] wordKey;
     private Object[]     targetKeys;
     private int          btnKey;
+    private String       wordStr;
     private static BoardController bc;
     private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
     private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
@@ -159,7 +160,7 @@ public class BoardController extends TimerTask implements Initializable {
      * @return 
      */
     private boolean validateClick(Node b) {
-
+        Button selectedButton = (Button) b;
         int r = getR(b);
         int c = getC(b);
         
@@ -171,6 +172,7 @@ public class BoardController extends TimerTask implements Initializable {
                 
                 if ( compare != null ) {
                     btnKey = i;
+                    wordStr = selectedButton.getText();
                     returnValue = true;
                 }
             }
@@ -185,6 +187,7 @@ public class BoardController extends TimerTask implements Initializable {
                     if ( num == this.btnKey ) {
                         selected.add(b);
                         if ( foundWord( (Word)targetKeys[num] ) == true ) {
+                            wordStr += selectedButton.getText();
                             markWord();
                             playSound(correct);
                             selected.clear();
@@ -290,6 +293,7 @@ public class BoardController extends TimerTask implements Initializable {
             b.setStyle("");
         }
         selected.clear();
+        wordStr = "";
     }
     
     /**
@@ -415,17 +419,13 @@ public class BoardController extends TimerTask implements Initializable {
             }
         }
         
-        String word = "";
-        
         // Mark all of the buttons from the found word
         for ( Node b : selected ) {
             mark(b);
         }
-        
-        // Iterate through the VBox labels to find the word to mark found
-//        for ( String line : vbWordBank.getChildren().contains(bc)) { //toarray
-//            // TODO
-//        }
+
+        markWordBank();
+                
     }
     
     /**
@@ -435,6 +435,32 @@ public class BoardController extends TimerTask implements Initializable {
         Button temp = (Button) b;
         temp.setDisable(true);
         temp.setStyle("-fx-background-color: green");
+    }
+    
+    /**
+     * Iterates through the vbWordBank labels to mark the found word.
+     */
+    private void markWordBank() {
+        
+        int first   = 0;
+        int second  = 1;
+    
+        Node[] wordBank = new Node[vbWordBank.getChildren().size()];
+        vbWordBank.getChildren().toArray(wordBank);
+        
+        for (  Node lblWord : wordBank ) {
+            Label temp = (Label) lblWord;
+            char[] lblW = temp.getText().toCharArray();
+            int last = lblW.length - 1;
+            if ( wordStr.charAt(first) == lblW[first] && wordStr.charAt(second) == lblW[last] ) {
+                temp.setStyle("-fx-font-size: 18; -fx-background-color: #f44242");
+                break;
+            }
+            else if ( wordStr.charAt(first) == lblW[last] && wordStr.charAt(second) == lblW[first] ) {
+                temp.setStyle("-fx-font-size: 18; -fx-background-color: #f44242");
+                break;
+            }
+        }
     }
     
     /**
