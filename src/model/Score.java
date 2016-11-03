@@ -25,13 +25,14 @@ import java.util.List;
 public class Score {
     
     private       int        currentScore;
-    private       Integer        highScore;
+    private       Integer    highScore;
     private final List<Word> foundWords;
     private final int        pointValue = 1000;
-    private final String         hsFile = "highscore.txt";
+    private final int        baseMulti = 15;
+    private final String     hsFile = "highscore.txt";
     private       File           file;
     private       BufferedReader reader;
-    private final int            baseMulti = 15;
+    
     //private       BufferedWriter writer;
     private PrintWriter writer;
 
@@ -51,7 +52,7 @@ public class Score {
     private void calculatePoints() {
         currentScore = 0;
         for ( Word word : foundWords ) {
-            currentScore += pointValue*(baseMulti-(word.toString().length()));
+            currentScore += pointValue *( baseMulti - word.toString().length() );
         }
         if ( currentScore > highScore ) {
             //setHighScore(currentScore);

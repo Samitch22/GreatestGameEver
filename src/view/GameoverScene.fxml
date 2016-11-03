@@ -17,7 +17,7 @@
             <Font size="64.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" layoutX="441.0" layoutY="312.0" prefHeight="176.0" prefWidth="398.0">
+      <VBox alignment="CENTER" layoutX="315.0" layoutY="312.0" prefHeight="176.0" prefWidth="650.0">
          <children>
             <Label text="Game Over!">
                <font>
@@ -72,12 +72,12 @@
       </VBox>
       <HBox alignment="CENTER" layoutX="483.0" layoutY="539.0">
          <children>
-            <Button fx:id="btnStart" onAction="#handleStart" mnemonicParsing="false" text="Start New Game" HBox.hgrow="NEVER">
+            <Button fx:id="btnStart" mnemonicParsing="false" onAction="#handleStart" text="Start New Game" HBox.hgrow="NEVER">
                <HBox.margin>
                   <Insets right="100.0" />
                </HBox.margin>
             </Button>
-            <Button fx:id="btnQuit" onAction="#handleQuit" mnemonicParsing="false" prefHeight="25.0" prefWidth="111.0" text="Quit" />
+            <Button fx:id="btnQuit" mnemonicParsing="false" onAction="#handleQuit" prefHeight="25.0" prefWidth="111.0" text="Quit" />
          </children>
          <opaqueInsets>
             <Insets />

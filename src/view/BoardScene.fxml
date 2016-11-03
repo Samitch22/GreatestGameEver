@@ -26,14 +26,6 @@
                   </Label>
                </children>
             </HBox>
-            <Label focusTraversable="false" layoutX="250.0" text="Word Bank">
-               <padding>
-                  <Insets left="810.0" />
-               </padding>
-               <font>
-                  <Font name="System Bold" size="18.0" />
-               </font>
-            </Label>
             <HBox prefHeight="685.0" prefWidth="970.0">
                <children>
                   <GridPane fx:id="gpBoard" prefHeight="685.0" prefWidth="800.0">
@@ -70,11 +62,18 @@
                         <ColumnConstraints hgrow="NEVER" minWidth="10.0" percentWidth="0.0" />
                      </columnConstraints>
                   </GridPane>
-                  <TextArea fx:id="taWordBank" editable="false" focusTraversable="false" pickOnBounds="false" prefHeight="685.0" prefWidth="190.0" HBox.hgrow="NEVER">
-                     <font>
-                        <Font size="16.0" />
-                     </font>
-                  </TextArea>
+                  <VBox fx:id="vbWordBank" prefHeight="685.0" prefWidth="185.0" spacing="18.0">
+                     <children>
+                        <Label focusTraversable="false" text="Word Bank">
+                           <font>
+                              <Font name="System Bold" size="18.0" />
+                           </font>
+                           <padding>
+                              <Insets left="50.0" />
+                           </padding>
+                        </Label>
+                     </children>
+                  </VBox>
                </children>
             </HBox>
             <Label prefHeight="27.0" prefWidth="635.0" text="How to play: Click the first and last letters of the word.">
