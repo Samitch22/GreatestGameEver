@@ -47,6 +47,7 @@ public class BoardController extends TimerTask implements Initializable {
     private Object[]     targetKeys;
     private int          btnKey;
     private String       wordStr;
+    private String       wholeWord;
     private static BoardController bc;
     private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
     private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
@@ -294,6 +295,7 @@ public class BoardController extends TimerTask implements Initializable {
         }
         selected.clear();
         wordStr = "";
+        wholeWord = "";
     }
     
     /**
@@ -418,10 +420,12 @@ public class BoardController extends TimerTask implements Initializable {
                 }
             }
         }
-        
+        wholeWord = "";
         // Mark all of the buttons from the found word
         for ( Node b : selected ) {
+            Button temp = (Button) b;
             mark(b);
+            wholeWord += temp.getText();
         }
 
         markWordBank();
@@ -452,13 +456,15 @@ public class BoardController extends TimerTask implements Initializable {
             Label temp = (Label) lblWord;
             char[] lblW = temp.getText().toCharArray();
             int last = lblW.length - 1;
-            if ( wordStr.charAt(first) == lblW[first] && wordStr.charAt(second) == lblW[last] ) {
-                temp.setStyle("-fx-font-size: 18; -fx-background-color: #f44242");
-                break;
-            }
-            else if ( wordStr.charAt(first) == lblW[last] && wordStr.charAt(second) == lblW[first] ) {
-                temp.setStyle("-fx-font-size: 18; -fx-background-color: #f44242");
-                break;
+            if ( wholeWord.length() == lblW.length ) {
+                if ( wordStr.charAt(first) == lblW[first] && wordStr.charAt(second) == lblW[last] ) {
+                    temp.setStyle("-fx-font-size: 18; -fx-background-color: #f44242");
+                    break;
+                }
+                else if ( wordStr.charAt(first) == lblW[last] && wordStr.charAt(second) == lblW[first] ) {
+                    temp.setStyle("-fx-font-size: 18; -fx-background-color: #f44242");
+                    break;
+                }
             }
         }
     }
