@@ -116,6 +116,70 @@ public final class Board {
             this.inputWord(currentWord, direction, isBackward, tempRow, tempCol);
         }
         
+        //Iterating through all the words in the list
+        for ( int w = 0; w < this.getNumDistractions(); w++ ) {
+            
+            //Grabs next word from the list
+            Word currentWord = this.wordBank.getDistractionBank().get(w);
+            
+            //Checks if word will be backwords or not
+            boolean isBackward = this.randomBackward();
+            
+            //Picks a starting direction to choose
+            int direction = this.randomDirection();
+            
+            //Determines if a word will fit or not
+            boolean wordFits = false;
+            
+            //Picks a random point on the board
+            int tempRow = this.randomPoint(); 
+            int tempCol = this.randomPoint();
+            
+            while( ! wordFits ){
+                //Picks a direction
+                switch (direction) {
+                    case 0: // Vertical
+                        if(currentWord.getName().length() + tempRow < rSize && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ){
+                            wordFits = true;
+                            break;
+                        }
+                        else {
+                            direction = this.incrementDirection(direction);
+                        }
+                    case 1: // Horizontal
+                        if(currentWord.getName().length() + tempCol < cSize && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ){
+                            wordFits = true;
+                            break;
+                        }
+                        else {
+                            direction = this.incrementDirection(direction);
+                        }
+                    case 2: //Main Diagonal
+                        if(currentWord.getName().length() + tempRow < rSize && currentWord.getName().length() + tempCol < cSize && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ) {
+                            wordFits = true;
+                            break;
+                        }
+                        else {
+                            direction = this.incrementDirection(direction);
+                        }
+                    case 3: //Secondary Diagonal
+                        if(currentWord.getName().length() + tempRow < rSize && tempCol - currentWord.getName().length() > 0 && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ) {
+                            wordFits = true;
+                            break;
+                        }
+                        else {
+                            direction = this.incrementDirection(direction);
+                        }
+                    default:
+                        tempRow = this.randomPoint(); 
+                        tempCol = this.randomPoint();
+                        direction = this.randomDirection();
+                        break;
+                }
+            }
+            this.inputWord(currentWord, direction, isBackward, tempRow, tempCol);
+        }
+        
         // Puts random letters on the board.
         for ( int r = 0; r < Board.boardSize; r++ ) {
             for ( int c = 0; c < Board.boardSize; c++ )
@@ -140,6 +204,7 @@ public final class Board {
      */
     private void loadWordBank() throws IOException {
         this.wordBank.createWordBank();
+        this.wordBank.createDistractionBank();
     }
 
     /**
@@ -201,6 +266,14 @@ public final class Board {
      */
     public int getNumWords() {
         return wordBank.getNumWords();
+    }
+    
+    /**
+     * Returns the number of words in the distraction bank.
+     * @return
+     */
+    public int getNumDistractions() {
+        return wordBank.getNumDistractions();
     }
 
     /**

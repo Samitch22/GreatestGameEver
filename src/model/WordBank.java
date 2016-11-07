@@ -19,13 +19,17 @@ import java.util.Random;
 public class WordBank {
     
     private final List<Word>     wordBank;
+    private final List<Word>     distractionBank;
     private final Score          score;
     private final List<String>   lists;
     private final WordFactory    factory;
     private final WordValidator  validator;
-    private       BufferedReader reader = null;
+    private       BufferedReader wordReader = null;
+    private       BufferedReader distractionReader = null;
     private       String         wordList;
+    private       String         distractionList;
     private       int            numWords;
+    private       int            numDistractions;
     private       boolean        gameover;
 
     /**
@@ -34,11 +38,13 @@ public class WordBank {
      */
     public WordBank(Score s) {
         wordBank = new ArrayList<>();
+        distractionBank = new ArrayList<>();
         lists = new ArrayList<>();
         factory = new WordFactory();
         validator = new WordValidator(this);
         setWordList();
         numWords = 0;
+        numDistractions = 0;
         score = s;
         gameover = false;
     }
@@ -68,9 +74,9 @@ public class WordBank {
     public void createWordBank() throws IOException  {
         String line;
         Word newWord;
-        getReader();
+        getWordReader();
         
-        while ( (line = reader.readLine()) != null ) {
+        while ( (line = wordReader.readLine()) != null ) {
             newWord = factory.makeWord(line);
             if ( newWord != null )
                 wordBank.add(newWord);
@@ -79,11 +85,36 @@ public class WordBank {
     }
     
     /**
+     * Adds the words from the list to the word bank.
+     * @throws IOException
+     */
+    public void createDistractionBank() throws IOException  {
+        String line;
+        Word newWord;
+        getDistractionReader();
+        
+        while ( (line = distractionReader.readLine()) != null ) {
+            newWord = factory.makeWord(line);
+            if ( newWord != null )
+                distractionBank.add(newWord);
+        }
+        this.numDistractions = this.calcDistractions();
+    }
+    
+    /**
      * Returns the list of target words.
      * @return
      */
     public List<Word> getWordBank() {
         return wordBank;
+    }
+    
+    /**
+     * Returns the list of distraction words.
+     * @return
+     */
+    public List<Word> getDistractionBank() {
+        return distractionBank;
     }
     
     /**
@@ -135,11 +166,26 @@ public class WordBank {
     }
     
     /**
+     * Calculates the number of words in the distraction bank.
+     */
+    private int calcDistractions() {
+        return distractionBank.size();
+    }
+    
+    /**
      * Gets the number of words in the word bank.
      * @return
      */
     public int getNumWords() {
         return numWords;
+    }
+    
+    /**
+     * Gets the number of words in the distraction bank.
+     * @return
+     */
+    public int getNumDistractions() {
+        return numDistractions;
     }
 
     /**
@@ -149,30 +195,50 @@ public class WordBank {
     public String getWordList() {
         return wordList;
     }
+    
+    /**
+     * Gets the name of the distraction list file.
+     * @return
+     */
+    public String getDistractionList() {
+        return distractionList;
+    }
 
     /**
-     * Sets a random word list as the list of words for the word bank.
+     * Sets a random word list as the list of words for the word and distraction banks.
      */
     private void setWordList() {
         String words;
         Random index = new Random();
         // Manually add any list of words 
-        lists.add("/files/wordLists/gg.txt"); 
-        lists.add("/files/wordLists/pizza.txt");
-        lists.add("/files/wordLists/PeriodicTable.txt");
+        lists.add("gg.txt"); 
+        lists.add("pizza.txt");
+        lists.add("PeriodicTable.txt");
         words = lists.get(index.nextInt(lists.size()));
-        this.wordList = words;
+        this.wordList = "/files/wordLists/" + words;
+        this.distractionList = "/files/distractionLists/" + words;
         System.out.println("Got the words!");
     }
 
     /**
-     * Gets the buffered reader for file I/O.
+     * Gets the buffered reader for file I/O for the word list.
      * @return 
      */
-    private BufferedReader getReader() {
+    private BufferedReader getWordReader() {
 
-        reader = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(wordList) ));
+        wordReader = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(wordList) ));
 
-        return reader;
+        return wordReader;
+    }
+    
+    /**
+     * Gets the buffered reader for file I/O for the distraction list.
+     * @return 
+     */
+    private BufferedReader getDistractionReader() {
+
+        distractionReader = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(distractionList) ));
+
+        return distractionReader;
     }
 }
