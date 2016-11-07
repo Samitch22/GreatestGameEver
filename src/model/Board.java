@@ -113,7 +113,7 @@ public final class Board {
                         break;
                 }
             }
-            this.inputWord(currentWord, direction, isBackward, tempRow, tempCol);
+            this.inputWord(currentWord, direction, isBackward, tempRow, tempCol, false);
         }
         
         //Iterating through all the words in the list
@@ -126,7 +126,7 @@ public final class Board {
             boolean isBackward = this.randomBackward();
             
             //Picks a starting direction to choose
-            int direction = this.randomDirection();
+            int direction = 0;
             
             //Determines if a word will fit or not
             boolean wordFits = false;
@@ -135,12 +135,15 @@ public final class Board {
             int tempRow = this.randomPoint(); 
             int tempCol = this.randomPoint();
             
+            int tries = 0;
+            
             while( ! wordFits ){
                 //Picks a direction
                 switch (direction) {
                     case 0: // Vertical
                         if(currentWord.getName().length() + tempRow < rSize && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ){
                             wordFits = true;
+                            this.inputWord(currentWord, direction, isBackward, tempRow, tempCol, true);
                             break;
                         }
                         else {
@@ -149,6 +152,7 @@ public final class Board {
                     case 1: // Horizontal
                         if(currentWord.getName().length() + tempCol < cSize && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ){
                             wordFits = true;
+                            this.inputWord(currentWord, direction, isBackward, tempRow, tempCol, true);
                             break;
                         }
                         else {
@@ -157,6 +161,7 @@ public final class Board {
                     case 2: //Main Diagonal
                         if(currentWord.getName().length() + tempRow < rSize && currentWord.getName().length() + tempCol < cSize && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ) {
                             wordFits = true;
+                            this.inputWord(currentWord, direction, isBackward, tempRow, tempCol, true);
                             break;
                         }
                         else {
@@ -165,6 +170,7 @@ public final class Board {
                     case 3: //Secondary Diagonal
                         if(currentWord.getName().length() + tempRow < rSize && tempCol - currentWord.getName().length() > 0 && this.checkWordSpace(currentWord.getName(), direction, tempRow, tempCol) == true ) {
                             wordFits = true;
+                            this.inputWord(currentWord, direction, isBackward, tempRow, tempCol, true);
                             break;
                         }
                         else {
@@ -173,11 +179,13 @@ public final class Board {
                     default:
                         tempRow = this.randomPoint(); 
                         tempCol = this.randomPoint();
-                        direction = this.randomDirection();
+                        direction = 0;
+                        tries++;
+                        if ( tries == 14 )
+                            wordFits = true; // breaks out of loop but does not add the distraction word to the board
                         break;
                 }
             }
-            this.inputWord(currentWord, direction, isBackward, tempRow, tempCol);
         }
         
         // Puts random letters on the board.
@@ -383,7 +391,7 @@ public final class Board {
      * Places a word onto the board
      * @param direction 
      */
-    private void inputWord(Word w, int direction, boolean isBackward, int row, int col) {
+    private void inputWord(Word w, int direction, boolean isBackward, int row, int col, boolean isDistraction) {
         String word = w.toString();
         int first = 0;
         int last = word.length()-1;
@@ -403,7 +411,8 @@ public final class Board {
                         wordKeys[row+r][col][targetKey] = word.charAt(r);
                     }
                 }
-                targetKeys[targetKey] = w;
+                if ( ! isDistraction )
+                    targetKeys[targetKey] = w;
                 break;
             case 1: //Vertical
                 for(int c = 0; c < word.length(); c++) {
@@ -415,7 +424,8 @@ public final class Board {
                         wordKeys[row][col+c][targetKey] = word.charAt(c);
                     }
                 }
-                targetKeys[targetKey] = w;
+                if ( ! isDistraction )
+                    targetKeys[targetKey] = w;
                 break;
             case 2: //Main Diagonal
                 for(int d = 0; d < word.length(); d++) {
@@ -427,7 +437,8 @@ public final class Board {
                         wordKeys[row+d][col+d][targetKey] = word.charAt(d);
                     }
                 }
-                targetKeys[targetKey] = w;
+                if ( ! isDistraction )
+                    targetKeys[targetKey] = w;
                 break;
             case 3: //Secondary Diagonal
                 for(int d = 0; d < word.length(); d++) {
@@ -439,7 +450,8 @@ public final class Board {
                         wordKeys[row+d][col-d][targetKey] = word.charAt(d);
                     }
                 }
-                targetKeys[targetKey] = w;
+                if ( ! isDistraction )
+                    targetKeys[targetKey] = w;
                 break;
             default:
                 break;
