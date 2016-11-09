@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TimerTask;
+import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -22,6 +23,7 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.GridPane;
@@ -29,6 +31,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
+import javafx.util.Duration;
 import model.Board;
 import model.Player;
 import model.Word;
@@ -48,22 +51,26 @@ public class BoardController extends TimerTask implements Initializable {
     private int          btnKey;
     private String       wordStr;
     private String       wholeWord;
+    private TranslateTransition tt; 
     private static BoardController bc;
     private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
     private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
     
+    
     @FXML
     private AnchorPane rootPane;
     @FXML
-    private GridPane gpBoard;
+    private GridPane   gpBoard;
     @FXML
-    private VBox     vbWordBank;
+    private VBox       vbWordBank;
+    @FXML
+    private ImageView  sprite;
     
     @Override
     public void run() {
         System.out.println("Time's up!");
         Platform.runLater(() -> {
-            bc.resetSelection();
+            bc.distract();
             playSound(this.buzzer);
         });
     }
@@ -73,6 +80,11 @@ public class BoardController extends TimerTask implements Initializable {
         try {
             bc = this;
             player = new Player();
+            sprite = new ImageView( getClass().getResource("/files/sprite.png").toString() );
+            sprite.setVisible(false);
+            rootPane.getChildren().add(sprite);
+            tt = new TranslateTransition(Duration.seconds(9), sprite);
+            createDistraction();
             generateBoard();
             startGame();
         } catch (IOException ex) {
@@ -81,7 +93,7 @@ public class BoardController extends TimerTask implements Initializable {
     }
     
     /**
-     * Generate the board.
+     * Generates the board.
      */
     @FXML
     private void generateBoard() throws IOException {
@@ -115,7 +127,7 @@ public class BoardController extends TimerTask implements Initializable {
     }
     
     /**
-     * Start the game.
+     * Starts the game.
      */
     @FXML
     private void startGame() {
@@ -192,7 +204,6 @@ public class BoardController extends TimerTask implements Initializable {
                             markWord();
                             playSound(correct);
                             selected.clear();
-                            resetTimer();
                             if ( this.board.isGameover() == true )
                                 this.gameOver();
                             return true;
@@ -467,6 +478,26 @@ public class BoardController extends TimerTask implements Initializable {
                 }
             }
         }
+    }
+    
+    /**
+     * Creates the distraction sprite animation with predefined settings.
+     */
+    public void createDistraction() {
+        tt.setFromX( -(rootPane.getPrefWidth()) );
+        tt.setToX( rootPane.getPrefWidth() );
+        tt.setFromY( -(rootPane.getPrefHeight()) );
+        tt.setToY( rootPane.getPrefHeight() + sprite.getFitHeight());
+        tt.setCycleCount( 2 );
+        tt.setAutoReverse(true);
+    }
+    
+    /**
+     * Plays the distraction animation.
+     */
+    public void distract() {
+        sprite.setVisible(true);
+        tt.play();
     }
     
     /**
