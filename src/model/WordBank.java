@@ -20,8 +20,8 @@ public class WordBank {
     
     private final List<Word>     wordBank;
     private final List<Word>     distractionBank;
-    private final Score          score;
     private final List<String>   lists;
+    private final Score          score;
     private final WordFactory    factory;
     private final WordValidator  validator;
     private       BufferedReader wordReader = null;
@@ -42,10 +42,10 @@ public class WordBank {
         lists = new ArrayList<>();
         factory = new WordFactory();
         validator = new WordValidator(this);
+        score = s;
         setWordList();
         numWords = 0;
         numDistractions = 0;
-        score = s;
         gameover = false;
     }
     
@@ -122,11 +122,6 @@ public class WordBank {
      */
     public void gameOver() {
         this.setGameover(true);
-        score.getCurrentScore();
-    }
-
-    public Score getScore() {
-        return score;
     }
 
     /**
@@ -147,8 +142,7 @@ public class WordBank {
 
     /**
      * Gets a random word from the list.
-     */
-     
+     */   
     private Word getRandomWord() {
         Word returnWord = null;
         Random newTarget = new Random();
@@ -186,6 +180,14 @@ public class WordBank {
      */
     public int getNumDistractions() {
         return numDistractions;
+    }
+
+    /**
+     * Gets the score associated with the word.
+     * @return
+     */
+    public Score getScore() {
+        return score;
     }
 
     /**

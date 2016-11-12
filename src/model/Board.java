@@ -20,7 +20,7 @@ public final class Board {
     private        final int          rSize;
     private        final int          cSize;
     private        final Object[][]   board;
-    private        final WordTimer    timer;
+    private        final WordTimer    spriteTimer;
     private        final WordBank     wordBank;
     private static       Player       player;
     private        final Object[][][] wordKeys;
@@ -35,7 +35,7 @@ public final class Board {
     public Board(Player p) throws IOException {
         this.rSize      = Board.getBoardSize();
         this.cSize      = Board.getBoardSize();
-        this.timer      = new WordTimer(this);
+        this.spriteTimer      = new WordTimer(this);
         Board.player    = p;
         this.wordBank   = new WordBank(p.getScore());
         this.board      = new Character[getrSize()][getcSize()];
@@ -203,7 +203,7 @@ public final class Board {
      * Starts the game.
      */
     public void startGame() {
-        timer.startTimer();
+        spriteTimer.startTimer();
     }
     
     /**
@@ -264,8 +264,8 @@ public final class Board {
      * Gets the word timer.
      * @return
      */
-    public WordTimer getTimer() {
-        return timer;
+    public WordTimer getSpriteTimer() {
+        return spriteTimer;
     }
     
     /**
