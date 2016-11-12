@@ -44,4 +44,8 @@ public class WordTimer {
         task = new BoardController();
         timer.scheduleAtFixedRate(task, time, time);
     }
+    
+    // TODO
+    // Implement other timers to start
+    // For example: change the time it lasts
 }

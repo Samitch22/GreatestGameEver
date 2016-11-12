@@ -52,6 +52,7 @@ public class BoardController extends TimerTask implements Initializable {
     private String       wordStr;
     private String       wholeWord;
     private TranslateTransition tt; 
+    private final int    spriteDuration = 9;
     private static BoardController bc;
     private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
     private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
@@ -83,7 +84,7 @@ public class BoardController extends TimerTask implements Initializable {
             sprite = new ImageView( getClass().getResource("/files/sprite.png").toString() );
             sprite.setVisible(false);
             rootPane.getChildren().add(sprite);
-            tt = new TranslateTransition(Duration.seconds(9), sprite);
+            tt = new TranslateTransition(Duration.seconds(spriteDuration), sprite);
             createDistraction();
             generateBoard();
             startGame();
@@ -511,4 +512,13 @@ public class BoardController extends TimerTask implements Initializable {
         rootPane.getChildren().setAll(pane);
     }
 
+    // EXTRA TIMER STUFF
+//    WordTimer t2 = new WordTimer();
+//    t2.scheduleAtFixedRate(new TimerTask() {
+//        @Override
+//         public void run(){
+//             //TASK 2
+//         }
+//    },0,180000);
+    
 }
