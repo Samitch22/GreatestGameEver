@@ -22,7 +22,6 @@ public final class Board {
     private        final int          cSize;
     private        final Object[][]   board;
     private        final WordTimer    spriteTimer;
-    private        final WordTimer    endTimer;
     private        final WordBank     wordBank;
     private static       Player       player;
     private        final Object[][][] wordKeys;
@@ -38,7 +37,6 @@ public final class Board {
         this.rSize      = Board.getBoardSize();
         this.cSize      = Board.getBoardSize();
         this.spriteTimer      = new WordTimer(this);
-        this.endTimer     = new WordTimer(this);
         Board.player    = p;
         this.wordBank   = new WordBank(p.getScore());
         this.board      = new Character[getrSize()][getcSize()];
@@ -204,12 +202,10 @@ public final class Board {
     
     /**
      * Starts the game.
-     * @param bc
      */
-    public void startGame(BoardController bc) {
+    public void startGame() {
         spriteTimer.startTimer();
-        endTimer.startEndTimer(bc);
-    }
+        }
     
     /**
      * Creates the word bank to be used for the game.
@@ -272,14 +268,7 @@ public final class Board {
     public WordTimer getSpriteTimer() {
         return spriteTimer;
     }
-    
-    /**
-     * 
-     */
-    public WordTimer getendTimer() {
-        return endTimer;
-    }
-    
+      
     /**
      * Returns the number of words in the word bank.
      * @return
