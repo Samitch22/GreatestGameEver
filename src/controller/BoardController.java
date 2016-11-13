@@ -57,7 +57,7 @@ public class BoardController extends TimerTask implements Initializable {
     private static BoardController bc;
     private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
     private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
-    private WordTimer   endTimer;
+    private final WordTimer   endTimer = new WordTimer(board);
     
     @FXML
     private AnchorPane rootPane;
@@ -134,7 +134,9 @@ public class BoardController extends TimerTask implements Initializable {
     @FXML
     private void startGame() {
         board.startGame();
-        endTimer.startEndTimer(bc);
+        Platform.runLater(() -> {
+            endTimer.startEndTimer(bc);
+        });
     }
     
     /**
