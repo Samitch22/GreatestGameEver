@@ -7,6 +7,7 @@ package model;
 import controller.BoardController;
 import java.util.Timer;
 import java.util.TimerTask;
+import javafx.application.Platform;
 
 /**
  * A timer used to get a new target word for the word search.
@@ -17,17 +18,15 @@ public class WordTimer {
     
     private       Timer     timer;
     private       TimerTask task;
-    private final long      timeMultiplier = 1000;
-    private final long      time = 20 * timeMultiplier; // In seconds
-    private final Board     board;
+    private final long      timeMultiplier = 1000; // In seconds
+    private final long      time = 20 * timeMultiplier; 
+    private final long      endtime = 180 * timeMultiplier;
     
     /**
      * This class implements a timer to be used by the word search board.
-     * @param board
+     * 
      */
-    public WordTimer(Board board) { // IF multiple timers are needed, use task as parameter instead of board.
-        this.board = board;
-    }
+    public WordTimer() {}
     
     /**
      * Cancels the timer.
@@ -44,8 +43,21 @@ public class WordTimer {
         task = new BoardController();
         timer.scheduleAtFixedRate(task, time, time);
     }
-    
-    // TODO
-    // Implement other timers to start
-    // For example: change the time it lasts
+    /**
+     * 
+     * @param bc
+     */
+    public void startEndTimer(BoardController bc) {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run () {
+                Platform.runLater(() -> {
+                    bc.gameOver();
+                    System.out.println("Time's up!");
+                });
+            }
+        }, endtime);
+    }
+
 }
