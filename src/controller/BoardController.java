@@ -212,6 +212,7 @@ public class BoardController extends TimerTask implements Initializable {
                             playSound(correct);
                             selected.clear();
                             if ( this.board.isGameover() == true ) {
+                                this.player.getScore().addBonus();
                                 this.gameOver();
                                 endTimer.cancelTimer();
                             }

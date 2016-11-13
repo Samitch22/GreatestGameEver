@@ -31,6 +31,8 @@ public class Score {
     private final List<Word> foundWords;
     private final int        pointValue = 1000;
     private final int        baseMulti = 15;
+    private final int        bonus = 5000;
+    private       boolean    receivedBonus;
     private final String     hsFile = "highscore.txt";
     private       File           file;
     private       BufferedReader reader;
@@ -47,6 +49,7 @@ public class Score {
         foundWords = new ArrayList<>();
         currentScore = 0;
         highScore = 0;
+        receivedBonus = false;
         //this.readHighscore(); // Read the high score. Save high score
     }
     
@@ -57,6 +60,9 @@ public class Score {
         currentScore = 0;
         for ( Word word : foundWords ) {
             currentScore += pointValue *( baseMulti - word.toString().length() );
+        }
+        if ( receivedBonus == true ) {
+            currentScore += bonus;
         }
         if ( currentScore > highScore ) {
             //setHighScore(currentScore);
@@ -97,6 +103,14 @@ public class Score {
         foundWords.add(w);
     }
 
+    /**
+     * Adds bonus points to the score.
+     */
+    public void addBonus() {
+        //this.currentScore += this.bonus;
+        this.receivedBonus = true;
+    }
+    
     /**
      * Sets the highscore;
      * @param highScore
