@@ -35,7 +35,7 @@ public final class Board {
     public Board(Player p) throws IOException {
         this.rSize      = Board.getBoardSize();
         this.cSize      = Board.getBoardSize();
-        this.spriteTimer      = new WordTimer(this);
+        this.spriteTimer = new WordTimer();
         Board.player    = p;
         this.wordBank   = new WordBank(p.getScore());
         this.board      = new Character[getrSize()][getcSize()];
@@ -267,7 +267,7 @@ public final class Board {
     public WordTimer getSpriteTimer() {
         return spriteTimer;
     }
-    
+      
     /**
      * Returns the number of words in the word bank.
      * @return

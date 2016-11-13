@@ -35,6 +35,7 @@ import javafx.util.Duration;
 import model.Board;
 import model.Player;
 import model.Word;
+import model.WordTimer;
 
 /**
  * This class controls the UI functionality of the board.
@@ -51,6 +52,7 @@ public class BoardController extends TimerTask implements Initializable {
     private int          btnKey;
     private String       wordStr;
     private String       wholeWord;
+    private WordTimer    endTimer;
     private TranslateTransition tt; 
     private final int    spriteDuration = 9;
     private static BoardController bc;
@@ -69,7 +71,7 @@ public class BoardController extends TimerTask implements Initializable {
     
     @Override
     public void run() {
-        System.out.println("Time's up!");
+        System.out.println("Sprite incomming!");
         Platform.runLater(() -> {
             bc.distract();
             playSound(this.buzzer);
@@ -83,6 +85,7 @@ public class BoardController extends TimerTask implements Initializable {
             player = new Player();
             sprite = new ImageView( getClass().getResource("/files/sprite.png").toString() );
             sprite.setVisible(false);
+            endTimer = new WordTimer();
             rootPane.getChildren().add(sprite);
             tt = new TranslateTransition(Duration.seconds(spriteDuration), sprite);
             createDistraction();
@@ -133,6 +136,9 @@ public class BoardController extends TimerTask implements Initializable {
     @FXML
     private void startGame() {
         board.startGame();
+        Platform.runLater(() -> {
+            endTimer.startEndTimer(bc);
+        });
     }
     
     /**
@@ -205,8 +211,10 @@ public class BoardController extends TimerTask implements Initializable {
                             markWord();
                             playSound(correct);
                             selected.clear();
-                            if ( this.board.isGameover() == true )
+                            if ( this.board.isGameover() == true ) {
                                 this.gameOver();
+                                endTimer.cancelTimer();
+                            }
                             return true;
                         }
                         else
@@ -280,9 +288,10 @@ public class BoardController extends TimerTask implements Initializable {
     /**
      * Logic executed when the game is over.
      */
-    private void gameOver() {
+    public void gameOver() {
         try {
-            this.board.getTimer().cancelTimer();
+            System.out.println("Game over!");
+            this.board.getSpriteTimer().cancelTimer();
             this.showGameoverScene(null);
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());
@@ -314,8 +323,8 @@ public class BoardController extends TimerTask implements Initializable {
      * Resets the timer.
      */
     private void resetTimer() {
-        this.board.getTimer().cancelTimer();
-        this.board.getTimer().startTimer();
+        this.board.getSpriteTimer().cancelTimer();
+        this.board.getSpriteTimer().startTimer();
     }
     
     /**
@@ -512,13 +521,4 @@ public class BoardController extends TimerTask implements Initializable {
         rootPane.getChildren().setAll(pane);
     }
 
-    // EXTRA TIMER STUFF
-//    WordTimer t2 = new WordTimer();
-//    t2.scheduleAtFixedRate(new TimerTask() {
-//        @Override
-//         public void run(){
-//             //TASK 2
-//         }
-//    },0,180000);
-    
 }
