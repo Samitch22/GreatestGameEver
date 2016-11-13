@@ -19,6 +19,7 @@ public class WordTimer {
     private       TimerTask task;
     private final long      timeMultiplier = 1000;
     private final long      time = 20 * timeMultiplier; // In seconds
+    private final long      endtime = 10 * timeMultiplier;
     private final Board     board;
     
     /**
@@ -43,6 +44,21 @@ public class WordTimer {
         timer = new Timer();
         task = new BoardController();
         timer.scheduleAtFixedRate(task, time, time);
+    }
+    /**
+     * 
+     * @param bc
+     */
+    public void startEndTimer(BoardController bc) {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run () {
+                bc.gameOver();
+                System.out.println("DEAD");
+            }
+        }
+        , endtime);
     }
     
     // TODO

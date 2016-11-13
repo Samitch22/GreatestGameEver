@@ -132,7 +132,7 @@ public class BoardController extends TimerTask implements Initializable {
      */
     @FXML
     private void startGame() {
-        board.startGame();
+        board.startGame(bc);
     }
     
     /**
@@ -280,9 +280,9 @@ public class BoardController extends TimerTask implements Initializable {
     /**
      * Logic executed when the game is over.
      */
-    private void gameOver() {
+    public void gameOver() {
         try {
-            this.board.getTimer().cancelTimer();
+            this.board.getSpriteTimer().cancelTimer();
             this.showGameoverScene(null);
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());
@@ -314,8 +314,8 @@ public class BoardController extends TimerTask implements Initializable {
      * Resets the timer.
      */
     private void resetTimer() {
-        this.board.getTimer().cancelTimer();
-        this.board.getTimer().startTimer();
+        this.board.getSpriteTimer().cancelTimer();
+        this.board.getSpriteTimer().startTimer();
     }
     
     /**

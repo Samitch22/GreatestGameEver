@@ -4,6 +4,7 @@
  */
 package model;
 
+import controller.BoardController;
 import java.io.IOException;
 import java.util.Random;
 
@@ -21,6 +22,7 @@ public final class Board {
     private        final int          cSize;
     private        final Object[][]   board;
     private        final WordTimer    spriteTimer;
+    private        final WordTimer    endTimer;
     private        final WordBank     wordBank;
     private static       Player       player;
     private        final Object[][][] wordKeys;
@@ -36,6 +38,7 @@ public final class Board {
         this.rSize      = Board.getBoardSize();
         this.cSize      = Board.getBoardSize();
         this.spriteTimer      = new WordTimer(this);
+        this.endTimer     = new WordTimer(this);
         Board.player    = p;
         this.wordBank   = new WordBank(p.getScore());
         this.board      = new Character[getrSize()][getcSize()];
@@ -201,9 +204,11 @@ public final class Board {
     
     /**
      * Starts the game.
+     * @param bc
      */
-    public void startGame() {
+    public void startGame(BoardController bc) {
         spriteTimer.startTimer();
+        endTimer.startEndTimer(bc);
     }
     
     /**
@@ -266,6 +271,13 @@ public final class Board {
      */
     public WordTimer getSpriteTimer() {
         return spriteTimer;
+    }
+    
+    /**
+     * 
+     */
+    public WordTimer getendTimer() {
+        return endTimer;
     }
     
     /**
