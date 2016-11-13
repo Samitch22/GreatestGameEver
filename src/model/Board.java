@@ -118,7 +118,7 @@ public final class Board {
         
         //Iterating through all the words in the list
         for ( int w = 0; w < this.getNumDistractions(); w++ ) {
-            
+
             //Grabs next word from the list
             Word currentWord = this.wordBank.getDistractionBank().get(w);
             
@@ -404,11 +404,13 @@ public final class Board {
             case 0: //Horizontal
                 for(int r = 0; r < word.length(); r++) {
                     board[row+r][col] = word.charAt(r);
-                    if ( r == first ) {
-                        wordKeys[row+r][col][targetKey] = word.charAt(r);
-                    }
-                    if ( r == last ) {
-                        wordKeys[row+r][col][targetKey] = word.charAt(r);
+                    if ( ! isDistraction ) {
+                        if ( r == first ) {
+                            wordKeys[row+r][col][targetKey] = word.charAt(r);
+                        }
+                        if ( r == last ) {
+                            wordKeys[row+r][col][targetKey] = word.charAt(r);
+                        }
                     }
                 }
                 if ( ! isDistraction )
@@ -417,11 +419,13 @@ public final class Board {
             case 1: //Vertical
                 for(int c = 0; c < word.length(); c++) {
                     board[row][col+c] = word.charAt(c);
-                    if ( c == first ) {
-                        wordKeys[row][col+c][targetKey] = word.charAt(c);
-                    }
-                    if ( c == last ) {
-                        wordKeys[row][col+c][targetKey] = word.charAt(c);
+                    if ( ! isDistraction ) {
+                        if ( c == first ) {
+                            wordKeys[row][col+c][targetKey] = word.charAt(c);
+                        }
+                        if ( c == last ) {
+                            wordKeys[row][col+c][targetKey] = word.charAt(c);
+                        }
                     }
                 }
                 if ( ! isDistraction )
@@ -430,11 +434,13 @@ public final class Board {
             case 2: //Main Diagonal
                 for(int d = 0; d < word.length(); d++) {
                     board[row+d][col+d] = word.charAt(d);
-                    if ( d == first ) {
-                        wordKeys[row+d][col+d][targetKey] = word.charAt(d);
-                    }
-                    if ( d == last ) {
-                        wordKeys[row+d][col+d][targetKey] = word.charAt(d);
+                    if ( ! isDistraction ) {
+                        if ( d == first ) {
+                            wordKeys[row+d][col+d][targetKey] = word.charAt(d);
+                        }
+                        if ( d == last ) {
+                            wordKeys[row+d][col+d][targetKey] = word.charAt(d);
+                        }
                     }
                 }
                 if ( ! isDistraction )
@@ -443,11 +449,13 @@ public final class Board {
             case 3: //Secondary Diagonal
                 for(int d = 0; d < word.length(); d++) {
                     board[row+d][col-d] = word.charAt(d);
-                    if ( d == first ) {
-                        wordKeys[row+d][col-d][targetKey] = word.charAt(d);
-                    }
-                    if ( d == last ) {
-                        wordKeys[row+d][col-d][targetKey] = word.charAt(d);
+                    if ( ! isDistraction ) {
+                        if ( d == first ) {
+                            wordKeys[row+d][col-d][targetKey] = word.charAt(d);
+                        }
+                        if ( d == last ) {
+                            wordKeys[row+d][col-d][targetKey] = word.charAt(d);
+                        }
                     }
                 }
                 if ( ! isDistraction )
