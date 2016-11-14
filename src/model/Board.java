@@ -4,7 +4,10 @@
  */
 package model;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Properties;
 import java.util.Random;
 
 /**
@@ -16,16 +19,16 @@ import java.util.Random;
  */
 public final class Board { 
     
-    private static final int          boardSize = 14;
-    private        final int          rSize;
-    private        final int          cSize;
-    private        final Object[][]   board;
-    private        final WordTimer    spriteTimer;
-    private        final WordBank     wordBank;
-    private static       Player       player;
-    private        final Object[][][] wordKeys;
-    private        final Object[]     targetKeys;
-    private              int          targetKey;
+    private static final int              boardSize = 14;
+    private        final int              rSize;
+    private        final int              cSize;
+    private        final Object[][]       board;
+    private        final WordTimer        spriteTimer;
+    private        final WordBank         wordBank;
+    private static       Player           player;
+    private        final Object[][][]     wordKeys;
+    private        final Object[]         targetKeys;
+    private              int              targetKey;
     
     /**
      * This class implements the board that holds a word search puzzle.

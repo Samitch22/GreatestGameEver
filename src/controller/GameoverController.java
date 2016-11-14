@@ -78,7 +78,7 @@ public class GameoverController implements Initializable {
     @FXML
     private void handleQuit(ActionEvent event) throws IOException {
         System.out.println("Quitting");
-        player.getScore().saveHighscore();
+        player.getScore().setScores(player.getScore().getCurrentScore());
         System.exit(0);
     }
 }

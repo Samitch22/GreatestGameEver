@@ -293,6 +293,7 @@ public class BoardController extends TimerTask implements Initializable {
         try {
             System.out.println("Game over!");
             this.board.getSpriteTimer().cancelTimer();
+            
             this.showGameoverScene(null);
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());

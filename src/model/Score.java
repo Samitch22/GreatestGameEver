@@ -18,6 +18,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 /**
  * This class represents a player's score.
@@ -27,30 +28,35 @@ import java.util.List;
 public class Score {
     
     private       int        currentScore;
-    private       Integer    highScore;
+    private       int        highScore;
+    private       int        lowScore;
+    private       double     averageScore;
+    private       int        numGames;
     private final List<Word> foundWords;
     private final int        pointValue = 1000;
     private final int        baseMulti = 15;
     private final int        bonus = 5000;
     private       boolean    receivedBonus;
-    private final String     hsFile = "highscore.txt";
-    private       File           file;
-    private       BufferedReader reader;
+    private       String     propertyHolder;
     
-    //private       BufferedWriter writer;
-    private PrintWriter writer;
+    //For scores
+    private Properties scores;
     private FileInputStream in;
     private FileOutputStream out;
-
+    
+    
     /**
      * Constructs a score holding current score and highscore.
      */
-    public Score() {
+    public Score() throws FileNotFoundException, IOException {
         foundWords = new ArrayList<>();
         currentScore = 0;
-        highScore = 0;
         receivedBonus = false;
-        //this.readHighscore(); // Read the high score. Save high score
+        this.scores = new Properties();
+        this.out = new FileOutputStream("scores.properties");
+        this.in = new FileInputStream("scores.properties");
+        scores.load(in);
+        in.close();
     }
     
     /**
@@ -64,10 +70,7 @@ public class Score {
         if ( receivedBonus == true ) {
             currentScore += bonus;
         }
-        if ( currentScore > highScore ) {
-            //setHighScore(currentScore);
-            highScore = currentScore;
-        }
+        this.setScores(currentScore);
     }
     
     /**
@@ -77,22 +80,6 @@ public class Score {
     public int getCurrentScore() {
         this.calculatePoints();
         return currentScore;
-    }
-
-    /**
-     * Gets the current highscore.
-     * @return
-     */
-    public int getHighScore() {
-        this.calculatePoints();
-        return highScore;
-    }
-    
-    /**
-     * Gets the file name.
-     */
-    private String getFileName() {
-        return this.hsFile;
     }
     
     /**
@@ -110,84 +97,100 @@ public class Score {
         //this.currentScore += this.bonus;
         this.receivedBonus = true;
     }
-    
-    /**
-     * Sets the highscore;
-     * @param highScore
-     */
-    public void setHighScore(int highScore) {
-        if ( highScore > this.highScore )
-        this.highScore = highScore;
-    }
-    
-    /**
-     * Gets the buffered reader.
-     */
-    private BufferedReader getReader() {
-        try {
-            reader = new BufferedReader(new FileReader(getFileName())); 
-        } catch (FileNotFoundException e) {
-            System.out.println("Error opening the file.");
-        }
-        return reader;
-    }
-    
-    /**
-     * Gets the buffered writer.
-     */
-    //private BufferedWriter getWriter() {
-    private PrintWriter getWriter() {
-        try {
-            //writer = new BufferedWriter(new FileWriter(getFileName()));
-            writer = new PrintWriter(new FileWriter(getFileName()));
-        } catch (IOException ex) {
-            System.out.println("Error opening the file.");
-        }
-        return writer;
-    }
-    
-    /**
-     * Loads the file, setting the high score.
-     */
-    private void readHighscore() {
-        
-        file = new File(hsFile);
-        String line;
-        Integer noHighscore = 0;
 
-        try {
-        // If the file exists, get it
-            if ( Files.exists(Paths.get(file.toString()))) {
-                getReader();
-                line = reader.readLine();
-                if ( line.trim() != null )
-                    setHighScore(Integer.parseInt(line.trim()));
-                else
-                    line = "" + noHighscore.toString();
-                reader.close();
-            }
-            else {
-                file.createNewFile();
-                getWriter();
-                writer.write(noHighscore);
-                writer.close();
-            }
-        } catch (IOException ex) {
-                System.out.println("Problem creating the file.");
+    /**
+     * 
+     * @param score 
+     */
+    public void setScores(int score) {
+        this.setHighScore(score);
+        this.setLowScore(score);
+        this.setAverageScore(score);
+    }
+    
+    /**
+     * Sets the high score if it changes
+     * @param hScore 
+     */
+    public void setHighScore(int hScore) {
+        propertyHolder = scores.getProperty("highScore");
+        int tempHighScore = Integer.parseInt(propertyHolder);
+        if(currentScore > tempHighScore) {
+            highScore = currentScore;
+            scores.setProperty("highScore", String.valueOf(highScore));
         }
     }
     
     /**
-     * Saves the highscore.
+     * Sets the low score if it changes
+     * @param lScore 
      */
-    public void saveHighscore() {
-        getWriter();
-        file = new File(hsFile);
-//        try {
-            writer.write(highScore.toString());
-            writer.close();
-//        } catch (IOException ex) {
-//            System.out.println("Problem writing the file.");
-//        }
+    public void setLowScore(int lScore) {
+        propertyHolder = scores.getProperty("lowScore");
+        int tempLowScore = Integer.parseInt(propertyHolder);
+        if(currentScore < tempLowScore) {
+            lowScore = currentScore;
+            scores.setProperty("lowScore", String.valueOf(lowScore));
+        }
+    }
+    
+    /**
+     * Sets the average score
+     * @param aScore 
+     */
+    public void setAverageScore(int aScore) {
+        propertyHolder = scores.getProperty("averageScore");
+        double tempAverageScore = Double.parseDouble(propertyHolder);
+        propertyHolder = scores.getProperty("numGames", "0");
+        int tempNumGames = Integer.parseInt(propertyHolder);
+        numGames = tempNumGames + 1;
+        if(tempNumGames == 0) {
+            averageScore = currentScore;
+        }
+        else {
+            averageScore = (tempAverageScore*tempNumGames/numGames) + (averageScore/numGames);
+        }
+        scores.setProperty("averageScore", String.valueOf(averageScore));
+        scores.setProperty("numGames", String.valueOf(numGames));
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public int getHighScore() {
+        propertyHolder = scores.getProperty("highScore");
+        highScore = Integer.valueOf(propertyHolder);
+        return highScore;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public int getLowScore() {
+        propertyHolder = scores.getProperty("lowScore");
+        lowScore = Integer.valueOf(propertyHolder);
+        return lowScore;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public int getNumGames() {
+        propertyHolder = scores.getProperty("numGames");
+        numGames = Integer.valueOf(propertyHolder);
+        return numGames;
+    }
+    
+    /**
+     * 
+     * @return 
+     */
+    public double getAverageScore() {
+        propertyHolder = scores.getProperty("averageScore");
+        averageScore = Double.valueOf(propertyHolder);
+        return averageScore;
     }
 }
