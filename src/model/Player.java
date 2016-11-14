@@ -4,6 +4,8 @@
  */
 package model;
 
+import java.io.IOException;
+
 /**
  * This class represents a player with a score.
  * @author Mitchell
@@ -15,8 +17,9 @@ public class Player {
     
     /**
      * Constructs a player with a score.
+     * @throws java.io.IOException
      */
-    public Player() {
+    public Player() throws IOException {
         score = new Score();
     }
 
