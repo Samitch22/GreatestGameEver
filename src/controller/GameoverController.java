@@ -36,8 +36,10 @@ public class GameoverController implements Initializable {
     @Override
     public void initialize(URL location, ResourceBundle resources) {
         player = Board.getPlayer();
+        this.player.getScore().calculatePoints();
         getScore();
         getHighscore();
+        save();
     }
 
     /**
@@ -56,6 +58,13 @@ public class GameoverController implements Initializable {
     private void getHighscore() {
         Integer highscore = player.getScore().getHighScore();
         lblHighscore.setText(highscore.toString());
+    }
+    
+    /**
+     * Saves the scores.
+     */
+    private void save() {
+        player.getScore().save();
     }
     
     /**
@@ -78,7 +87,6 @@ public class GameoverController implements Initializable {
     @FXML
     private void handleQuit(ActionEvent event) throws IOException {
         System.out.println("Quitting");
-        player.getScore().saveHighscore();
         System.exit(0);
     }
 }

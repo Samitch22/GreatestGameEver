@@ -13,6 +13,7 @@ import javafx.application.Platform;
  * A timer used to get a new target word for the word search.
  * @author Mitchell
  * @author Sam
+ * @author Ryan
  */
 public class WordTimer {
     
