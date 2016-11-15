@@ -11,6 +11,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TimerTask;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -58,7 +60,8 @@ public class BoardController extends TimerTask implements Initializable {
     private static BoardController bc;
     private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
     private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
-    
+    private final Media spriteSound = new Media( getClass().getClassLoader().getResource("files/SpriteSound.wav").toExternalForm());
+    private final Media gameOverSound = new Media( getClass().getClassLoader().getResource("files/Gameover.wav").toExternalForm());
     
     @FXML
     private AnchorPane rootPane;
@@ -73,8 +76,8 @@ public class BoardController extends TimerTask implements Initializable {
     public void run() {
         System.out.println("Sprite incomming!");
         Platform.runLater(() -> {
-            bc.distract();
-            playSound(this.buzzer);
+                bc.distract();
+                playSound(this.spriteSound);
         });
     }
     
@@ -292,6 +295,9 @@ public class BoardController extends TimerTask implements Initializable {
     public void gameOver() {
         try {
             System.out.println("Game over!");
+            Platform.runLater(() -> {
+                playSound(this.gameOverSound);
+            });
             this.board.getSpriteTimer().cancelTimer();
             this.showGameoverScene(null);
         } catch (IOException ex) {
