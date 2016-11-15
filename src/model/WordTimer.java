@@ -10,7 +10,7 @@ import java.util.TimerTask;
 import javafx.application.Platform;
 
 /**
- * A timer used to get a new target word for the word search.
+ * This class implements a timer to be used by the word search board.
  * @author Mitchell
  * @author Sam
  * @author Ryan
@@ -20,12 +20,11 @@ public class WordTimer {
     private       Timer     timer;
     private       TimerTask task;
     private final long      timeMultiplier = 1000; // In seconds
-    private final long      time = 20 * timeMultiplier; 
+    private final long      time = 21 * timeMultiplier; 
     private final long      endtime = 180 * timeMultiplier;
     
     /**
-     * This class implements a timer to be used by the word search board.
-     * 
+     * Default constructor to create a new WordTimer.
      */
     public WordTimer() {}
     
