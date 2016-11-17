@@ -54,6 +54,7 @@ public class Score {
         receivedBonus = false;
         // Load default scores
         this.defaultScores = new Properties();
+        // Default properties stored inside JAR file
         this.in = getClass().getResourceAsStream(defaultProperties);
         this.defaultScores.load(in);
         in.close();
@@ -61,6 +62,7 @@ public class Score {
         // Make changes to the stored scores
         this.scores = new Properties(defaultScores);
         try { // Try to read the file
+            // Modified score properties stored outside JAR file
             this.in = new FileInputStream(scoreProperties);
         } catch(FileNotFoundException e) { // If file does not exist
             out = new FileOutputStream(scoreProperties);
