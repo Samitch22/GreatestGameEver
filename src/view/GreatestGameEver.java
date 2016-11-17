@@ -1,7 +1,7 @@
 /*
  * The Greatest Game Ever
  * The Other Guys
- * Version 0.9
+ * Version 2.0
  */
 package view;
 
