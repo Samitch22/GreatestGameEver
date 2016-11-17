@@ -22,6 +22,7 @@ public class WordTimer {
     private final long      timeMultiplier = 1000; // In seconds
     private final long      time = 21 * timeMultiplier; 
     private final long      endtime = 180 * timeMultiplier;
+    private final long      jailTime = 5 * timeMultiplier;
     
     /**
      * Default constructor to create a new WordTimer.
@@ -44,7 +45,7 @@ public class WordTimer {
         timer.scheduleAtFixedRate(task, time, time);
     }
     /**
-     * 
+     * Starts a timer to end the game after the time expires.
      * @param bc
      */
     public void startEndTimer(BoardController bc) {
@@ -60,4 +61,19 @@ public class WordTimer {
         }, endtime);
     }
 
+    /**
+     * Starts a timer for putting a player in jail.
+     * @param bc
+     */
+    public void startExplosionTimer(BoardController bc) {
+        timer = new Timer();
+        timer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                Platform.runLater(() -> {
+                    bc.removeExplosion();
+                });
+            }
+        } , jailTime );
+    }
 }

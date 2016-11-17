@@ -11,8 +11,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
 import java.util.TimerTask;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javafx.animation.TranslateTransition;
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
@@ -55,9 +53,12 @@ public class BoardController extends TimerTask implements Initializable {
     private String       wordStr;
     private String       wholeWord;
     private WordTimer    endTimer;
+    private WordTimer    explosionTimer;
     private TranslateTransition tt; 
     private final int    spriteDuration = 9;
     private static BoardController bc;
+    private final String spriteL = "/files/sprite.png";
+    private final String explosionL = "/files/explosion.jpg";
     private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
     private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
     private final Media spriteSound = new Media( getClass().getClassLoader().getResource("files/SpriteSound.wav").toExternalForm());
@@ -71,6 +72,8 @@ public class BoardController extends TimerTask implements Initializable {
     private VBox       vbWordBank;
     @FXML
     private ImageView  sprite;
+    @FXML
+    private ImageView  explosion;
     
     @Override
     public void run() {
@@ -86,10 +89,13 @@ public class BoardController extends TimerTask implements Initializable {
         try {
             bc = this;
             player = new Player();
-            sprite = new ImageView( getClass().getResource("/files/sprite.png").toString() );
+            sprite = new ImageView( getClass().getResource(spriteL).toString() );
+            explosion = new ImageView ( getClass().getResource(explosionL).toString() );
             sprite.setVisible(false);
+            explosion.setVisible(false);
             endTimer = new WordTimer();
             rootPane.getChildren().add(sprite);
+            rootPane.getChildren().add(explosion);
             tt = new TranslateTransition(Duration.seconds(spriteDuration), sprite);
             createDistraction();
             generateBoard();
@@ -168,6 +174,9 @@ public class BoardController extends TimerTask implements Initializable {
             if ( this.validateClick(selectedButton) == false ) {
                 resetSelection();
                 playSound(this.buzzer);
+                explode();
+                explosionTimer = new WordTimer();
+                explosionTimer.startExplosionTimer(bc);
             }
             
             if ( selected.size() > first ) {
@@ -257,6 +266,20 @@ public class BoardController extends TimerTask implements Initializable {
     }
     
     /**
+     * Explodes the screen so the player cannot select a word.
+     */
+    public void explode() {
+        this.explosion.setVisible(true);
+    }
+    
+    /**
+     * Removes the explosion from the screen so the player may continue playing.
+     */
+    public void removeExplosion() {
+        this.explosion.setVisible(false);
+    }
+    
+    /**
      * Gets the row coordinate of the button.
      * @param button
      * @return 
@@ -299,6 +322,7 @@ public class BoardController extends TimerTask implements Initializable {
                 playSound(this.gameOverSound);
             });
             this.board.getSpriteTimer().cancelTimer();
+            this.explosionTimer.cancelTimer();
             this.showGameoverScene(null);
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());

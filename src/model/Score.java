@@ -100,7 +100,6 @@ public class Score {
      * @return
      */
     public int getCurrentScore() {
-        //this.calculatePoints();
         return currentScore;
     }
     
