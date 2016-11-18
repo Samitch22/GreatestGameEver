@@ -93,6 +93,7 @@ public class BoardController extends TimerTask implements Initializable {
             explosion = new ImageView ( getClass().getResource(explosionL).toString() );
             sprite.setVisible(false);
             explosion.setVisible(false);
+            explosionTimer = new WordTimer();
             endTimer = new WordTimer();
             rootPane.getChildren().add(sprite);
             rootPane.getChildren().add(explosion);
@@ -175,8 +176,7 @@ public class BoardController extends TimerTask implements Initializable {
                 resetSelection();
                 playSound(this.buzzer);
                 explode();
-                explosionTimer = new WordTimer();
-                explosionTimer.startExplosionTimer(bc);
+                
             }
             
             if ( selected.size() > first ) {
@@ -270,6 +270,8 @@ public class BoardController extends TimerTask implements Initializable {
      */
     public void explode() {
         this.explosion.setVisible(true);
+        //explosionTimer = new WordTimer();
+        explosionTimer.startExplosionTimer(bc);
     }
     
     /**
@@ -322,7 +324,11 @@ public class BoardController extends TimerTask implements Initializable {
                 playSound(this.gameOverSound);
             });
             this.board.getSpriteTimer().cancelTimer();
-            this.explosionTimer.cancelTimer();
+            try {
+                this.explosionTimer.cancelTimer();
+            } catch (NullPointerException e) {
+                // do nothing
+            }
             this.showGameoverScene(null);
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());
