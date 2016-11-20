@@ -12,12 +12,12 @@
         <URL value="@gameoverscene.css" />
     </stylesheets>
    <children>
-      <Label layoutX="362.0" layoutY="61.0" text="Greatest Game Ever">
+      <Label layoutX="362.0" layoutY="61.0" style="-fx-background-color: #00ff00;" text="Greatest Game Ever">
          <font>
             <Font size="64.0" />
          </font>
       </Label>
-      <VBox alignment="CENTER" layoutX="315.0" layoutY="312.0" prefHeight="176.0" prefWidth="650.0">
+      <VBox alignment="CENTER" layoutX="315.0" layoutY="247.0" prefHeight="375.0" prefWidth="650.0">
          <children>
             <Label text="Game Over!">
                <font>
@@ -68,20 +68,74 @@
                   </Label>
                </children>
             </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label layoutX="10.0" layoutY="10.0" text="Average score:">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblAvgscore" layoutX="106.0" layoutY="10.0" text="0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+                  <Label layoutX="146.0" layoutY="10.0" text="Points">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Label layoutX="10.0" layoutY="10.0" text="Lowscore:">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="lblLowscore" layoutX="106.0" layoutY="10.0" text="0">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                     <padding>
+                        <Insets left="10.0" right="10.0" />
+                     </padding>
+                  </Label>
+                  <Label layoutX="146.0" layoutY="10.0" text="Points">
+                     <font>
+                        <Font size="36.0" />
+                     </font>
+                  </Label>
+               </children>
+            </HBox>
+            <HBox alignment="CENTER">
+               <children>
+                  <Button fx:id="btnStart" mnemonicParsing="false" onAction="#handleStart" prefWidth="200.0" style="-fx-background-color: #00ff00;" text="Start New Game" HBox.hgrow="NEVER">
+                     <HBox.margin>
+                        <Insets right="100.0" />
+                     </HBox.margin>
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Button>
+                  <Button fx:id="btnQuit" mnemonicParsing="false" onAction="#handleQuit" prefHeight="25.0" prefWidth="200.0" style="-fx-background-color: #00ff00;" text="Quit">
+                     <font>
+                        <Font name="System Bold" size="22.0" />
+                     </font>
+                  </Button>
+               </children>
+               <opaqueInsets>
+                  <Insets />
+               </opaqueInsets>
+               <padding>
+                  <Insets top="25.0" />
+               </padding>
+            </HBox>
          </children>
       </VBox>
-      <HBox alignment="CENTER" layoutX="483.0" layoutY="539.0">
-         <children>
-            <Button fx:id="btnStart" mnemonicParsing="false" onAction="#handleStart" text="Start New Game" HBox.hgrow="NEVER">
-               <HBox.margin>
-                  <Insets right="100.0" />
-               </HBox.margin>
-            </Button>
-            <Button fx:id="btnQuit" mnemonicParsing="false" onAction="#handleQuit" prefHeight="25.0" prefWidth="111.0" text="Quit" />
-         </children>
-         <opaqueInsets>
-            <Insets />
-         </opaqueInsets>
-      </HBox>
    </children>
 </AnchorPane>
