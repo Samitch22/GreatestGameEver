@@ -175,7 +175,7 @@ public class Score {
             averageScore = currentScore;
         }
         else {
-            averageScore = (tempAverageScore*tempNumGames/numGames) + (averageScore/numGames);
+            averageScore = (tempAverageScore*tempNumGames/numGames) + (currentScore/numGames);
         }
         scores.setProperty("averageScore", String.valueOf(averageScore));
         scores.setProperty("numGames", String.valueOf(numGames));
