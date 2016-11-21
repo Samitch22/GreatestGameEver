@@ -271,7 +271,6 @@ public class BoardController extends TimerTask implements Initializable {
     public void explode() {
         playSound(this.explosionSound);
         this.explosion.setVisible(true);
-        //explosionTimer = new WordTimer();
         explosionTimer.startExplosionTimer(bc);
     }
     
