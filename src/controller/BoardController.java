@@ -61,6 +61,7 @@ public class BoardController extends TimerTask implements Initializable {
     private final String explosionL = "/files/explosion.jpg";
     private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
     private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
+    private final Media explosionSound  = new Media( getClass().getClassLoader().getResource("files/Explosion.wav").toExternalForm());
     private final Media spriteSound = new Media( getClass().getClassLoader().getResource("files/SpriteSound.wav").toExternalForm());
     private final Media gameOverSound = new Media( getClass().getClassLoader().getResource("files/Gameover.wav").toExternalForm());
     
@@ -174,9 +175,8 @@ public class BoardController extends TimerTask implements Initializable {
         else if ( selectedButton != selected.get(pos)) {
             if ( this.validateClick(selectedButton) == false ) {
                 resetSelection();
-                playSound(this.buzzer);
+                //
                 explode();
-                
             }
             
             if ( selected.size() > first ) {
@@ -269,8 +269,8 @@ public class BoardController extends TimerTask implements Initializable {
      * Explodes the screen so the player cannot select a word.
      */
     public void explode() {
+        playSound(this.explosionSound);
         this.explosion.setVisible(true);
-        //explosionTimer = new WordTimer();
         explosionTimer.startExplosionTimer(bc);
     }
     
