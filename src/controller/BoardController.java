@@ -53,17 +53,12 @@ public class BoardController extends TimerTask implements Initializable {
     private String       wordStr;
     private String       wholeWord;
     private WordTimer    endTimer;
-    private WordTimer    explosionTimer;
     private TranslateTransition tt; 
     private final int    spriteDuration = 9;
     private static BoardController bc;
-    private final String spriteL = "/files/sprite.png";
-    private final String explosionL = "/files/explosion.jpg";
     private final Media buzzer  = new Media( getClass().getClassLoader().getResource("files/Buzzer.wav").toExternalForm());
     private final Media correct = new Media( getClass().getClassLoader().getResource("files/Correct.wav").toExternalForm());
-    private final Media explosionSound  = new Media( getClass().getClassLoader().getResource("files/Explosion.wav").toExternalForm());
-    private final Media spriteSound = new Media( getClass().getClassLoader().getResource("files/SpriteSound.wav").toExternalForm());
-    private final Media gameOverSound = new Media( getClass().getClassLoader().getResource("files/Gameover.wav").toExternalForm());
+    
     
     @FXML
     private AnchorPane rootPane;
@@ -73,15 +68,13 @@ public class BoardController extends TimerTask implements Initializable {
     private VBox       vbWordBank;
     @FXML
     private ImageView  sprite;
-    @FXML
-    private ImageView  explosion;
     
     @Override
     public void run() {
         System.out.println("Sprite incomming!");
         Platform.runLater(() -> {
-                bc.distract();
-                playSound(this.spriteSound);
+            bc.distract();
+            playSound(this.buzzer);
         });
     }
     
@@ -90,14 +83,10 @@ public class BoardController extends TimerTask implements Initializable {
         try {
             bc = this;
             player = new Player();
-            sprite = new ImageView( getClass().getResource(spriteL).toString() );
-            explosion = new ImageView ( getClass().getResource(explosionL).toString() );
+            sprite = new ImageView( getClass().getResource("/files/sprite.png").toString() );
             sprite.setVisible(false);
-            explosion.setVisible(false);
-            explosionTimer = new WordTimer();
             endTimer = new WordTimer();
             rootPane.getChildren().add(sprite);
-            rootPane.getChildren().add(explosion);
             tt = new TranslateTransition(Duration.seconds(spriteDuration), sprite);
             createDistraction();
             generateBoard();
@@ -175,8 +164,7 @@ public class BoardController extends TimerTask implements Initializable {
         else if ( selectedButton != selected.get(pos)) {
             if ( this.validateClick(selectedButton) == false ) {
                 resetSelection();
-                //
-                explode();
+                playSound(this.buzzer);
             }
             
             if ( selected.size() > first ) {
@@ -266,22 +254,6 @@ public class BoardController extends TimerTask implements Initializable {
     }
     
     /**
-     * Explodes the screen so the player cannot select a word.
-     */
-    public void explode() {
-        playSound(this.explosionSound);
-        this.explosion.setVisible(true);
-        explosionTimer.startExplosionTimer(bc);
-    }
-    
-    /**
-     * Removes the explosion from the screen so the player may continue playing.
-     */
-    public void removeExplosion() {
-        this.explosion.setVisible(false);
-    }
-    
-    /**
      * Gets the row coordinate of the button.
      * @param button
      * @return 
@@ -320,15 +292,7 @@ public class BoardController extends TimerTask implements Initializable {
     public void gameOver() {
         try {
             System.out.println("Game over!");
-            Platform.runLater(() -> {
-                playSound(this.gameOverSound);
-            });
             this.board.getSpriteTimer().cancelTimer();
-            try {
-                this.explosionTimer.cancelTimer();
-            } catch (NullPointerException e) {
-                // do nothing
-            }
             this.showGameoverScene(null);
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());

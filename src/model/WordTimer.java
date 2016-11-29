@@ -10,7 +10,7 @@ import java.util.TimerTask;
 import javafx.application.Platform;
 
 /**
- * This class implements a timer to be used by the word search board.
+ * A timer used to get a new target word for the word search.
  * @author Mitchell
  * @author Sam
  * @author Ryan
@@ -20,12 +20,12 @@ public class WordTimer {
     private       Timer     timer;
     private       TimerTask task;
     private final long      timeMultiplier = 1000; // In seconds
-    private final long      time = 21 * timeMultiplier; 
+    private final long      time = 20 * timeMultiplier; 
     private final long      endtime = 180 * timeMultiplier;
-    private final long      jailTime = 5 * timeMultiplier;
     
     /**
-     * Default constructor to create a new WordTimer.
+     * This class implements a timer to be used by the word search board.
+     * 
      */
     public WordTimer() {}
     
@@ -45,7 +45,7 @@ public class WordTimer {
         timer.scheduleAtFixedRate(task, time, time);
     }
     /**
-     * Starts a timer to end the game after the time expires.
+     * 
      * @param bc
      */
     public void startEndTimer(BoardController bc) {
@@ -61,19 +61,4 @@ public class WordTimer {
         }, endtime);
     }
 
-    /**
-     * Starts a timer for putting a player in jail.
-     * @param bc
-     */
-    public void startExplosionTimer(BoardController bc) {
-        timer = new Timer();
-        timer.schedule(new TimerTask() {
-            @Override
-            public void run() {
-                Platform.runLater(() -> {
-                    bc.removeExplosion();
-                });
-            }
-        } , jailTime );
-    }
 }

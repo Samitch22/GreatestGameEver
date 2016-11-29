@@ -4,7 +4,7 @@
  */
 package model;
 
-import java.io.FileInputStream;
+//import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -35,9 +35,10 @@ public class Score {
     private       String     propertyHolder;
     private final Properties defaultScores;
     private final Properties scores;
+    //private final File scores;
     private       InputStream in;
     private       OutputStream out;
-    private final String scoreProperties = "scores.properties";
+    private final String properties = "/files/scores.properties";
     private final String defaultProperties = "/files/defaultScores.properties";
     private final String ZERO = "0";
     
@@ -53,28 +54,21 @@ public class Score {
         receivedBonus = false;
         // Load default scores
         this.defaultScores = new Properties();
-        // Default properties stored inside JAR file
         this.in = getClass().getResourceAsStream(defaultProperties);
         this.defaultScores.load(in);
         in.close();
         
+        // Possible distribution solution
+        // Write to file outside jar
+//        String userHomeDir = System.getProperty("user.home");
+//        File scoresFile = new File(userHomeDir + "/.scores");
+//        scoresFile.mkdir();
+//        this.scores = new File(scoresFile, "scores.properties");
+        
+        
         // Make changes to the stored scores
         this.scores = new Properties(defaultScores);
-        try { // Try to read the file
-            // Modified score properties stored outside JAR file
-            this.in = new FileInputStream(scoreProperties);
-        } catch(FileNotFoundException e) { // If file does not exist
-            out = new FileOutputStream(scoreProperties);
-            // set defaults from defaultScores
-            scores.setProperty("highScore", defaultScores.getProperty("highScore"));
-            scores.setProperty("lowScore", defaultScores.getProperty("lowScore"));
-            scores.setProperty("averageScore", defaultScores.getProperty("averageScore"));
-            scores.setProperty("numGames", defaultScores.getProperty("numGames"));
-            scores.store(out, null);
-            out.close();
-            // Get the file now that it is created
-            this.in = new FileInputStream(scoreProperties);
-        }
+        this.in = getClass().getResourceAsStream(properties);
         scores.load(in);
         in.close();
 
@@ -99,6 +93,7 @@ public class Score {
      * @return
      */
     public int getCurrentScore() {
+        //this.calculatePoints();
         return currentScore;
     }
     
@@ -175,7 +170,7 @@ public class Score {
             averageScore = currentScore;
         }
         else {
-            averageScore = (tempAverageScore*tempNumGames/numGames) + (currentScore/numGames);
+            averageScore = (tempAverageScore*tempNumGames/numGames) + (averageScore/numGames);
         }
         scores.setProperty("averageScore", String.valueOf(averageScore));
         scores.setProperty("numGames", String.valueOf(numGames));
@@ -226,7 +221,7 @@ public class Score {
      */
     public void save() {
         try {
-            out = new FileOutputStream(scoreProperties);
+            out = new FileOutputStream(getClass().getResourceAsStream(properties).toString());
             scores.store(out, "Saved Scores");
             out.close();
         } catch (FileNotFoundException ex) {

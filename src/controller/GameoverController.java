@@ -32,10 +32,6 @@ public class GameoverController implements Initializable {
     private Label      lblScore;
     @FXML
     private Label      lblHighscore;
-    @FXML
-    private Label      lblAvgscore;
-    @FXML
-    private Label      lblLowscore;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -43,9 +39,6 @@ public class GameoverController implements Initializable {
         this.player.getScore().calculatePoints();
         getScore();
         getHighscore();
-        getAvgscore();
-        getLowscore();
-        
         save();
     }
 
@@ -59,30 +52,12 @@ public class GameoverController implements Initializable {
     }
     
     /**
-     * Displays the current high score.
+     * Displays the current highscore.
      */
     @FXML
     private void getHighscore() {
         Integer highscore = player.getScore().getHighScore();
         lblHighscore.setText(highscore.toString());
-    }
-    
-    /**
-     * Displays the current average score.
-     */
-    @FXML
-    private void getAvgscore() {
-        Integer avgScore = (int) player.getScore().getAverageScore();
-        lblAvgscore.setText(avgScore.toString());
-    }
-    
-    /**
-     * Displays the current low score.
-     */
-    @FXML
-    private void getLowscore() {
-        Integer lowScore = player.getScore().getLowScore();
-        lblLowscore.setText(lowScore.toString());
     }
     
     /**
