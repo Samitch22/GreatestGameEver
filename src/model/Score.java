@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -20,7 +21,7 @@ import java.util.Properties;
  * @author Ryan
  * @author Sam
  */
-public class Score {
+public class Score implements Serializable {
     
     private       int        currentScore;
     private       int        highScore;
