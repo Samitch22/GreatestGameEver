@@ -6,6 +6,7 @@
 package controller;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -41,7 +42,7 @@ import model.WordTimer;
  * This class controls the UI functionality of the board.
  * @author Mitchell
  */
-public class BoardController extends TimerTask implements Initializable {
+public class BoardController extends TimerTask implements Initializable, Serializable {
     
     private Board        board;
     private Player       player;

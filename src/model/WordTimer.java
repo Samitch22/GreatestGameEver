@@ -5,6 +5,7 @@
 package model;
 
 import controller.BoardController;
+import java.io.Serializable;
 import java.util.Timer;
 import java.util.TimerTask;
 import javafx.application.Platform;
@@ -15,7 +16,7 @@ import javafx.application.Platform;
  * @author Sam
  * @author Ryan
  */
-public class WordTimer {
+public class WordTimer implements Serializable {
     
     private       Timer     timer;
     private       TimerTask task;

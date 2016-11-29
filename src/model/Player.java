@@ -5,13 +5,14 @@
 package model;
 
 import java.io.IOException;
+import java.io.Serializable;
 
 /**
  * This class represents a player with a score.
  * @author Mitchell
  * @author Ryan
  */
-public class Player {
+public class Player implements Serializable {
 
     private final Score score;
     

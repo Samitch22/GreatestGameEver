@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.Objects;
 
 /**
@@ -11,7 +12,7 @@ import java.util.Objects;
  * @author Mitchell
  * @author Ryan
  */
-public class Word implements Comparable<Word> {
+public class Word implements Comparable<Word>, Serializable {
 
     private final String name;
 

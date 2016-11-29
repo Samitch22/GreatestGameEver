@@ -5,6 +5,7 @@
 package model;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.Random;
 
 /**
@@ -14,7 +15,7 @@ import java.util.Random;
  * @author Sam
  * @author Ryan
  */
-public final class Board { 
+public final class Board implements Serializable { 
     
     private static final int          boardSize = 14;
     private        final int          rSize;
