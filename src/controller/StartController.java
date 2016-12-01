@@ -40,4 +40,15 @@ public class StartController implements Initializable {
         rootPane.getChildren().setAll(pane);
     }
     
+    /**
+     * Starts a multiplayer game.
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    private void handleBtnMultiplayerAction(ActionEvent event) throws IOException {
+        System.out.println("Starting multiplayer!");
+        Parent pane = FXMLLoader.load(getClass().getResource("/view/LobbyScene.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
 }
