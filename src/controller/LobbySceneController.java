@@ -8,7 +8,14 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
@@ -19,6 +26,13 @@ public class LobbySceneController implements Initializable {
 
     private ClientProtocol clientProtocol;
     
+    @FXML
+    private AnchorPane rootPane;
+    @FXML
+    private Label lblDisplay;
+    @FXML
+    private Button btnCancel;
+    
     /**
      * Initializes the controller class.
      * @param url
@@ -27,8 +41,6 @@ public class LobbySceneController implements Initializable {
     @Override
     public void initialize(URL url, ResourceBundle rb) {
         try {
-            // TODO
-            // Create TCP/IP Connection
             System.out.println("Connecting to server...");
             clientProtocol = new ClientProtocol();
             clientProtocol.test();
@@ -37,4 +49,15 @@ public class LobbySceneController implements Initializable {
         }
     }    
     
+    /**
+     * Returns the player to the start scene.
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    private void handleBtnCancelAction(ActionEvent event) throws IOException {
+        System.out.println("Matchmaking canceled.");
+        Parent pane = FXMLLoader.load(getClass().getResource("/view/StartScene.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
 }
