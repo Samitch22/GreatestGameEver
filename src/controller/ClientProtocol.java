@@ -33,15 +33,15 @@ public class ClientProtocol {
         inFromServer = new ObjectInputStream(clientSocket.getInputStream());
         
         // Disconnects from the server when the application is exited.
-        Runtime.getRuntime().addShutdownHook(new Thread() {
-            @Override
-            public void run() {
-                try {
-                    outToServer.writeObject(ClientProtocol.QUIT);
-                    System.out.println("Disconnected from the server.");
-                } catch (IOException e) { 
-                    System.out.println("Unexpected Exception: " + e.getMessage()); }
-        }});
+//        Runtime.getRuntime().addShutdownHook(new Thread() {
+//            @Override
+//            public void run() {
+//                try {
+//                    outToServer.writeObject(ClientProtocol.QUIT);
+//                    System.out.println("Disconnected from the server.");
+//                } catch (IOException e) { 
+//                    System.out.println("Unexpected Exception: " + e.getMessage()); }
+//        }});
     }
     
     public void test() {
