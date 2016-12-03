@@ -15,7 +15,8 @@ import javafx.scene.Parent;
 import javafx.scene.layout.AnchorPane;
 
 /**
- *
+ * FXML Controller
+ * Starting scene for a player. A player chooses the gameplay desired.
  * @author Mitchell
  */
 public class StartController implements Initializable {
