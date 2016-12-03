@@ -8,6 +8,7 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -19,7 +20,7 @@ import javafx.scene.layout.AnchorPane;
 
 /**
  * FXML Controller class
- *
+ * A lobby scene for a player waiting for a multiplayer game to start.
  * @author Mitchell
  */
 public class LobbySceneController implements Initializable {
@@ -46,6 +47,13 @@ public class LobbySceneController implements Initializable {
             clientProtocol.test();
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());
+            Platform.runLater(() -> {
+                try {
+                    LobbySceneController.this.handleBtnCancelAction(null);
+                } catch (IOException ex1) {
+                    System.out.println("Unexpected Exception: " + ex1.getMessage());
+                }
+            });
         }
     }    
     
@@ -55,7 +63,7 @@ public class LobbySceneController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    private void handleBtnCancelAction(ActionEvent event) throws IOException {
+    protected void handleBtnCancelAction(ActionEvent event) throws IOException {
         System.out.println("Matchmaking canceled.");
         Parent pane = FXMLLoader.load(getClass().getResource("/view/StartScene.fxml"));
         rootPane.getChildren().setAll(pane);

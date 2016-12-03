@@ -8,14 +8,10 @@ package controller;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
-import java.net.InetAddress;
 import java.net.Socket;
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import model.Board;
 
 /**
- *
+ * Client protocol that implements multiplayer gameplay. 
  * @author Mitchell
  */
 public class ClientProtocol {
@@ -27,11 +23,16 @@ public class ClientProtocol {
     private final ObjectInputStream  inFromServer;
     private final ObjectOutputStream outToServer;
     
+    /**
+     * Constructs the protocol for multiplayer gameplay.
+     * @throws IOException
+     */
     public ClientProtocol() throws IOException {
         clientSocket = new Socket(ipAddress, port);
         outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
         inFromServer = new ObjectInputStream(clientSocket.getInputStream());
         
+        // FUTURE
         // Disconnects from the server when the application is exited.
 //        Runtime.getRuntime().addShutdownHook(new Thread() {
 //            @Override
@@ -44,6 +45,9 @@ public class ClientProtocol {
 //        }});
     }
     
+    /**
+     * Tests connection to server.
+     */
     public void test() {
         try {
             String str = "Hello server!";
