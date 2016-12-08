@@ -22,7 +22,7 @@ public class WordBank implements Serializable {
     private final List<Word>     wordBank;
     private final List<Word>     distractionBank;
     private final List<String>   lists;
-    private final Score          score;
+    private       Score          score;
     private final WordFactory    factory;
     private final WordValidator  validator;
     private       BufferedReader wordReader = null;
@@ -184,11 +184,19 @@ public class WordBank implements Serializable {
     }
 
     /**
-     * Gets the score associated with the word.
+     * Gets the score associated with a Player.
      * @return
      */
     public Score getScore() {
         return score;
+    }
+
+    /**
+     * Sets the score from a Player.
+     * @param score
+     */
+    public void setScore(Score score) {
+        this.score = score;
     }
 
     /**

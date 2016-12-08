@@ -19,7 +19,7 @@ import model.Board;
 import model.Player;
 
 /**
- *
+ * Scene for displaying the information after a game ends.
  * @author Mitchell
  */
 public class GameoverController implements Initializable {
@@ -39,7 +39,7 @@ public class GameoverController implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        player = Board.getPlayer();
+        player = BoardController.getPlayer();
         this.player.getScore().calculatePoints();
         getScore();
         getHighscore();
@@ -100,8 +100,12 @@ public class GameoverController implements Initializable {
     @FXML
     private void handleStart(ActionEvent event) throws IOException {
         System.out.println("Starting a new game!");
-        Parent pane = FXMLLoader.load(getClass().getResource("/view/BoardScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BoardScene.fxml"));
+        Parent pane = (Parent)loader.load();
         rootPane.getChildren().setAll(pane);
+
+        BoardController bc = loader.<BoardController>getController();
+        bc.startSingleplayer();
     }
     
     /**

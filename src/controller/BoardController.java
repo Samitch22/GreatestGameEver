@@ -45,7 +45,7 @@ import model.WordTimer;
 public class BoardController extends TimerTask implements Initializable, Serializable {
     
     private Board        board;
-    private Player       player;
+    private static Player player;
     private Object[][]   boardGrid;
     private List<Node>   selected;
     private Object[][][] wordKey;
@@ -79,7 +79,7 @@ public class BoardController extends TimerTask implements Initializable, Seriali
     
     @Override
     public void run() {
-        System.out.println("Sprite incomming!");
+        System.out.println("Sprite incoming!");
         Platform.runLater(() -> {
                 bc.distract();
                 playSound(this.spriteSound);
@@ -88,6 +88,13 @@ public class BoardController extends TimerTask implements Initializable, Seriali
     
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        
+    }
+    
+    /**
+     * The initialization logic for starting a single player game.
+     */
+        public void startSingleplayer() {
         try {
             bc = this;
             player = new Player();
@@ -106,6 +113,13 @@ public class BoardController extends TimerTask implements Initializable, Seriali
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());
         }
+    }
+    
+    /**
+     * The initialization logic for starting a multiplayer game.
+     */
+    public void startMultiplayer() {
+        LobbySceneController.getClientProtocol().testCP();
     }
     
     /**
@@ -306,6 +320,14 @@ public class BoardController extends TimerTask implements Initializable, Seriali
      */
     public Board getBoard() {
         return board;
+    }
+
+    /**
+     *
+     * @return
+     */
+    public static Player getPlayer() {
+        return player;
     }
     
     /**

@@ -23,7 +23,7 @@ public final class Board implements Serializable {
     private        final Object[][]   board;
     private        final WordTimer    spriteTimer;
     private        final WordBank     wordBank;
-    private static       Player       player;
+    private              Player       player;
     private        final Object[][][] wordKeys;
     private        final Object[]     targetKeys;
     private              int          targetKey;
@@ -37,13 +37,17 @@ public final class Board implements Serializable {
         this.rSize      = Board.getBoardSize();
         this.cSize      = Board.getBoardSize();
         this.spriteTimer = new WordTimer();
-        Board.player    = p;
+        this.player     = p;
         this.wordBank   = new WordBank(p.getScore());
         this.board      = new Character[getrSize()][getcSize()];
         loadWordBank();
         this.wordKeys   = new Character[getrSize()][getcSize()][wordBank.getNumWords()];
         this.targetKeys = new Word[wordBank.getNumWords()];
         createBoard();
+    }
+    
+    public Board(Board b) throws IOException {
+        this (b.getPlayer());
     }
     
     /**
@@ -286,10 +290,27 @@ public final class Board implements Serializable {
     }
 
     /**
+     * Sets the player for the board.
+     * @param player
+     */
+    public void setPlayer(Player player) {
+        this.player = player;
+        setWordBankScore(player); // Coupled
+    }
+
+    /**
+     * Sets this Word Bank's score associated with this player.
+     * @param player 
+     */
+    private void setWordBankScore(Player player) {
+        this.wordBank.setScore(player.getScore());
+    }
+    
+    /**
      * Gets the player.
      * @return
      */
-    public static Player getPlayer() {
+    public Player getPlayer() {
         return player;
     }
     
