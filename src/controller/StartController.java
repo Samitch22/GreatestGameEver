@@ -26,19 +26,23 @@ public class StartController implements Initializable {
     
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        // TODO  
+         
     }    
     
     /**
-     * Starts the game.
+     * Starts a singleplayer game.
      * @param event
      * @throws IOException 
      */
     @FXML
     private void handleBtnStartAction(ActionEvent event) throws IOException {
         System.out.println("Starting a new game!");
-        Parent pane = FXMLLoader.load(getClass().getResource("/view/BoardScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BoardScene.fxml"));
+        Parent pane = (Parent)loader.load();
         rootPane.getChildren().setAll(pane);
+
+        BoardController bc = loader.<BoardController>getController();
+        bc.startSingleplayer();
     }
     
     /**

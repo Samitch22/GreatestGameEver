@@ -8,7 +8,6 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -25,7 +24,7 @@ import javafx.scene.layout.AnchorPane;
  */
 public class LobbySceneController implements Initializable {
 
-    private ClientProtocol clientProtocol;
+    private static ClientProtocol clientProtocol;
     
     @FXML
     private AnchorPane rootPane;
@@ -45,17 +44,20 @@ public class LobbySceneController implements Initializable {
             System.out.println("Connecting to server...");
             clientProtocol = new ClientProtocol();
             clientProtocol.test();
+            this.showBoardScene(null);
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());
-            Platform.runLater(() -> {
-                try {
-                    LobbySceneController.this.handleBtnCancelAction(null);
-                } catch (IOException ex1) {
-                    System.out.println("Unexpected Exception: " + ex1.getMessage());
-                }
-            });
+            try {
+               this.handleBtnCancelAction(null);
+            } catch (IOException ex1) {
+                System.out.println("Unexpected Exception: " + ex1.getMessage());
+            }
         }
     }    
+
+    public static ClientProtocol getClientProtocol() {
+        return clientProtocol;
+    }
     
     /**
      * Returns the player to the start scene.
@@ -63,9 +65,26 @@ public class LobbySceneController implements Initializable {
      * @throws IOException 
      */
     @FXML
-    protected void handleBtnCancelAction(ActionEvent event) throws IOException {
+    private void handleBtnCancelAction(ActionEvent event) throws IOException {
         System.out.println("Matchmaking canceled.");
         Parent pane = FXMLLoader.load(getClass().getResource("/view/StartScene.fxml"));
         rootPane.getChildren().setAll(pane);
     }
+    
+    /**
+     * Shows the board scene to start a multiplayer game.
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    private void showBoardScene(ActionEvent event) throws IOException {
+        System.out.println("Starting a multiplayer game!");
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/BoardScene.fxml"));
+        Parent pane = (Parent)loader.load();
+        rootPane.getChildren().setAll(pane);
+
+        BoardController bc = loader.<BoardController>getController();
+        bc.startMultiplayer();
+    }
+    
 }

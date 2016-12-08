@@ -45,6 +45,8 @@ public class ClientProtocol {
 //        }});
     }
     
+    
+    
     /**
      * Tests connection to server.
      */
@@ -56,5 +58,9 @@ public class ClientProtocol {
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());
         }
+    }
+    
+    public void testCP() {
+        System.out.println("Testing Client Protocol object.");
     }
 }
