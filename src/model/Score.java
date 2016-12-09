@@ -33,13 +33,18 @@ public class Score implements Serializable {
     private final int        baseMulti = 15;
     private final int        bonus = 5000;
     private       boolean    receivedBonus;
-    private       String     propertyHolder;
+    
+    
+    // COMMENT OUT defaultScores and scores; ALL OF THE RED NEEDS TO BE MOVED
+    // WE STILL NEED GETTERS AND SETTERS IN THIS SCORE CLASS
     private final Properties defaultScores;
     private final Properties scores;
-    private       InputStream in;
-    private       OutputStream out;
-    private final String scoreProperties = "scores.properties";
-    private final String defaultProperties = "/files/defaultScores.properties";
+    private       String     propertyHolder;
+//    private       InputStream in;
+  //  private       OutputStream out;
+    //private final String scoreProperties = "scores.properties";
+    //private final String defaultProperties = "/files/defaultScores.properties";
+    // This might need to be moved too
     private final String ZERO = "0";
     
     
@@ -55,29 +60,30 @@ public class Score implements Serializable {
         // Load default scores
         this.defaultScores = new Properties();
         // Default properties stored inside JAR file
-        this.in = getClass().getResourceAsStream(defaultProperties);
-        this.defaultScores.load(in);
-        in.close();
+//        this.in = getClass().getResourceAsStream(defaultProperties);
+//        this.defaultScores.load(in);
+//        in.close();
         
         // Make changes to the stored scores
         this.scores = new Properties(defaultScores);
-        try { // Try to read the file
-            // Modified score properties stored outside JAR file
-            this.in = new FileInputStream(scoreProperties);
-        } catch(FileNotFoundException e) { // If file does not exist
-            out = new FileOutputStream(scoreProperties);
-            // set defaults from defaultScores
-            scores.setProperty("highScore", defaultScores.getProperty("highScore"));
-            scores.setProperty("lowScore", defaultScores.getProperty("lowScore"));
-            scores.setProperty("averageScore", defaultScores.getProperty("averageScore"));
-            scores.setProperty("numGames", defaultScores.getProperty("numGames"));
-            scores.store(out, null);
-            out.close();
-            // Get the file now that it is created
-            this.in = new FileInputStream(scoreProperties);
-        }
-        scores.load(in);
-        in.close();
+//        try { // Try to read the file
+//            // Modified score properties stored outside JAR file
+////            this.in = new FileInputStream(scoreProperties);
+//        } catch(FileNotFoundException e) { // If file does not exist
+////            out = new FileOutputStream(scoreProperties);
+//            // set defaults from defaultScores
+//            scores.setProperty("highScore", defaultScores.getProperty("highScore"));
+//            scores.setProperty("lowScore", defaultScores.getProperty("lowScore"));
+//            scores.setProperty("averageScore", defaultScores.getProperty("averageScore"));
+//            scores.setProperty("numGames", defaultScores.getProperty("numGames"));
+//  //          scores.store(out, null);
+//  //          out.close();
+//            // Get the file now that it is created
+//  //          this.in = new FileInputStream(scoreProperties);
+//        }
+    //    scores.load(in);
+        
+    //    in.close();
 
     }
     
@@ -226,14 +232,14 @@ public class Score implements Serializable {
      * Saves the changes made to the Property.
      */
     public void save() {
-        try {
-            out = new FileOutputStream(scoreProperties);
-            scores.store(out, "Saved Scores");
-            out.close();
-        } catch (FileNotFoundException ex) {
-            System.out.println("Unexpected Exception: " + ex.getMessage());
-        } catch (IOException ex) {
-            System.out.println("Unexpected Exception: " + ex.getMessage());
-        }
+//        try {
+//            out = new FileOutputStream(scoreProperties);
+//            scores.store(out, "Saved Scores");
+//            out.close();
+//        } catch (FileNotFoundException ex) {
+//            System.out.println("Unexpected Exception: " + ex.getMessage());
+//        } catch (IOException ex) {
+//            System.out.println("Unexpected Exception: " + ex.getMessage());
+//        }
     }
 }
