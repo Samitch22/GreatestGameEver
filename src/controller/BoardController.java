@@ -65,6 +65,7 @@ public class BoardController extends TimerTask implements Initializable, Seriali
     private final Media explosionSound  = new Media( getClass().getClassLoader().getResource("files/Explosion.wav").toExternalForm());
     private final Media spriteSound = new Media( getClass().getClassLoader().getResource("files/SpriteSound.wav").toExternalForm());
     private final Media gameOverSound = new Media( getClass().getClassLoader().getResource("files/Gameover.wav").toExternalForm());
+    private boolean isSingleplayer;
     
     @FXML
     private AnchorPane rootPane;
@@ -96,7 +97,9 @@ public class BoardController extends TimerTask implements Initializable, Seriali
      */
         public void startSingleplayer() {
         try {
+            isSingleplayer = true;
             player = new Player();
+            player.getScore().load();
             setupGame();
             
             generateBoard();

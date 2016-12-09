@@ -44,8 +44,6 @@ public class GameoverController implements Initializable {
         getHighscore();
         getAvgscore();
         getLowscore();
-        
-        save();
     }
 
     /**
@@ -82,13 +80,6 @@ public class GameoverController implements Initializable {
     private void getLowscore() {
         Integer lowScore = player.getScore().getLowScore();
         lblLowscore.setText(lowScore.toString());
-    }
-    
-    /**
-     * Saves the scores.
-     */
-    private void save() {
-        player.getScore().save();
     }
     
     /**

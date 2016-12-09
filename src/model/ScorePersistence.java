@@ -65,6 +65,8 @@ public class ScorePersistence {
         in.close();
     }
     
+    
+    
     /**
      * Saves the changes made to the Property.
      */
@@ -85,9 +87,11 @@ public class ScorePersistence {
      * @param score 
      */
     public void setScores(int score) {
+        this.currentScore = score;
         this.setHighScore(score);
         this.setLowScore(score);
         this.setAverageScore(score);
+        this.save();
     }
     
     /**
