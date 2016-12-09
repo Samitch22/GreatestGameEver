@@ -4,11 +4,13 @@
  */
 package model;
 
+import java.io.Serializable;
+
 /**
  * @todo
  * @author Mitchell
  */
-public class WordFactory {
+public class WordFactory implements Serializable {
 
     /**
      * Method to create a new word, based on the factory functionality.

@@ -65,6 +65,7 @@ public class BoardController extends TimerTask implements Initializable, Seriali
     private final Media explosionSound  = new Media( getClass().getClassLoader().getResource("files/Explosion.wav").toExternalForm());
     private final Media spriteSound = new Media( getClass().getClassLoader().getResource("files/SpriteSound.wav").toExternalForm());
     private final Media gameOverSound = new Media( getClass().getClassLoader().getResource("files/Gameover.wav").toExternalForm());
+    private boolean isSingleplayer;
     
     @FXML
     private AnchorPane rootPane;
@@ -96,18 +97,11 @@ public class BoardController extends TimerTask implements Initializable, Seriali
      */
         public void startSingleplayer() {
         try {
-            bc = this;
+            isSingleplayer = true;
             player = new Player();
-            sprite = new ImageView( getClass().getResource(spriteL).toString() );
-            explosion = new ImageView ( getClass().getResource(explosionL).toString() );
-            sprite.setVisible(false);
-            explosion.setVisible(false);
-            explosionTimer = new WordTimer();
-            endTimer = new WordTimer();
-            rootPane.getChildren().add(sprite);
-            rootPane.getChildren().add(explosion);
-            tt = new TranslateTransition(Duration.seconds(spriteDuration), sprite);
-            createDistraction();
+            player.getScore().load();
+            setupGame();
+            
             generateBoard();
             startGame();
         } catch (IOException ex) {
@@ -119,7 +113,27 @@ public class BoardController extends TimerTask implements Initializable, Seriali
      * The initialization logic for starting a multiplayer game.
      */
     public void startMultiplayer() {
-        LobbySceneController.getClientProtocol().testCP();
+        this.board = LobbyController.getClientProtocol().getBoard();
+        player = board.getPlayer();
+        setupGame();
+        startGame();
+    }
+    
+    /**
+     * Helper method to set up a new game.
+     */
+    private void setupGame() {
+        bc = this;
+        sprite = new ImageView( getClass().getResource(spriteL).toString() );
+        explosion = new ImageView ( getClass().getResource(explosionL).toString() );
+        sprite.setVisible(false);
+        explosion.setVisible(false);
+        explosionTimer = new WordTimer();
+        endTimer = new WordTimer();
+        rootPane.getChildren().add(sprite);
+        rootPane.getChildren().add(explosion);
+        tt = new TranslateTransition(Duration.seconds(spriteDuration), sprite);
+        createDistraction();
     }
     
     /**
@@ -323,7 +337,7 @@ public class BoardController extends TimerTask implements Initializable, Seriali
     }
 
     /**
-     *
+     * Gets the player.
      * @return
      */
     public static Player getPlayer() {
@@ -581,4 +595,14 @@ public class BoardController extends TimerTask implements Initializable, Seriali
         rootPane.getChildren().setAll(pane);
     }
 
+    /**
+     * 
+     * @param event
+     * @throws IOException 
+     */
+    @FXML
+    private void showStartScene(ActionEvent event) throws IOException { 
+        Parent pane = FXMLLoader.load(getClass().getResource("/view/StartScene.fxml"));
+        rootPane.getChildren().setAll(pane);
+    }
 }

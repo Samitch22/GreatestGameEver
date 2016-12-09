@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -11,7 +12,7 @@ import java.util.List;
  * @author Mitchell
  * @author Ryan
  */
-public class WordValidator {
+public class WordValidator implements Serializable {
     
     private final WordBank wordbank;
     
