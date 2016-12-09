@@ -4,7 +4,6 @@
  */
 package model;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -18,9 +17,8 @@ public class Player implements Serializable {
     
     /**
      * Constructs a player with a score.
-     * @throws java.io.IOException
      */
-    public Player() throws IOException {
+    public Player() {
         score = new Score();
     }
 
@@ -29,10 +27,9 @@ public class Player implements Serializable {
      * @return 
      */
     public Score getScore() {
-//        return score;
-        return null;
+        return score;
    }
-//
+
     public void setScore(Score score) {
         this.score = score;
     }

@@ -33,18 +33,23 @@ public class Score implements Serializable {
     private final int        baseMulti = 15;
     private final int        bonus = 5000;
     private       boolean    receivedBonus;
+    private ScorePersistence sp;
+    private boolean isSingleplayer = false;
      
     
     /**
      * Constructs a score holding current score, high score, low score, average 
      * score, and number of games played.
-     * @throws java.io.FileNotFoundException
      */
-    public Score() throws FileNotFoundException, IOException {
+    public Score() {
         foundWords = new ArrayList<>();
         currentScore = 0;
         receivedBonus = false;
-        
+    }
+    
+    public void load() throws IOException {
+        isSingleplayer = true;
+        sp = new ScorePersistence();
     }
     
     /**
@@ -58,7 +63,15 @@ public class Score implements Serializable {
         if ( receivedBonus == true ) {
             currentScore += bonus;
         }
-        this.setScores(currentScore);
+        if ( this.isSingleplayer ) {
+            sp.setScores(this.currentScore);
+            this.highScore = sp.getHighScore();
+            this.lowScore = sp.getLowScore();
+            this.averageScore = sp.getAverageScore();
+        }
+        else
+            this.setScores(currentScore);
+        
     }
     
     /**
