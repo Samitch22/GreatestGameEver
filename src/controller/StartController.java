@@ -7,6 +7,9 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -53,7 +56,27 @@ public class StartController implements Initializable {
     @FXML
     private void handleBtnMultiplayerAction(ActionEvent event) throws IOException {
         System.out.println("Starting multiplayer!");
-        Parent pane = FXMLLoader.load(getClass().getResource("/view/LobbyScene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/view/LobbyScene.fxml"));
+        Parent pane = (Parent)loader.load();
         rootPane.getChildren().setAll(pane);
+        
+        if ( LobbyController.isEmergencyStop() == false ) {
+            new Thread ( () -> {
+                try {
+                    LobbyController.getClientProtocol().receiveBoard();
+                } catch (IOException ex) {
+                    System.out.println("Unexpected Exception: " + ex.getMessage());
+                    Platform.runLater(() -> {
+                        try {
+                            loader.<LobbyController>getController().handleBtnCancelAction(null);
+                        } catch (IOException ex1) {
+                            System.out.println("Unexpected Exception: " + ex1.getMessage());
+                        }
+                    });
+                        
+
+                }
+            }).start();
+        }
     }
 }

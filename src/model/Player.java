@@ -4,7 +4,6 @@
  */
 package model;
 
-import java.io.IOException;
 import java.io.Serializable;
 
 /**
@@ -14,13 +13,12 @@ import java.io.Serializable;
  */
 public class Player implements Serializable {
 
-    private final Score score;
+    private Score score ;
     
     /**
      * Constructs a player with a score.
-     * @throws java.io.IOException
      */
-    public Player() throws IOException {
+    public Player() {
         score = new Score();
     }
 
@@ -30,6 +28,10 @@ public class Player implements Serializable {
      */
     public Score getScore() {
         return score;
+   }
+
+    public void setScore(Score score) {
+        this.score = score;
     }
     
 }

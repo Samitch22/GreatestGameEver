@@ -9,6 +9,8 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
+import model.Board;
+import model.Player;
 
 /**
  * Client protocol that implements multiplayer gameplay. 
@@ -22,7 +24,7 @@ public class ClientProtocol {
     private final Socket             clientSocket;
     private final ObjectInputStream  inFromServer;
     private final ObjectOutputStream outToServer;
-    
+    private       Board              board;
     /**
      * Constructs the protocol for multiplayer gameplay.
      * @throws IOException
@@ -31,21 +33,51 @@ public class ClientProtocol {
         clientSocket = new Socket(ipAddress, port);
         outToServer = new ObjectOutputStream(clientSocket.getOutputStream());
         inFromServer = new ObjectInputStream(clientSocket.getInputStream());
+        System.out.println("Connected to server!");
         
-        // FUTURE
         // Disconnects from the server when the application is exited.
-//        Runtime.getRuntime().addShutdownHook(new Thread() {
-//            @Override
-//            public void run() {
-//                try {
-//                    outToServer.writeObject(ClientProtocol.QUIT);
-//                    System.out.println("Disconnected from the server.");
-//                } catch (IOException e) { 
-//                    System.out.println("Unexpected Exception: " + e.getMessage()); }
-//        }});
+        Runtime.getRuntime().addShutdownHook(new Thread() {
+            @Override
+            public void run() {
+                try {
+                    outToServer.writeObject(ClientProtocol.QUIT);
+                    System.out.println("Disconnected from the server.");
+                } catch (IOException e) { 
+                    System.out.println("Unexpected Exception: " + e.getMessage()); }
+        }});
     }
     
+    /**
+     * Notifies the server the client wants to disconnect.
+     * @throws IOException
+     */
+    public void disconnect() throws IOException {
+        outToServer.writeChar(ClientProtocol.QUIT);
+    }
     
+    /**
+     * Gets the board from the server.
+     * @throws IOException
+     */
+    public void receiveBoard() throws IOException {
+        while ( board == null ) {
+            try {
+                //board = (Board) inFromServer.readObject();
+                Player p = (Player) inFromServer.readObject();
+            } catch (ClassNotFoundException ex) {
+                System.out.println("Class not found: " + ex.getMessage());
+            }
+        }
+        
+    }
+
+    /**
+     * Gets the board.
+     * @return
+     */
+    public Board getBoard() {
+        return board;
+    }
     
     /**
      * Tests connection to server.
