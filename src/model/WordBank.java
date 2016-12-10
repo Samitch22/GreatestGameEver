@@ -4,11 +4,8 @@
  */
 package model;
 
-import java.io.BufferedReader;
 import java.io.IOException;
-import java.io.InputStreamReader;
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -19,16 +16,10 @@ import java.util.Random;
  */
 public class WordBank implements Serializable {
     
-    private final List<Word>     wordBank;
-    private final List<Word>     distractionBank;
-    private final List<String>   lists;
+    private       List<Word>     wordBank;
+    private       List<Word>     distractionBank;
     private       Score          score;
-    private final WordFactory    factory;
     private final WordValidator  validator;
-    private       BufferedReader wordReader = null;
-    private       BufferedReader distractionReader = null;
-    private       String         wordList;
-    private       String         distractionList;
     private       int            numWords;
     private       int            numDistractions;
     private       boolean        gameover;
@@ -36,18 +27,27 @@ public class WordBank implements Serializable {
     /**
      * Constructs a word bank that contains a list of words from a word list.
      * @param s
+     * @throws java.io.IOException
      */
-    public WordBank(Score s) {
-        wordBank = new ArrayList<>();
-        distractionBank = new ArrayList<>();
-        lists = new ArrayList<>();
-        factory = new WordFactory();
-        validator = new WordValidator(this);
+    public WordBank(Score s) throws IOException {
         score = s;
-        setWordList();
-        numWords = 0;
-        numDistractions = 0;
+        validator = new WordValidator(this);
         gameover = false;
+    }
+
+    /**
+     * Implements the necessary steps to create a word bank.
+     * @throws IOException
+     */
+    public void createWordBank() throws IOException {
+        WordFactory factory = WordFactory.makeFactory();
+        factory.setWordList();
+        factory.createWordBank();
+        factory.createDistractionBank();
+        wordBank = factory.getWordBank();
+        distractionBank = factory.getDistractionBank();
+        numWords = factory.getNumWords();
+        numDistractions = factory.getNumDistractions();
     }
     
     /**
@@ -66,40 +66,6 @@ public class WordBank implements Serializable {
     public boolean foundWord(Word w) {
         
         return validator.foundWord(w);
-    }
-    
-    /**
-     * Adds the words from the list to the word bank.
-     * @throws IOException
-     */
-    public void createWordBank() throws IOException  {
-        String line;
-        Word newWord;
-        getWordReader();
-        
-        while ( (line = wordReader.readLine()) != null ) {
-            newWord = factory.makeWord(line);
-            if ( newWord != null )
-                wordBank.add(newWord);
-        }
-        this.numWords = this.calcWords();
-    }
-    
-    /**
-     * Adds the words from the list to the word bank.
-     * @throws IOException
-     */
-    public void createDistractionBank() throws IOException  {
-        String line;
-        Word newWord;
-        getDistractionReader();
-        
-        while ( (line = distractionReader.readLine()) != null ) {
-            newWord = factory.makeWord(line);
-            if ( newWord != null )
-                distractionBank.add(newWord);
-        }
-        this.numDistractions = this.calcDistractions();
     }
     
     /**
@@ -152,21 +118,7 @@ public class WordBank implements Serializable {
         }
         return returnWord;
     }
-    
-    /**
-     * Calculates the number of words in the word bank.
-     */
-    private int calcWords() {
-        return wordBank.size();
-    }
-    
-    /**
-     * Calculates the number of words in the distraction bank.
-     */
-    private int calcDistractions() {
-        return distractionBank.size();
-    }
-    
+
     /**
      * Gets the number of words in the word bank.
      * @return
@@ -198,58 +150,5 @@ public class WordBank implements Serializable {
     public void setScore(Score score) {
         this.score = score;
     }
-
-    /**
-     * Gets the name of the word list file.
-     * @return
-     */
-    public String getWordList() {
-        return wordList;
-    }
     
-    /**
-     * Gets the name of the distraction list file.
-     * @return
-     */
-    public String getDistractionList() {
-        return distractionList;
-    }
-
-    /**
-     * Sets a random word list as the list of words for the word and distraction banks.
-     */
-    private void setWordList() {
-        String words;
-        Random index = new Random();
-        // Manually add any list of words 
-        lists.add("gg.txt"); 
-        lists.add("pizza.txt");
-        lists.add("PeriodicTable.txt");
-        words = lists.get(index.nextInt(lists.size()));
-        this.wordList = "/files/wordLists/" + words;
-        this.distractionList = "/files/distractionLists/" + words;
-        System.out.println("Got the words!");
-    }
-
-    /**
-     * Gets the buffered reader for file I/O for the word list.
-     * @return 
-     */
-    private BufferedReader getWordReader() {
-
-        wordReader = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(wordList) ));
-
-        return wordReader;
-    }
-    
-    /**
-     * Gets the buffered reader for file I/O for the distraction list.
-     * @return 
-     */
-    private BufferedReader getDistractionReader() {
-
-        distractionReader = new BufferedReader( new InputStreamReader( getClass().getResourceAsStream(distractionList) ));
-
-        return distractionReader;
-    }
 }

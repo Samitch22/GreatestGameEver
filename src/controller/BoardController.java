@@ -100,8 +100,9 @@ public class BoardController extends TimerTask implements Initializable, Seriali
             isSingleplayer = true;
             player = new Player();
             player.getScore().load();
+            board = new Board(player);
+            board.setup();
             setupGame();
-            
             generateBoard();
             startGame();
         } catch (IOException ex) {
@@ -111,11 +112,14 @@ public class BoardController extends TimerTask implements Initializable, Seriali
     
     /**
      * The initialization logic for starting a multiplayer game.
+     * @throws java.io.IOException
      */
-    public void startMultiplayer() {
+    public void startMultiplayer() throws IOException {
         this.board = LobbyController.getClientProtocol().getBoard();
         player = board.getPlayer();
+        //this.board.setup();
         setupGame();
+        generateBoard();
         startGame();
     }
     
@@ -143,7 +147,7 @@ public class BoardController extends TimerTask implements Initializable, Seriali
     private void generateBoard() throws IOException {
         // Load a 2D array to the grid
 
-        board = new Board(player);
+        //board = new Board(player);
         boardGrid = board.getBoard();
         selected = new ArrayList<>();
         wordKey = board.getWordKeys();
@@ -174,7 +178,7 @@ public class BoardController extends TimerTask implements Initializable, Seriali
      * Starts the game.
      */
     @FXML
-    private void startGame() {
+    private void startGame() throws IOException {
         board.startGame();
         Platform.runLater(() -> {
             endTimer.startEndTimer(bc);

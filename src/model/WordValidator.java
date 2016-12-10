@@ -54,13 +54,4 @@ public class WordValidator implements Serializable {
         }
         return isFound;
     }
-    
-    /**
-     * Logic for when a guess is incorrect.
-     * @param guess
-     
-    public void wordNotFound(Word guess) {
-        guess.addAttempt();
-    }
-    */
 }

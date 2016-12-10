@@ -13,7 +13,7 @@ import java.io.Serializable;
  */
 public class Player implements Serializable {
 
-    private Score score ;
+    private final Score score ;
     
     /**
      * Constructs a player with a score.
@@ -29,9 +29,5 @@ public class Player implements Serializable {
     public Score getScore() {
         return score;
    }
-
-    public void setScore(Score score) {
-        this.score = score;
-    }
     
 }

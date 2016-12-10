@@ -8,8 +8,7 @@ package controller;
 import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
-import java.util.logging.Level;
-import java.util.logging.Logger;
+import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -47,8 +46,20 @@ public class LobbyController implements Initializable {
         try {
             System.out.println("Connecting to server...");
             clientProtocol = new ClientProtocol();
-            //clientProtocol.receiveBoard();
-            
+            Platform.runLater(() -> {
+                try {
+                    clientProtocol.receiveBoard();
+                    this.showBoardScene(null);
+                } catch (IOException ex) {
+                    System.out.println("Unexpected Exception: " + ex.getMessage());
+                    try {
+                        this.handleBtnCancelAction(null);
+                    } catch (IOException ex1) {
+                        System.out.println("Unexpected Exception: " + ex1.getMessage());
+                        System.exit(-1);
+                    }
+                }
+            }); 
         } catch (IOException ex) {
             System.out.println("Unexpected Exception: " + ex.getMessage());
             LobbyController.emergencyStop = true;
@@ -56,6 +67,7 @@ public class LobbyController implements Initializable {
                this.handleBtnCancelAction(null);
             } catch (IOException ex1) {
                 System.out.println("Unexpected Exception: " + ex1.getMessage());
+                System.exit(-1);
             }
         }
 //        if ( LobbyController.emergencyStop == false ) {

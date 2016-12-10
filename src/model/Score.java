@@ -4,16 +4,10 @@
  */
 package model;
 
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 /**
  * This class represents a player's score.
@@ -35,7 +29,7 @@ public class Score implements Serializable {
     private       boolean    receivedBonus;
     private ScorePersistence sp;
     private boolean isSingleplayer = false;
-     
+    private final String ZERO = "0";
     
     /**
      * Constructs a score holding current score, high score, low score, average 
