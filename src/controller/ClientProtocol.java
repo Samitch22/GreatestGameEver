@@ -10,7 +10,6 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.net.Socket;
 import model.Board;
-import model.Player;
 
 /**
  * Client protocol that implements multiplayer gameplay. 
@@ -62,8 +61,7 @@ public class ClientProtocol {
     public void receiveBoard() throws IOException {
         while ( board == null ) {
             try {
-                //board = (Board) inFromServer.readObject();
-                Player p = (Player) inFromServer.readObject();
+                board = (Board) inFromServer.readObject();
             } catch (ClassNotFoundException ex) {
                 System.out.println("Class not found: " + ex.getMessage());
             }

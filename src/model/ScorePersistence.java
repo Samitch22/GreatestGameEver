@@ -103,8 +103,8 @@ public class ScorePersistence {
         if ( propertyHolder == null )
             propertyHolder = this.ZERO;
         int tempHighScore = Integer.parseInt(propertyHolder);
-        if(currentScore > tempHighScore) {
-            highScore = currentScore;
+        if(hScore > tempHighScore) {
+            highScore = hScore;
             scores.setProperty("highScore", String.valueOf(highScore));
         }
     }
@@ -118,8 +118,8 @@ public class ScorePersistence {
         if ( propertyHolder == null )
             propertyHolder = this.ZERO;
         int tempLowScore = Integer.parseInt(propertyHolder);
-        if(currentScore < tempLowScore) {
-            lowScore = currentScore;
+        if(lScore < tempLowScore) {
+            lowScore = lScore;
             scores.setProperty("lowScore", String.valueOf(lowScore));
         }
     }
@@ -142,7 +142,7 @@ public class ScorePersistence {
             averageScore = currentScore;
         }
         else {
-            averageScore = (tempAverageScore*tempNumGames/numGames) + (currentScore/numGames);
+            averageScore = (tempAverageScore*tempNumGames/numGames) + (aScore/numGames);
         }
         scores.setProperty("averageScore", String.valueOf(averageScore));
         scores.setProperty("numGames", String.valueOf(numGames));

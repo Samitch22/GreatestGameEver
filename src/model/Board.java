@@ -20,12 +20,12 @@ public final class Board implements Serializable {
     private static final int          boardSize = 14;
     private        final int          rSize;
     private        final int          cSize;
-    private        final Object[][]   board;
+    private              Object[][]   board;
     private        final WordTimer    spriteTimer;
-    private        final WordBank     wordBank;
+    private              WordBank     wordBank;
     private              Player       player;
-    private        final Object[][][] wordKeys;
-    private        final Object[]     targetKeys;
+    private              Object[][][] wordKeys;
+    private              Object[]     targetKeys;
     private              int          targetKey;
     
     /**
@@ -39,11 +39,7 @@ public final class Board implements Serializable {
         this.spriteTimer = new WordTimer();
         this.player     = p;
         this.wordBank   = new WordBank(p.getScore());
-        this.board      = new Character[getrSize()][getcSize()];
-        loadWordBank();
-        this.wordKeys   = new Character[getrSize()][getcSize()][wordBank.getNumWords()];
-        this.targetKeys = new Word[wordBank.getNumWords()];
-        createBoard();
+        
     }
     
     public Board(Board b) throws IOException {
@@ -55,7 +51,7 @@ public final class Board implements Serializable {
      * @throws java.io.IOException
      */
     private void createBoard() throws IOException {
-
+        
         //Iterating through all the words in the list
         for ( int w = 0; w < this.getNumWords(); w++ ) {
             
@@ -205,19 +201,22 @@ public final class Board implements Serializable {
     }
     
     /**
+     * Sets up the board for the game.
+     * @throws IOException
+     */
+    public void setup() throws IOException {
+        this.wordBank.createWordBank();
+        this.board      = new Character[getrSize()][getcSize()];
+        this.wordKeys   = new Character[getrSize()][getcSize()][wordBank.getNumWords()];
+        this.targetKeys = new Word[wordBank.getNumWords()];
+        createBoard();
+    }
+    
+    /**
      * Starts the game.
      */
     public void startGame() {
         spriteTimer.startTimer();
-    }
-    
-    /**
-     * Creates the word bank to be used for the game.
-     * @throws java.io.IOException
-     */
-    private void loadWordBank() throws IOException {
-        this.wordBank.createWordBank();
-        this.wordBank.createDistractionBank();
     }
 
     /**
@@ -344,6 +343,22 @@ public final class Board implements Serializable {
      */
     public WordBank getWordBank() {
         return wordBank;
+    }
+
+    public void setBoard(Object[][] board) {
+        this.board = board;
+    }
+
+    public void setWordBank(WordBank wordBank) {
+        this.wordBank = wordBank;
+    }
+
+    public void setWordKeys(Object[][][] wordKeys) {
+        this.wordKeys = wordKeys;
+    }
+
+    public void setTargetKeys(Object[] targetKeys) {
+        this.targetKeys = targetKeys;
     }
     
     /**
