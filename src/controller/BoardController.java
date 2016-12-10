@@ -117,7 +117,7 @@ public class BoardController extends TimerTask implements Initializable, Seriali
     public void startMultiplayer() throws IOException {
         this.board = LobbyController.getClientProtocol().getBoard();
         player = board.getPlayer();
-        //this.board.setup();
+        this.board.getWordBank().setScore(player.getScore());
         setupGame();
         generateBoard();
         startGame();
@@ -257,7 +257,7 @@ public class BoardController extends TimerTask implements Initializable, Seriali
                             playSound(correct);
                             selected.clear();
                             if ( this.board.isGameover() == true ) {
-                                this.player.getScore().addBonus();
+                                BoardController.getPlayer().getScore().addBonus();
                                 this.gameOver();
                                 endTimer.cancelTimer();
                             }

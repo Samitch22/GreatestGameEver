@@ -22,7 +22,7 @@ public class WordTimer implements Serializable {
     private       TimerTask task;
     private final long      timeMultiplier = 1000; // In seconds
     private final long      time = 21 * timeMultiplier; 
-    private final long      endtime = 180 * timeMultiplier;
+    private final long      endtime = 150 * timeMultiplier;
     private final long      jailTime = 5 * timeMultiplier;
     
     /**

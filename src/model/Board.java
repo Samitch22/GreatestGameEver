@@ -345,18 +345,34 @@ public final class Board implements Serializable {
         return wordBank;
     }
 
+    /**
+     * Sets the board array.
+     * @param board
+     */
     public void setBoard(Object[][] board) {
         this.board = board;
     }
 
+    /**
+     * Sets the word bank.
+     * @param wordBank
+     */
     public void setWordBank(WordBank wordBank) {
         this.wordBank = wordBank;
     }
 
+    /**
+     * Sets the word keys.
+     * @param wordKeys
+     */
     public void setWordKeys(Object[][][] wordKeys) {
         this.wordKeys = wordKeys;
     }
 
+    /**
+     * Sets the target keys.
+     * @param targetKeys
+     */
     public void setTargetKeys(Object[] targetKeys) {
         this.targetKeys = targetKeys;
     }
